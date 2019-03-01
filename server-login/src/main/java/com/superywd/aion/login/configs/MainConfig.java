@@ -1,5 +1,6 @@
 package com.superywd.aion.login.configs;
 
+import com.superywd.aion.commons.properties.ConfigurableProcessor;
 import com.superywd.aion.commons.properties.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,9 @@ import java.util.Properties;
  * @date: 2018/11/4 12:51
  */
 
-public class Config {
+public class MainConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(Config.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainConfig.class);
 
     /**账号字符集*/
     public static String accountCharset;
@@ -60,6 +61,7 @@ public class Config {
             //用自定义的覆盖一下
             PropertiesUtil.overrideProperties(propertiesList,myLoginServer);
             logger.info("载入登录服务器配置文件：" + networkDir + "/network.properties");
+            ConfigurableProcessor.process(MainConfig.class,propertiesList);
             logger.info("载入登录服务器配置文件：" + networkDir + "/commons.properties");
             logger.info("载入登录服务器配置文件：" + networkDir + "/database.properties");
         }catch (Exception e){
