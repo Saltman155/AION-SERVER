@@ -27,7 +27,7 @@ public @interface Property {
      * 配置的默认的值
      * @return  默认值
      */
-    String defaultValue() default "";
+    String defaultValue() default DEFAULT_VALUE;
 
     /**
      * 键的具体类型

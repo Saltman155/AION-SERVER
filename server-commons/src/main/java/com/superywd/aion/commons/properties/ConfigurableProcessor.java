@@ -15,11 +15,13 @@ import java.util.Properties;
 
 public class ConfigurableProcessor {
 
+
     private static final Logger logger = LoggerFactory.getLogger(ConfigurableProcessor.class);
+
 
     /**
      * 向指定的配置类的静态成员变量中注入配置值
-     * @param object 指定的配置类，可以是类描述对象，也可以是一个对象
+     * @param object 指定的配置类，可以是类，也可以是一个对象
      * @param properties 需要被注入的值
      */
     public static void process(Object object, List<Properties> properties){
@@ -34,10 +36,35 @@ public class ConfigurableProcessor {
         process(clazz,object,properties);
     }
 
+    /**
+     * 为指定的类或对象中的变量注入值，同时延伸到其实现的接口以及继承的类
+     * @param clazz         指定的类（为了对其中的静态成员变量做注入）
+     * @param object        指定的对象（为了对对象中独有成员变量做注入）
+     * @param properties    待注入的值的集合
+     */
     private static void process(Class<?> clazz,Object object, List<Properties> properties){
         processFields(clazz, object, properties);
+
+        //针对类级别的注入，检查一下其实现的接口是不是也存在注入
+        if(object == null) {
+            for (Class<?> itf : clazz.getInterfaces()){
+                process(itf,null,properties);
+            }
+        }
+        Class<?>superClass = clazz.getSuperclass();
+        //再检查一下父类是不是也有成员变量需要注入
+        if(superClass != null && superClass != Object.class){
+            process(superClass,object,properties);
+        }
+
     }
 
+    /**
+     * 为指定的类或对象中的变量注入值
+     * @param clazz         指定的类（为了对其中的静态成员变量做注入）
+     * @param object        指定的对象（为了对对象中独有成员变量做注入）
+     * @param properties    待注入的值的集合
+     */
     private static void processFields(Class<?> clazz,Object object, List<Properties> properties){
         for(Field f : clazz.getDeclaredFields()){
             // 跳过对象的静态变量，不做注入
@@ -54,6 +81,7 @@ public class ConfigurableProcessor {
                     logger.error("尝试对被final修饰的成员变量 {} 进行注入，在类 {} 中",f.getName(),clazz.getName());
                     throw new RuntimeException();
                 }
+                processFields(f,object,properties);
             }
         }
     }
@@ -72,7 +100,7 @@ public class ConfigurableProcessor {
                         field.getDeclaringClass().getName(),field.getName());
             }
         }catch (Exception e){
-            logger.error("类 {} 中的属性 {} 注入发生异常！");
+            logger.error("类 {} 中的属性 {} 注入发生异常！",field.getDeclaringClass().getName(),field.getName());
             throw new RuntimeException();
         }
         //注入完了改回去

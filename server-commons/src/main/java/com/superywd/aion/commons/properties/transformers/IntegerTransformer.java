@@ -20,7 +20,7 @@ public class IntegerTransformer implements PropertyTransformer {
         try{
             return Integer.parseInt(value);
         }catch (Exception e){
-            throw new TransformationException();
+            throw new TransformationException(e);
         }
     }
 }

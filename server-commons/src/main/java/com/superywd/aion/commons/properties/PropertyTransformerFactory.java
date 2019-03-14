@@ -25,6 +25,9 @@ public class PropertyTransformerFactory {
         if(tc != PropertyTransformer.class){
             return tc.newInstance();
         }
+        if(clazzToTransform == String.class){
+            return StringTransformer.INSTANCE;
+        }
         // 否则只能根据 clazz来判断了
         if(clazzToTransform == Boolean.class || clazzToTransform == Boolean.TYPE){
             return BooleanTransformer.INSTANCE;

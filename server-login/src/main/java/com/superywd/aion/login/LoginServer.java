@@ -1,6 +1,6 @@
 package com.superywd.aion.login;
 
-import com.superywd.aion.login.configs.MainConfig;
+import com.superywd.aion.login.configs.CommonsConfig;
 import com.superywd.aion.login.utils.cron.ThreadPoolManagerRunnableRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +25,6 @@ public class LoginServer {
         long start = System.currentTimeMillis();
         initLogger();
         CronService.initSingleton(ThreadPoolManagerRunnableRunner.class);
-        MainConfig.load();
+        CommonsConfig.load();
     }
 }

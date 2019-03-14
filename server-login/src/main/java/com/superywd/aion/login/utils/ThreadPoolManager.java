@@ -23,12 +23,12 @@ public class ThreadPoolManager {
     /**
      * 瞬时任务运行线程池
      */
-    private final ThreadPoolExecutor instantPool;
+    private final ThreadPoolExecutor instantPool = null;
 
     /**
      * 长时任务运行线程池
      */
-    private final ThreadPoolExecutor longRunningPool;
+    private final ThreadPoolExecutor longRunningPool = null;
 
 
     private ThreadPoolManager(){
