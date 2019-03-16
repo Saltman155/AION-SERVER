@@ -1,11 +1,14 @@
 package com.superywd.aion.login.configs.database;
 
-import com.superywd.aion.login.configs.CommonsConfig;
 import com.superywd.aion.login.configs.DataBaseConfig;
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.pool.HikariPool;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
 
 /**
  * @author: 迷宫的中心
@@ -18,21 +21,21 @@ public class DatabaseFactory {
 
     private static HikariPool connectionPool;
 
+    private static SqlSessionFactory sqlSessionFactory;
+
     public synchronized static void init() {
-        if(connectionPool != null){
+        if(sqlSessionFactory != null){
             return;
         }
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(DataBaseConfig.DATABASE_URL);
-        config.setUsername(DataBaseConfig.DATABASE_USER);
-        config.setPassword(DataBaseConfig.DATABASE_PASSWORD);
-        connectionPool = new HikariPool(config);
+        try {
+            //从文件中加载sqlSessionFactory
+            InputStream inputStream = Resources.getUrlAsStream(DataBaseConfig.MYBATIS_CONFIG_PATH);
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (Exception e) {
+            logger.error("mybatis加载错误！");
+            throw new Error(e);
+        }
     }
 
-    public static void main(String[] args) {
-        CommonsConfig.load();
-        init();
-
-    }
 
 }

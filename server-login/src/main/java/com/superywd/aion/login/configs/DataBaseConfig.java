@@ -11,6 +11,12 @@ import com.superywd.aion.commons.properties.Property;
 public class DataBaseConfig {
 
     /**
+     * mybatis路径配置
+     */
+    @Property(key = "mybatis.config.path",defaultValue = "file:config/mybatis/mybatis-config.xml")
+    public static String MYBATIS_CONFIG_PATH;
+
+    /**
      * 数据库连接地址
      */
     @Property(key = "database.url",defaultValue = "jdbc:mysql://localhost:3306/aion_login")
@@ -27,7 +33,6 @@ public class DataBaseConfig {
      */
     @Property(key = "database.user",defaultValue = "root")
     public static String DATABASE_USER;
-
 
     /**
      * 数据库密码
