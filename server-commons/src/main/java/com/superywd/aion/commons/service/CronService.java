@@ -50,7 +50,7 @@ public class CronService {
             return;
         }
         if (runnableRunner == null) {
-            throw new CronServiceException("RunnableRunner class must be defined");
+            throw new CronServiceException("执行内容为null！");
         }
         this.runnableRunner = runnableRunner;
         Properties properties = new Properties();

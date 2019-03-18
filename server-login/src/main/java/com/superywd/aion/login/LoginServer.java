@@ -1,7 +1,9 @@
 package com.superywd.aion.login;
 
+import com.superywd.aion.commons.service.CronService;
 import com.superywd.aion.login.configs.ConfigLoad;
 import com.superywd.aion.login.configs.database.DatabaseFactory;
+import com.superywd.aion.login.utils.cron.ThreadPoolManagerRunnableRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /**
@@ -22,7 +24,7 @@ public class LoginServer {
     public static void main(final String[] args){
         long start = System.currentTimeMillis();
         initLogger();
-//        CronService.initSingleton(ThreadPoolManagerRunnableRunner.class);
+        CronService.initSingleton(ThreadPoolManagerRunnableRunner.class);
         //载入配置
          ConfigLoad.load();
         //载入数据库
