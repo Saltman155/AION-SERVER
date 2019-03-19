@@ -19,8 +19,6 @@ public class DatabaseFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseFactory.class);
 
-    private static HikariPool connectionPool;
-
     private static SqlSessionFactory sqlSessionFactory;
 
     public synchronized static void init() {
