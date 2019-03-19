@@ -47,10 +47,12 @@ public class LoginServer {
     public static void main(final String[] args){
         long start = System.currentTimeMillis();
         initLogger();
+        //定时任务中心初始化
         CronService.initSingleton(ThreadPoolManagerRunnableRunner.class);
-        //载入配置
+        //载入各类配置
          ConfigLoad.load();
-        //载入数据库
+        //载入数据库配置
         DatabaseFactory.init();
+
     }
 }
