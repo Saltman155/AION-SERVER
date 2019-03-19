@@ -18,12 +18,10 @@ public class ThreadPoolManager {
 
 
     private final ScheduledThreadPoolExecutor scheduledPool;
-
     /**
      * 瞬时任务运行线程池
      */
     private final ThreadPoolExecutor instantPool;
-
     /**
      * 长时任务运行线程池
      */
@@ -43,15 +41,32 @@ public class ThreadPoolManager {
         scheduledPool.prestartAllCoreThreads();
 
         instantPool = new ThreadPoolExecutor(instantPoolSize,instantPoolSize,0, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<Runnable>(100000),new InstantPoolThreadFactory());
+                new ArrayBlockingQueue<>(100000),new InstantPoolThreadFactory());
         instantPool.setRejectedExecutionHandler(new MyRejectedExecutionHandler());
         instantPool.prestartAllCoreThreads();
 
         longRunningPool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,
-                new SynchronousQueue<Runnable>(),new LongRunningPoolThreadFactory());
+                new SynchronousQueue<>(),new LongRunningPoolThreadFactory());
         longRunningPool.setRejectedExecutionHandler(new MyRejectedExecutionHandler());
         longRunningPool.prestartAllCoreThreads();
 
+    }
+
+
+
+    /**
+     * 单例对象维护类
+     */
+    private static final class SingletonHolder {
+        private static final ThreadPoolManager INSTANCE = new ThreadPoolManager();
+    }
+
+    /**
+     * 单例方法
+     * @return  单例对象
+     */
+    public static ThreadPoolManager getInstance(){
+        return SingletonHolder.INSTANCE;
     }
 
 }
