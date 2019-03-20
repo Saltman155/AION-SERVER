@@ -53,7 +53,7 @@ public class PropertiesUtil {
      */
     public static List<Properties> loadAllFromDirectory(String dirPath) throws IOException{
         List<Properties> result = new ArrayList<>();
-        return loadAllFromDirectory(new File(dirPath), false,result);
+        return loadAllFromDirectory(new File(dirPath), true,result);
     }
 
     /**
