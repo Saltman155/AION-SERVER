@@ -53,6 +53,5 @@ public class LoginServer {
          ConfigLoad.load();
         //载入数据库配置
         DatabaseFactory.init();
-
     }
 }
