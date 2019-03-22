@@ -14,7 +14,7 @@ public class ThreadPoolManagerRunnableRunner extends RunnableRunner {
 
     @Override
     public void executeRunnable(Runnable r) {
-        ThreadPoolManager.getInstance();
+        ThreadPoolManager.getInstance().;
     }
 
     @Override
