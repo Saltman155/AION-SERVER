@@ -15,6 +15,8 @@ public class ThreadPoolManager implements Executor {
     }
 
 
+
+
     /**实现单例的内部类*/
     private static class SingletonHolder {
         protected static final ThreadPoolManager instance = new ThreadPoolManager();

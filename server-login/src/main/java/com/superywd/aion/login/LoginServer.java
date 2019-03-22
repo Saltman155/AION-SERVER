@@ -7,11 +7,13 @@ import ch.qos.logback.core.util.StatusPrinter;
 import com.superywd.aion.commons.service.CronService;
 import com.superywd.aion.login.configs.ConfigLoad;
 import com.superywd.aion.login.configs.database.DatabaseFactory;
+import com.superywd.aion.login.network.NetConnector;
 import com.superywd.aion.login.utils.cron.ThreadPoolManagerRunnableRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * 登录服务器启动类
@@ -53,5 +55,13 @@ public class LoginServer {
          ConfigLoad.load();
         //载入数据库配置
         DatabaseFactory.init();
+
+        try {
+            //建立与游戏主逻辑服务器以及游戏客户端的连接服务
+            NetConnector.getInstance().OpenConnection();
+        } catch (IOException e) {
+            logger.error("网络连接打开失败！",e);
+            throw new Error(e);
+        }
     }
 }

@@ -1,10 +1,12 @@
-package com.superywd.aion.commons.network;
+package com.superywd.aion.commons.network.dispatcher;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+import com.superywd.aion.commons.network.AConnection;
+import com.superywd.aion.commons.network.Acceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -77,19 +79,35 @@ public abstract class Dispatcher extends Thread {
     }
 
 
+
+
     /**
-     * 将一个连接实例注册到这个调度器上
+     * 将一个客户端连接实例注册到这个调度器上
      * @param connection            连接实例，其对应的通道会被注册处到这个调度器对应的选择器上
      * @param ops                   被注册的事件
-     * @return                      注册键
      * @throws IOException          通道已经关闭
      */
-    public final SelectionKey register(AConnection connection, int ops) throws IOException{
+    public final void clientRegister(AConnection connection, int ops) throws IOException{
         synchronized (guard) {
             //解除其他线程在此选择器上的select阻塞
             selector.wakeup();
-            //连接实例同时被设置为返回键的附件
-            return connection.getChannel().register(selector,ops,connection);
+            //连接实例 同时被设置为 返回键的附件
+            connection.getSocketChannel().register(selector,ops, connection);
+        }
+    }
+
+    /**
+     * 将一个客户端服务通道的事件注册到这个调度器上
+     * @param channel               客户端通道
+     * @param ops                   事件
+     * @param att                   处理接受事件的实例，作为返回键的附件
+     * @return                      返回键
+     * @throws IOException          通道已经关闭
+     */
+    public final SelectionKey serverRegister(SelectableChannel channel, int ops, Acceptor att) throws IOException {
+        synchronized (guard){
+            selector.wakeup();
+            return channel.register(selector,ops,att);
         }
     }
 

@@ -16,6 +16,14 @@ public class ServerConfig {
     /**连接服务名称*/
     public final String connectionName;
 
-    /**创建新的连接类 ${@link com.superywd.aion.commons.network.AConnection}的工厂*/
+    /**创建新的连接类 {@link com.superywd.aion.commons.network.AConnection}的工厂*/
     public final AConnectionFactory factory;
+
+
+    public ServerConfig(String host, int port, String connectionName, AConnectionFactory factory) {
+        this.host = host;
+        this.port = port;
+        this.connectionName = connectionName;
+        this.factory = factory;
+    }
 }

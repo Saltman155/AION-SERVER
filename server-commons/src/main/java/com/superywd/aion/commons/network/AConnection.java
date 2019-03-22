@@ -1,5 +1,7 @@
 package com.superywd.aion.commons.network;
 
+import com.superywd.aion.commons.network.dispatcher.Dispatcher;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SelectionKey;
@@ -15,7 +17,7 @@ import java.nio.channels.SocketChannel;
  */
 public class AConnection {
 
-    /**打开的连接*/
+    /**与客户端通讯的通道*/
     private final SocketChannel socketChannel;
 
     /**注册的调度器*/
@@ -75,5 +77,7 @@ public class AConnection {
         return this.socketChannel;
     }
 
-
+    public SocketChannel getSocketChannel() {
+        return socketChannel;
+    }
 }
