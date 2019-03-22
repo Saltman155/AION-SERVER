@@ -9,7 +9,7 @@
   <version>1.0.0</version>
 
   <name>server-commons</name>
-  <url>http://www.example.com</url>
+  <url>https://github.com/yangwending/AION-SERVER</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,6 +32,11 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>27.0.1-jre</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

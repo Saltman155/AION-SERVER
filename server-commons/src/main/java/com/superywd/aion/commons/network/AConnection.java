@@ -70,4 +70,10 @@ public class AConnection {
     final void setKey(SelectionKey key){
         this.key = key;
     }
+
+    final SocketChannel getChannel(){
+        return this.socketChannel;
+    }
+
+
 }

@@ -16,9 +16,6 @@ public class ServerConfig {
     /**连接服务名称*/
     public final String connectionName;
 
-    /**
-     * 创建新的连接类 ${@link com.superywd..}的工厂
-     *
-     */
-    public final ConnectionFactory factory;
+    /**创建新的连接类 ${@link com.superywd.aion.commons.network.AConnection}的工厂*/
+    public final AConnectionFactory factory;
 }

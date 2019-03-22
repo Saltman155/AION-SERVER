@@ -1,4 +1,4 @@
-package com.superywd.aion.login.utils;
+package com.superywd.aion.login.utils.threadfactory;
 
 import java.util.concurrent.ThreadFactory;
 
