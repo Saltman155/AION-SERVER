@@ -39,7 +39,7 @@ public class Acceptor {
         //建立和客户端的连接通道
         SocketChannel socketChannel = serverSocketChannel.accept();
         socketChannel.configureBlocking(false);
-        //从NIO网络连接中心中拿一个调度器，用来处理这个新连接的读事件
+        //从NIO网络连接中心中拿一个调度器，用来处理这个新连接的读&写事件
         Dispatcher dispatcher = nioServer.getReadWriteDispatcher();
         //创建连接对象
         AConnection connection = factory.create(socketChannel,dispatcher);

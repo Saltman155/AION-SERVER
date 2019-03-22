@@ -4,7 +4,6 @@ import com.superywd.aion.commons.execute.ThreadPoolManager;
 import com.superywd.aion.commons.network.dispatcher.AcceptDispatcher;
 import com.superywd.aion.commons.network.dispatcher.AcceptReadWriteDispatcher;
 import com.superywd.aion.commons.network.dispatcher.Dispatcher;
-import com.superywd.aion.commons.network.dispatcher.ReadWriteDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,12 +69,12 @@ public class NioServer {
             acceptDispatcher.start();
         }else{
             //连接请求调度器创建启动
-            acceptDispatcher = new AcceptDispatcher("连接请求处理调度器",workPool);
+            acceptDispatcher = new AcceptDispatcher("连接请求处理调度器");
             acceptDispatcher.start();
             //读写请求调度器创建启动
-            readWriteDispatchers = new ReadWriteDispatcher[readWriteThreadCount];
+            readWriteDispatchers = new AcceptReadWriteDispatcher[readWriteThreadCount];
             for (int i = 0; i < readWriteDispatchers.length; i++) {
-                readWriteDispatchers[i] = new ReadWriteDispatcher("【" + i + "】号读写请求处理调度器", workPool);
+                readWriteDispatchers[i] = new AcceptReadWriteDispatcher("【" + i + "】号读写请求处理调度器", workPool);
                 readWriteDispatchers[i].start();
             }
 
@@ -90,7 +89,7 @@ public class NioServer {
         //然后注册打开所有的服务通道
         for(ServerConfig config : serverConfigList){
             ServerSocketChannel serverChannel = ServerSocketChannel.open();
-            //设置成非阻塞的
+            //非阻塞模式
             serverChannel.configureBlocking(false);
             InetSocketAddress address;
             if("*".equals(config.host)){

@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -14,7 +13,11 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.concurrent.Executor;
 
 /**
- * 连接调度器
+ * 连接调度器：
+ *        每个连接调度器实例对应一个线程。连接调度器目前有两个实现：
+ *        {@link AcceptDispatcher}          连接请求事件处理调度器
+ *        {@link AcceptReadWriteDispatcher} 连接请求、读写请求事件处理调度器
+ *        服务端需要将相应的服务端通道事件处理注册到各个调度器上
  *
  * @author: 迷宫的中心
  * @date: 2019/3/21 19:36
@@ -45,26 +48,6 @@ public abstract class Dispatcher extends Thread {
         this.workPool = executor;
     }
 
-    /**
-     * 获取这个连接绑定的通道选择器
-     * @return      绑定的通道选择器
-     */
-    public final Selector getSelector() {
-        return this.selector;
-    }
-
-    /**
-     * 将一个连接放入关闭队列中，它稍后将被调度方法（dispatch）关闭
-     * @param connection    待关闭的连接
-     */
-    protected abstract void closeConnection(AConnection connection);
-
-    /**
-     * 调度方法 接受选择器上的事件，或处理连接关闭队列
-     * @throws IOException
-     */
-    protected abstract void dispatch() throws IOException;
-
     @Override
     public void run(){
         while(true){
@@ -78,9 +61,6 @@ public abstract class Dispatcher extends Thread {
         }
     }
 
-
-
-
     /**
      * 将一个客户端连接实例注册到这个调度器上
      * @param connection            连接实例，其对应的通道会被注册处到这个调度器对应的选择器上
@@ -89,10 +69,10 @@ public abstract class Dispatcher extends Thread {
      */
     public final void clientRegister(AConnection connection, int ops) throws IOException{
         synchronized (guard) {
-            //解除其他线程在此选择器上的select阻塞
+            //解除其他线程在此选择器上的select()方法阻塞
             selector.wakeup();
             //连接实例 同时被设置为 返回键的附件
-            connection.getSocketChannel().register(selector,ops, connection);
+            connection.setKey(connection.getSocketChannel().register(selector,ops, connection));
         }
     }
 
@@ -110,5 +90,23 @@ public abstract class Dispatcher extends Thread {
             return channel.register(selector,ops,att);
         }
     }
+
+    /**
+     * 获取这个连接绑定的通道选择器
+     * @return      绑定的通道选择器
+     */
+    public final Selector getSelector() {
+        return this.selector;
+    }
+
+
+    /**
+     * 调度方法 接受选择器上的事件，或处理连接关闭队列
+     * @throws IOException
+     */
+    protected abstract void dispatch() throws IOException;
+
+
+
 
 }

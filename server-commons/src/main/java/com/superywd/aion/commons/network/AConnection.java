@@ -2,6 +2,7 @@ package com.superywd.aion.commons.network;
 
 import com.superywd.aion.commons.network.dispatcher.Dispatcher;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SelectionKey;
@@ -15,7 +16,7 @@ import java.nio.channels.SocketChannel;
  * @author: 迷宫的中心
  * @date: 2019/3/21 19:22
  */
-public class AConnection {
+public abstract class AConnection {
 
     /**与客户端通讯的通道*/
     private final SocketChannel socketChannel;
@@ -69,15 +70,51 @@ public class AConnection {
      * 设置选择器 在将连接对象注册到某个调度器后调用这个方法
      * @param key
      */
-    final void setKey(SelectionKey key){
+    public final void setKey(SelectionKey key){
         this.key = key;
     }
 
-    final SocketChannel getChannel(){
+    public final SocketChannel getChannel(){
         return this.socketChannel;
     }
 
     public SocketChannel getSocketChannel() {
         return socketChannel;
     }
+
+    /**
+     * 这个方法将只会关闭这个连接，而不会做其他的操作
+     * 如果这个连接实际上已经被关闭了，则返回false，如果当前处于可关闭的状态，则返回true
+     * 不管返回结果如何，连接最后会变成关闭的状态
+     * @return      在调用前是否是存活的
+     */
+    public final boolean onlyClose(){
+        //判断一下是不是这个连接注册的调度器对应的线程来执行的这个关闭操作
+        assert Thread.currentThread() == dispatcher;
+        synchronized (guard){
+            if(closed){
+                return false;
+            }
+            try{
+                //如果还是存活的，就关闭它
+                if(socketChannel.isOpen()){
+                    socketChannel.close();
+                    //将对应返回键的绑定与返回键自身释放
+                    key.attach(null);
+                    key.cancel();
+                }
+                closed = true;
+            }catch (IOException e){
+                //忽略错误
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 调度器会在这个连接第一次关闭时调用这个方法，这个方法只会调用一次。
+     * 适合用来做一些清除操作
+     */
+    abstract protected void onDisconnect();
 }
