@@ -21,10 +21,13 @@ public class NetworkConfig {
     /**登录服务器监听地址*/
     public static String loginServerBindAddress;
 
-    /**游戏主体服务器端口*/
+    /**游戏主逻辑服务器端口*/
     public static int gameServerPort;
 
-    /**游戏主体服务器监听地址*/
+    /**处理客户端通道读写事件的线程数*/
+    public static int readWriteThreadCount;
+
+    /**游戏主逻辑服务器地址*/
     public static String gameServerBindAddress;
 
     /***/
