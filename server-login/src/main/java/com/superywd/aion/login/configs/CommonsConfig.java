@@ -18,4 +18,7 @@ public class CommonsConfig {
     @Property(key = "common.runnable.stats.enable",defaultValue = "false")
     public static boolean RUNNABLE_STATS_ENABLE;
 
+    @Property(key = "loginserver.commons.floodprotector",defaultValue = "true")
+    public static boolean LOGIN_FLOOD_PROTECTOR;
+
 }

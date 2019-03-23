@@ -82,6 +82,8 @@ public abstract class AConnection {
         return socketChannel;
     }
 
+    public final String getIp() { return ip; }
+
     /**
      * 这个方法将只会关闭这个连接，而不会做其他的操作
      * 如果这个连接实际上已经被关闭了，则返回false，如果当前处于可关闭的状态，则返回true
@@ -111,6 +113,12 @@ public abstract class AConnection {
         return true;
     }
 
+
+    /**
+     * 在AConnection对象完全初始化并准备好处理与发送数据包时调用。
+     * 它可以作为一个钩子函数，如发送第一个数据包等。
+     */
+    abstract protected void initialized();
 
     /**
      * 调度器会在这个连接第一次关闭时调用这个方法，这个方法只会调用一次。

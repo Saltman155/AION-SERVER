@@ -5,7 +5,9 @@ import com.superywd.aion.commons.network.Acceptor;
 import com.superywd.aion.commons.network.DisConnectionTask;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +36,6 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
 
     }
 
-
     @Override
     protected void dispatch() throws IOException {
         //获取已经有事件被准备处理的注册通道数
@@ -47,13 +48,18 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
                 SelectionKey key = selectedKeys.next();
                 selectedKeys.remove();
                 switch (key.readyOps()){
-                    case SelectionKey.OP_ACCEPT:
-                        break;
-                    case SelectionKey.OP_READ:
-                        break;
-                    case SelectionKey.OP_WRITE:
-                        break;
+                    //请求连接事件
+                    case SelectionKey.OP_ACCEPT: this.accept(key); break;
+                    //请求读事件
+                    case SelectionKey.OP_READ: this.read(key); break;
+                    //请求写事件
+                    case SelectionKey.OP_WRITE: this.write(key); break;
+                    //请求读+写事件
                     case SelectionKey.OP_READ | SelectionKey.OP_WRITE:
+                        this.read(key);
+                        if(key.isValid()){
+                            this.write(key);
+                        }
                         break;
                     default:break;
                 }
@@ -70,6 +76,18 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
             e.printStackTrace();
         }
     }
+
+    protected void read(SelectionKey key){
+        //将这个连接关联的那些对象都拿出来
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+        AConnection con = (AConnection) key.attachment();
+    }
+
+    protected void write(SelectionKey key){ }
+
+    protected void parse(AConnection con, ByteBuffer buffer){}
+
+
 
 
     /**
