@@ -13,7 +13,7 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.concurrent.Executor;
 
 /**
- * 连接调度器：
+ * 调度器：
  *        每个连接调度器实例对应一个线程。连接调度器目前有两个实现：
  *        {@link AcceptDispatcher}          连接请求事件处理调度器
  *        {@link AcceptReadWriteDispatcher} 连接请求、读写请求事件处理调度器

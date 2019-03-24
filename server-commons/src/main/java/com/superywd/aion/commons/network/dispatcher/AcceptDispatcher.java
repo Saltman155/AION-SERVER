@@ -7,6 +7,7 @@ import java.nio.channels.SelectionKey;
 import java.util.Iterator;
 
 /**
+ * 连接事件处理调度器，这个调度器只能处理连接请求
  * @author: 迷宫的中心
  * @date: 2019/3/22 16:21
  */

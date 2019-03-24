@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
- * 这个调度器既处理登录事件，又处理通讯时的数据读写事件
+ * 连接或读写事件处理调度器
  * @author: 迷宫的中心
  * @date: 2019/3/22 16:17
  */
@@ -87,15 +87,12 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
 
     protected void parse(AConnection con, ByteBuffer buffer){}
 
-
-
-
     /**
      * 准备关闭连接
-     * 将一个连接放入关闭队列中，它稍后将在调度方法 dispatch() 执行时关闭
+     * 将一个连接放入关闭队列中，它稍后将在调度方法 dispatch() 执行时被处理
      * @param connection    待关闭的连接
      */
-    protected void pendingCloseConnection(AConnection connection) {
+    public void pendingCloseConnection(AConnection connection) {
         synchronized (pendingClose){
             pendingClose.add(connection);
         }

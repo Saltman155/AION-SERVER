@@ -1,5 +1,6 @@
 package com.superywd.aion.commons.network;
 
+import com.superywd.aion.commons.network.dispatcher.AcceptReadWriteDispatcher;
 import com.superywd.aion.commons.network.dispatcher.Dispatcher;
 
 import java.io.IOException;
@@ -68,26 +69,70 @@ public abstract class AConnection {
 
     /**
      * 设置选择器 在将连接对象注册到某个调度器后调用这个方法
-     * @param key
+     * @param key   被设置的选择器
      */
     public final void setKey(SelectionKey key){
         this.key = key;
     }
 
-    public final SocketChannel getChannel(){
+    /**获取对应的返回键*/
+    public final SocketChannel getSocketChannel() {
         return this.socketChannel;
     }
 
-    public SocketChannel getSocketChannel() {
-        return socketChannel;
-    }
+    /**获取对应的调度器*/
+    public final Dispatcher getDispatcher() { return this.dispatcher; }
 
+    /**获取连接的远端ip*/
     public final String getIp() { return ip; }
 
     /**
-     * 这个方法将只会关闭这个连接，而不会做其他的操作
+     * @return 连接是否已经不能写入
+     */
+    protected final boolean isWriteDisabled() {
+        return pendingClose || closed;
+    }
+
+    /**
+     * @return 这个连接是否处于即将被关闭（但未关闭）的状态
+     */
+    protected final boolean isPendingClose() {
+        return pendingClose && !closed;
+    }
+
+    /**
+     * 通知注册的调度器（selector）处理写入的数据
+     */
+    protected final void enableWriteInterest() {
+        //如果对应的key是有效的，则设置key为存在写数据的状态，并通知对应的selector（取消其在select()方法上的阻塞）
+        if (key.isValid()) {
+            key.interestOps(key.interestOps() | SelectionKey.OP_WRITE);
+            key.selector().wakeup();
+        }
+    }
+
+
+
+    /**
+     * 关闭一个连接
+     * 这个连接会被放到其对应的调度器的关闭队列中，它将会在调度器处理下一个事件前得到处理
+     * @param forced
+     */
+    public final void close(boolean forced) {
+        synchronized (guard) {
+            if (isWriteDisabled()) {
+                return;
+            }
+            isForcedClosing = forced;
+            ((AcceptReadWriteDispatcher)getDispatcher()).pendingCloseConnection(this);
+        }
+    }
+
+
+    /**
+     * 这个方法将直接关闭这个连接，而不会做其他的操作（如调用onDisconnect()方法）
      * 如果这个连接实际上已经被关闭了，则返回false，如果当前处于可关闭的状态，则返回true
-     * 不管返回结果如何，连接最后会变成关闭的状态
+     * 不管返回结果如何，连接最后一定是关闭的状态
      * @return      在调用前是否是存活的
      */
     public final boolean onlyClose(){
@@ -113,6 +158,19 @@ public abstract class AConnection {
         return true;
     }
 
+    /**
+     * 解析数据的方法，由调度器调用
+     * @return      数据是否解析成功。当解析失败时，调度器将终止这个连接
+     */
+    abstract protected boolean processData(ByteBuffer data);
+
+    /**
+     * 这个方法作为向写数据的主要方法，具体的各个连接子类（如面向游戏客户端的连接类，或面向游戏主逻辑服务端的连接类）应实现此方法。
+     * 当返回true时，会被调度器持续调用，直到这个方法返回了false（即表示没有更多数据可写了）
+     * @param data  需要写入的目标buffer
+     * @return      是否还有数据要写入
+     */
+    abstract protected boolean writeData(ByteBuffer data);
 
     /**
      * 在AConnection对象完全初始化并准备好处理与发送数据包时调用。
@@ -125,4 +183,9 @@ public abstract class AConnection {
      * 适合用来做一些清除操作
      */
     abstract protected void onDisconnect();
+
+    /**
+     * 这个方法会在网络服务器关闭的时候被调用，这个方法只会被调用一次
+     */
+    abstract protected void onServerClose();
 }

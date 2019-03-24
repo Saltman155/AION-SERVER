@@ -60,8 +60,6 @@ public class ThreadPoolManager {
         instantPool.execute(r);
     }
 
-
-
     /**
      * 单例对象维护类
      */
