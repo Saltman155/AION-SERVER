@@ -8,9 +8,9 @@ package com.superywd.aion.commons.service.cron;
 
 public class CronServiceException extends RuntimeException {
 
-    private static final long serialVersionUID = -354186843536711803L;
 
-    public CronServiceException() {
+   private static final long serialVersionUID = -354186843536711803L;
+ public CronServiceException() {
     }
 
     public CronServiceException(String message) {

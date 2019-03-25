@@ -17,7 +17,7 @@ public class EncryptedRSAKeyPair {
     private byte[] encryptModulus;
 
     public EncryptedRSAKeyPair(KeyPair rsaKeyPair){
-        this.rsaKeyPair = rsaKeyPair;
+            this.rsaKeyPair = rsaKeyPair;
     }
 
     /**
