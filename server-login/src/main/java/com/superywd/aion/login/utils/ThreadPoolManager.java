@@ -56,8 +56,8 @@ public class ThreadPoolManager {
     }
 
     public final void execute(Runnable runnable){
-        runnable = new ThreadPoolRunnableWrapper(runnable);
-        instantPool.execute(r);
+//        runnable = new ThreadPoolRunnableWrapper(runnable);
+//        instantPool.execute(r);
     }
 
     /**

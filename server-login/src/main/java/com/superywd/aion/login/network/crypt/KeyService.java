@@ -60,7 +60,7 @@ public class KeyService {
      * @return
      */
     public static EncryptedRSAKeyPair getEncryptedRSAKeyPair() {
-        //TODO： 原版的服务端自己实现了一个随机数生成器，我这里先用自带的顶一下
+        //TODO： 原版的服务端自己实现了一个随机数生成器，我这里先用JDK自带的顶一下
         return encryptedRSAKeyPairs[new Random().nextInt(10)];
     }
 

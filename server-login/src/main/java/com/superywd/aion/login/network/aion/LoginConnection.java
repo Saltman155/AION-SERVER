@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.SecretKey;
+import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -46,6 +47,16 @@ public class LoginConnection extends AConnection {
 
 
     @Override
+    protected boolean processData(ByteBuffer data) {
+        return false;
+    }
+
+    @Override
+    protected boolean writeData(ByteBuffer data) {
+        return false;
+    }
+
+    @Override
     protected void initialized() {
 
     }
@@ -57,6 +68,12 @@ public class LoginConnection extends AConnection {
         //TODO: 下面即将进入与客户端的交互
         encryptedRSAKeyPair = KeyService.getEncryptedRSAKeyPair();
         SecretKey blowfishKey = KeyService.generateBlowfishKey();
+
+
+    }
+
+    @Override
+    protected void onServerClose() {
 
     }
 }
