@@ -3,6 +3,8 @@ package com.superywd.aion.commons.network.dispatcher;
 import com.superywd.aion.commons.network.AConnection;
 import com.superywd.aion.commons.network.Acceptor;
 import com.superywd.aion.commons.network.DisConnectionTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -20,6 +22,7 @@ import java.util.concurrent.Executor;
  */
 public class AcceptReadWriteDispatcher extends Dispatcher {
 
+    private static final Logger logger = LoggerFactory.getLogger(AcceptReadWriteDispatcher.class);
 
     /**等待被关闭连接的容器*/
     private final List<AConnection> pendingClose = new ArrayList<>();
@@ -68,21 +71,58 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
 
     }
 
+    /**
+     * 接受一个连接请求
+     * @param key
+     */
     protected void accept(SelectionKey key){
         try {
             //取出通道注册时设置的附件（连接请求处理对象），调用它的连接请求处理方法
             ((Acceptor)key.attachment()).accept(key);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
     }
 
+    /**
+     * 处理读事件
+     * @param key
+     */
     protected void read(SelectionKey key){
         //将这个连接关联的那些对象都拿出来
         SocketChannel socketChannel = (SocketChannel) key.channel();
         AConnection con = (AConnection) key.attachment();
+        ByteBuffer readBuffer = con.readBuffer;
+        int readLen;
+        try {
+            readLen = socketChannel.read(readBuffer);
+        } catch (IOException e) {
+            logger.error(e.getMessage(),e);
+            return;
+        }
+        //如果没有读到数据，说明远程连接已经关闭了，那我们也关闭
+        if(readLen == -1){
+            closeConnection(con);
+            return;
+        }
+        if(readLen == 0){
+            return;
+        }
+        //这个nio的buffer模型设计真是太反人类了...
+        readBuffer.flip();
+        //每次读两个字节解析
+        while(readBuffer.remaining() > 2 &&
+                readBuffer.remaining() >= readBuffer.getShort(readBuffer.position())){
+
+        }
+
+
     }
 
+    /**
+     * 处理写事件
+     * @param key
+     */
     protected void write(SelectionKey key){ }
 
     protected void parse(AConnection con, ByteBuffer buffer){}

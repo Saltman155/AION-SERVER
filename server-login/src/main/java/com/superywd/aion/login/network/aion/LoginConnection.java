@@ -3,9 +3,11 @@ package com.superywd.aion.login.network.aion;
 import com.superywd.aion.commons.network.AConnection;
 import com.superywd.aion.commons.network.dispatcher.Dispatcher;
 import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
+import com.superywd.aion.login.network.crypt.KeyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.SecretKey;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -53,5 +55,8 @@ public class LoginConnection extends AConnection {
         state = State.CONNECTED;
         logger.info("一个IP来自 {} 的登录尝试...",getIp());
         //TODO: 下面即将进入与客户端的交互
+        encryptedRSAKeyPair = KeyService.getEncryptedRSAKeyPair();
+        SecretKey blowfishKey = KeyService.generateBlowfishKey();
+
     }
 }

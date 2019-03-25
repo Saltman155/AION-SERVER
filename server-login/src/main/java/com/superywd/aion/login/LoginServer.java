@@ -8,12 +8,14 @@ import com.superywd.aion.commons.service.CronService;
 import com.superywd.aion.login.configs.ConfigLoad;
 import com.superywd.aion.login.configs.database.DatabaseFactory;
 import com.superywd.aion.login.network.NetConnector;
+import com.superywd.aion.login.network.crypt.KeyService;
 import com.superywd.aion.login.utils.cron.ThreadPoolManagerRunnableRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 /**
  * 登录服务器启动类
@@ -46,7 +48,7 @@ public class LoginServer {
         }
     }
 
-    public static void main(final String[] args){
+    public static void main(final String[] args) throws GeneralSecurityException {
         long start = System.currentTimeMillis();
         initLogger();
         //定时任务中心初始化
@@ -56,6 +58,8 @@ public class LoginServer {
         //载入数据库配置
         DatabaseFactory.init();
 
+        //初始化通讯秘钥生成服务
+        KeyService.init();
         try {
             //建立与游戏主逻辑服务器以及游戏客户端的连接服务
             NetConnector.getInstance().OpenConnection();

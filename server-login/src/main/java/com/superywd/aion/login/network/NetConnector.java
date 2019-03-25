@@ -3,6 +3,10 @@ package com.superywd.aion.login.network;
 import com.superywd.aion.commons.network.NioServer;
 import com.superywd.aion.commons.network.ServerConfig;
 import com.superywd.aion.login.configs.NetworkConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * 网络服务启动类
@@ -10,6 +14,8 @@ import com.superywd.aion.login.configs.NetworkConfig;
  * @date: 2019/3/20 18:00
  */
 public class NetConnector {
+
+    private static final Logger logger = LoggerFactory.getLogger(NetConnector.class);
 
     /**连接控制管理中心*/
     private static final NioServer instance;
@@ -37,5 +43,15 @@ public class NetConnector {
 
     public static NioServer getInstance(){
         return instance;
+    }
+
+    public static void start(){
+        try {
+            instance.OpenConnection();
+        } catch (IOException e) {
+            logger.error("网络服务器启动失败！");
+            logger.error(e.getMessage(),e);
+            throw new Error(e);
+        }
     }
 }
