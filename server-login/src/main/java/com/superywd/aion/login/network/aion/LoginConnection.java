@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Deque;
 
 /**
  * 与aion客户端连接的数据包对象,继承自类 {@link com.superywd.aion.commons.network.AConnection}
@@ -24,6 +25,8 @@ public class LoginConnection extends AConnection {
     private static final int READ_BUFFER_SIZE = 8192*2;
 
     private static final int WRITE_BUFFER_SIZE = 8192*2;
+
+    private final Deque<>
 
     /**与客户端的RSA加密秘钥对*/
     private EncryptedRSAKeyPair encryptedRSAKeyPair;
@@ -47,12 +50,12 @@ public class LoginConnection extends AConnection {
 
 
     @Override
-    protected boolean processData(ByteBuffer data) {
+    public boolean processData(ByteBuffer data) {
         return false;
     }
 
     @Override
-    protected boolean writeData(ByteBuffer data) {
+    public boolean writePackData(ByteBuffer data) {
         return false;
     }
 
