@@ -26,14 +26,13 @@ public class LoginConnection extends AConnection {
 
     private static final int WRITE_BUFFER_SIZE = 8192*2;
 
-    private final Deque<>
 
+    /**连接的会话id（直接由hashCode方法生成）*/
+    public int sessionId = hashCode();
     /**与客户端的RSA加密秘钥对*/
     private EncryptedRSAKeyPair encryptedRSAKeyPair;
-
     /**此连接当前的状态*/
     private State state;
-
     /**连接状态枚举类*/
     public static enum State{
         //表示与客户端仅仅是连接
@@ -48,6 +47,15 @@ public class LoginConnection extends AConnection {
         super(socketChannel, dispatcher, READ_BUFFER_SIZE, WRITE_BUFFER_SIZE);
     }
 
+
+    /**获取连接会话id*/
+    public int getSessionId() {
+        return sessionId;
+    }
+    /**获取已经加密的数据*/
+    public byte[] getEncryptedModulus(){
+        return encryptedRSAKeyPair.getEncryptedModulus();
+    }
 
     @Override
     public boolean processData(ByteBuffer data) {
