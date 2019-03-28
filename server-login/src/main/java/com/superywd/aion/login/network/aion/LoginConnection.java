@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Deque;
 
 /**
  * 与aion客户端连接的数据包对象,继承自类 {@link com.superywd.aion.commons.network.AConnection}
@@ -25,12 +26,13 @@ public class LoginConnection extends AConnection {
 
     private static final int WRITE_BUFFER_SIZE = 8192*2;
 
+
+    /**连接的会话id（直接由hashCode方法生成）*/
+    public int sessionId = hashCode();
     /**与客户端的RSA加密秘钥对*/
     private EncryptedRSAKeyPair encryptedRSAKeyPair;
-
     /**此连接当前的状态*/
     private State state;
-
     /**连接状态枚举类*/
     public static enum State{
         //表示与客户端仅仅是连接
@@ -46,13 +48,22 @@ public class LoginConnection extends AConnection {
     }
 
 
+    /**获取连接会话id*/
+    public int getSessionId() {
+        return sessionId;
+    }
+    /**获取已经加密的数据*/
+    public byte[] getEncryptedModulus(){
+        return encryptedRSAKeyPair.getEncryptedModulus();
+    }
+
     @Override
-    protected boolean processData(ByteBuffer data) {
+    public boolean processData(ByteBuffer data) {
         return false;
     }
 
     @Override
-    protected boolean writeData(ByteBuffer data) {
+    public boolean writePackData(ByteBuffer data) {
         return false;
     }
 

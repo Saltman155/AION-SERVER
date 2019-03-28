@@ -89,14 +89,14 @@ public abstract class AConnection {
     /**
      * @return 连接是否已经不能写入
      */
-    protected final boolean isWriteDisabled() {
+    public final boolean isWriteDisabled() {
         return pendingClose || closed;
     }
 
     /**
      * @return 这个连接是否处于即将被关闭（但未关闭）的状态
      */
-    protected final boolean isPendingClose() {
+    public final boolean isPendingClose() {
         return pendingClose && !closed;
     }
 
@@ -162,15 +162,15 @@ public abstract class AConnection {
      * 解析数据的方法，由调度器调用
      * @return      数据是否解析成功。当解析失败时，调度器将终止这个连接
      */
-    abstract protected boolean processData(ByteBuffer data);
+    public abstract boolean processData(ByteBuffer data);
 
     /**
-     * 这个方法作为向写数据的主要方法，具体的各个连接子类（如面向游戏客户端的连接类，或面向游戏主逻辑服务端的连接类）应实现此方法。
+     * 这个方法作为向远端写入数据包的主要方法，具体的各个连接子类（如面向游戏客户端的连接类，或面向游戏主逻辑服务端的连接类）应实现此方法。
      * 当返回true时，会被调度器持续调用，直到这个方法返回了false（即表示没有更多数据可写了）
      * @param data  需要写入的目标buffer
      * @return      是否还有数据要写入
      */
-    abstract protected boolean writeData(ByteBuffer data);
+    public abstract boolean writePackData(ByteBuffer data);
 
     /**
      * 在AConnection对象完全初始化并准备好处理与发送数据包时调用。

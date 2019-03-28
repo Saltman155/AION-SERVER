@@ -123,7 +123,63 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
      * 处理写事件
      * @param key
      */
-    protected void write(SelectionKey key){ }
+    protected void write(SelectionKey key){
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+        AConnection connection = (AConnection) key.attachment();
+        int writeLen;
+        ByteBuffer writeBuffer = connection.writeBuffer;
+        if(writeBuffer.hasRemaining()){
+            try {
+                //把数据写进去
+                writeLen = socketChannel.write(writeBuffer);
+            } catch (IOException e) {
+                //异常直接关闭
+                closeConnection(connection);
+                logger.error(e.getMessage(),e);
+                return;
+            }
+            if(writeLen == 0){
+                logger.info("读写线程向远程ip {} 写入了0个字节？",connection.getIp());
+                return;
+            }
+            //如果缓冲区中还有数据没有被发送，直接返回
+            if(writeBuffer.hasRemaining()){
+                return;
+            }
+            while(true){
+                //清空一下缓冲区
+                writeBuffer.clear();
+                //把连接里待发送的数据包的数据，都写到缓冲区里
+                boolean writeResult = connection.writePackData(writeBuffer);
+                if(!writeResult){
+                    //TODO: 我不是很懂，为什么这里要把缓冲区给设置成这样
+                    writeBuffer.limit(0);
+                    break;
+                }
+                try{
+                    writeLen = socketChannel.write(writeBuffer);
+                }catch (Exception e){
+                    closeConnection(connection);
+                    return;
+                }
+                if(writeLen == 0){
+                    logger.info("读写线程向远程ip {} 写入了0个字节？",connection.getIp());
+                    return;
+                }
+                //如果还有没写完的，也给返回了？我真不知道是为什么
+                if(writeBuffer.hasRemaining()){
+                    return;
+                }
+            }
+            //这个通道已经写完了所有的数据，我们不在关注它的写入操作了，取消对它的写入事件监听
+            key.interestOps(key.interestOps() & ~SelectionKey.OP_WRITE);
+            //如果它是个即将被关闭的连接，关闭它
+            if(connection.isPendingClose()){
+                closeConnection(connection);
+            }
+
+        }
+    }
 
     protected void parse(AConnection con, ByteBuffer buffer){}
 
