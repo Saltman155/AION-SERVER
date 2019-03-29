@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.util.Deque;
 
 /**
  * 与aion客户端连接的数据包对象,继承自类 {@link com.superywd.aion.commons.network.AConnection}
@@ -56,7 +55,11 @@ public class LoginConnection extends AConnection {
     public byte[] getEncryptedModulus(){
         return encryptedRSAKeyPair.getEncryptedModulus();
     }
-
+    /**对一段数据包进行加密*/
+    public final int encrypt(ByteBuffer buffer){
+        int size = 0;
+        return size;
+    }
     @Override
     public boolean processData(ByteBuffer data) {
         return false;

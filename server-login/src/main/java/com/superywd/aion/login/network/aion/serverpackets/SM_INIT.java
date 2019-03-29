@@ -6,8 +6,8 @@ import com.superywd.aion.login.network.aion.LoginConnection;
 import javax.crypto.SecretKey;
 
 /**
- * 初始化数据包
- *      游戏客户端与登录服务端连接发的第一个数据包
+ * 登录服务器初始化通讯数据包
+ *      游戏客户端与登录服务端连接发出的第一个数据包，与客户端协定rsa公钥以及blowfish密钥
  * @author: 迷宫的中心
  * @date: 2019/3/28 20:02
  */
