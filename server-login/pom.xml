@@ -19,37 +19,50 @@
   </properties>
 
   <dependencies>
+    <!--server公共包-->
+    <dependency>
+      <groupId>com.superywd.aion</groupId>
+      <artifactId>server-commons</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <!--定时任务调度框架-->
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
       <version>2.3.0</version>
     </dependency>
+    <!--日志记录-->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
     </dependency>
+    <!--连接池-->
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
       <version>3.3.1</version>
     </dependency>
+    <!--mysql连接驱动-->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.15</version>
     </dependency>
+    <!--持久层框架-->
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
       <version>3.4.6</version>
     </dependency>
+    <!--google的guava类库-->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>27.0.1-jre</version>
     </dependency>
     <dependency>
+    <!--测试框架-->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>

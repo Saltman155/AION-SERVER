@@ -51,6 +51,8 @@ public class LoginConnection extends AConnection {
     public int getSessionId() {
         return sessionId;
     }
+    /**获取这个连接的状态*/
+    public State getState(){ return this.state; }
     /**获取已经加密的数据*/
     public byte[] getEncryptedModulus(){
         return encryptedRSAKeyPair.getEncryptedModulus();
@@ -60,8 +62,13 @@ public class LoginConnection extends AConnection {
         int size = 0;
         return size;
     }
+    /**解析数据*/
     @Override
     public boolean processData(ByteBuffer data) {
+        if(!decrypt(data)){
+            return false;
+        }
+
         return false;
     }
 

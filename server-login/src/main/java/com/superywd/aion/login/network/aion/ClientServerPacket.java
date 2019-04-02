@@ -25,7 +25,7 @@ public abstract class ClientServerPacket extends BaseServerPacket {
      *              n个字节  0x?? ...  包中的真实数据（每种数据包都不一样）
      *      将上面两段数据拼在一起，然后做Blowfish加密（第一次通讯时，用和客户端协定好的密钥，后面的通讯用第一次通讯发送的数据包中指定的密钥）
      *      得到的加密结果就是最后的数据包数据，附加在开头的两个描述长度的字节后面
-     * @param connection
+     * @param connection      连接
      */
     public final void write(LoginConnection connection){
         buffer.putShort((short) 0);

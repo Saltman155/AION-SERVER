@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
@@ -110,12 +111,19 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
         }
         //这个nio的buffer模型设计真是太反人类了...
         readBuffer.flip();
-        //每次读两个字节解析
+        //每次读两个字节解析，前两个字节转换的值表示数据包大小
         while(readBuffer.remaining() > 2 &&
                 readBuffer.remaining() >= readBuffer.getShort(readBuffer.position())){
-
+            if(!parse(con,readBuffer)){
+                closeConnection(con);
+                return;
+            }
         }
-
+        if(readBuffer.hasRemaining()){
+            con.readBuffer.compact();
+        }else{
+            con.readBuffer.clear();
+        }
 
     }
 
@@ -181,7 +189,21 @@ public class AcceptReadWriteDispatcher extends Dispatcher {
         }
     }
 
-    protected void parse(AConnection con, ByteBuffer buffer){}
+    /**解析读到的数据包*/
+    protected boolean parse(AConnection con, ByteBuffer buffer){
+        short size;
+        try{
+            size = buffer.getShort();
+            size -= size > 1 ? 2 : 0;
+            //创建实际数据的视图
+            ByteBuffer tmp =  (ByteBuffer) buffer.slice().limit(size);
+            tmp.order(ByteOrder.LITTLE_ENDIAN);
+            return con.processData(tmp);
+        }catch (IllegalArgumentException e){
+            logger.warn("解析错误！");
+            return false;
+        }
+    }
 
     /**
      * 准备关闭连接
