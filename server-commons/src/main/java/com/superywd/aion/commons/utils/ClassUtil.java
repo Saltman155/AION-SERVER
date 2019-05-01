@@ -3,6 +3,8 @@ package com.superywd.aion.commons.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Set;
+
 /**
  * 包含类的一些常用操作
  * @author: 迷宫的中心
@@ -42,5 +44,9 @@ public class ClassUtil {
             }
         }
         return false;
+    }
+
+    public static Set<String> getClassNameFromPackage(){
+
     }
 }

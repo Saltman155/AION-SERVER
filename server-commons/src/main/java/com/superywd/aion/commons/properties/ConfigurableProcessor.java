@@ -78,7 +78,7 @@ public class ConfigurableProcessor {
             if(f.isAnnotationPresent(Property.class)){
                 // final修饰的变量无法被注入
                 if(Modifier.isFinal(f.getModifiers())){
-                    logger.error("尝试对被final修饰的成员变量 {} 进行注入，在类 {} 中",f.getName(),clazz.getName());
+                    logger.error("尝试对被final修饰的成员变量 {} 进行设置，在类 {} 中",f.getName(),clazz.getName());
                     throw new RuntimeException();
                 }
                 processFields(f,object,properties);
@@ -92,15 +92,16 @@ public class ConfigurableProcessor {
         field.setAccessible(true);
         try{
             Property property = field.getAnnotation(Property.class);
-            //如果注解中的默认值属性没有被指定或者注解中的键名在配置中存在，就注入这个属性
-            if(Property.DEFAULT_VALUE.equals(property.defaultValue()) || keyExist(property.key(),properties)){
+            //如果注解中的默认值属性被指定或注解中的键名在配置中存在，就注入这个属性
+            if(keyExist(property.key(),properties) ||
+                    !Property.DEFAULT_VALUE.equals(property.defaultValue())){
                 field.set(object,getFieldValue(field,properties));
             } else{
-                logger.debug("类 {} 中的属性 {} 因配置不支持而没有被注入...",
+                logger.warn("类 {} 中的属性 {} 没有找到默认的配置...",
                         field.getDeclaringClass().getName(),field.getName());
             }
         }catch (Exception e){
-            logger.error("类 {} 中的属性 {} 注入发生异常！",field.getDeclaringClass().getName(),field.getName());
+            logger.error("类 {} 中的属性 {} 设置发生异常！",field.getDeclaringClass().getName(),field.getName());
             throw new RuntimeException();
         }
         //注入完了改回去
@@ -113,15 +114,15 @@ public class ConfigurableProcessor {
         String key = property.key();
         String value = null;
         if(key.isEmpty()){
-            logger.warn("类 {} 的待注入成员变量 {} 的key值为null！",
+            logger.warn("类 {} 的待配置成员变量 {} 的key值为null！",
                     field.getDeclaringClass().getName(),field.getName());
         }else{
             value = findPropertyByKey(key,properties);
         }
-        // 如果key值是空的，或者value值没有取到，则最后会被当成defaultValue来处理
+        // 如果key值是空的，或者value值没有取到，则值由defaultValue来获取
         if(value == null || "".equals(value.trim())){
             value = defaultValue;
-            logger.debug("类 {} 的带注入成员变量 {} 被注入了默认值",
+            logger.debug("类 {} 的待配置成员变量 {} 被设置了默认值",
                     field.getDeclaringClass().getName(),field.getName());
         }
         PropertyTransformer<?> transformer = PropertyTransformerFactory.newTransformer(
