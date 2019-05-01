@@ -1,7 +1,7 @@
 package com.superywd.aion.commons.script.classlistener;
 
-import com.superywd.library.script.metadata.OnClassLoad;
-import com.superywd.library.script.metadata.OnClassUnLoad;
+import com.superywd.aion.commons.script.metadata.OnClassLoad;
+import com.superywd.aion.commons.script.metadata.OnClassUnLoad;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +10,8 @@ import java.lang.reflect.Modifier;
 
 /**
  * 处理脚本中，用注解
- *       {@link com.superywd.library.script.metadata.OnClassLoad } 及
- *       {@link OnClassUnLoad }
+ *       {@link com.superywd.aion.commons.script.metadata.OnClassLoad } 及
+ *       {@link com.superywd.aion.commons.script.metadata.OnClassUnLoad }
  *       修饰了的方法的调用
  */
 public class OnClassLoadUnloadListener implements ClassListener {

@@ -1,13 +1,13 @@
 package com.superywd.aion.commons.script.compiler.impl;
 
 import com.sun.tools.javac.api.JavacTool;
-import com.superywd.library.script.classloader.ScriptClassLoader;
-import com.superywd.library.script.compiler.ClassFileManager;
-import com.superywd.library.script.compiler.CompilationResult;
-import com.superywd.library.script.compiler.ScriptCompiler;
-import com.superywd.library.script.compiler.source.JavaSourceFromFile;
-import com.superywd.library.script.compiler.source.JavaSourceFromString;
-import com.superywd.library.utils.ArrayUtil;
+import com.superywd.aion.commons.script.classloader.ScriptClassLoader;
+import com.superywd.aion.commons.script.compiler.ClassFileManager;
+import com.superywd.aion.commons.script.compiler.CompilationResult;
+import com.superywd.aion.commons.script.compiler.ScriptCompiler;
+import com.superywd.aion.commons.script.compiler.source.JavaSourceFromFile;
+import com.superywd.aion.commons.script.compiler.source.JavaSourceFromString;
+import com.superywd.aion.commons.utils.ArrayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

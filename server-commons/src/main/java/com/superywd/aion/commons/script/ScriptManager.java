@@ -1,11 +1,12 @@
 package com.superywd.aion.commons.script;
 
-import com.superywd.library.script.classlistener.ClassListener;
-import com.superywd.library.script.compiler.ScriptCompiler;
-import com.superywd.library.script.compiler.impl.JavacScriptCompiler;
-import com.superywd.library.script.description.ScriptInfo;
-import com.superywd.library.script.description.ScriptList;
-import com.superywd.library.utils.ArrayUtil;
+
+import com.superywd.aion.commons.script.classlistener.ClassListener;
+import com.superywd.aion.commons.script.compiler.ScriptCompiler;
+import com.superywd.aion.commons.script.compiler.impl.JavacScriptCompiler;
+import com.superywd.aion.commons.script.description.ScriptInfo;
+import com.superywd.aion.commons.script.description.ScriptList;
+import com.superywd.aion.commons.utils.ArrayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,7 @@
 package com.superywd.aion.commons.script.compiler;
 
-import com.superywd.library.script.classloader.ScriptClassLoader;
+
+import com.superywd.aion.commons.script.classloader.ScriptClassLoader;
 
 import java.io.File;
 

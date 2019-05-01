@@ -1,8 +1,8 @@
 package com.superywd.aion.commons.script.classloader.impl;
 
-import com.superywd.library.script.classloader.ScriptClassLoader;
-import com.superywd.library.script.compiler.BinaryClass;
-import com.superywd.library.script.compiler.ClassFileManager;
+import com.superywd.aion.commons.script.classloader.ScriptClassLoader;
+import com.superywd.aion.commons.script.compiler.BinaryClass;
+import com.superywd.aion.commons.script.compiler.ClassFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

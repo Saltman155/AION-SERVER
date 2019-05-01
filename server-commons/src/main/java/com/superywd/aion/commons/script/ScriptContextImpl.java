@@ -1,10 +1,10 @@
 package com.superywd.aion.commons.script;
 
-import com.superywd.library.script.classlistener.AggregatedClassListener;
-import com.superywd.library.script.classlistener.ClassListener;
-import com.superywd.library.script.classlistener.OnClassLoadUnloadListener;
-import com.superywd.library.script.compiler.CompilationResult;
-import com.superywd.library.script.compiler.ScriptCompiler;
+import com.superywd.aion.commons.script.classlistener.AggregatedClassListener;
+import com.superywd.aion.commons.script.classlistener.ClassListener;
+import com.superywd.aion.commons.script.classlistener.OnClassLoadUnloadListener;
+import com.superywd.aion.commons.script.compiler.CompilationResult;
+import com.superywd.aion.commons.script.compiler.ScriptCompiler;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

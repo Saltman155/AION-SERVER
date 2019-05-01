@@ -1,6 +1,5 @@
 package com.superywd.aion.commons.script.compiler.source;
 
-import io.netty.util.CharsetUtil;
 import org.apache.commons.io.FileUtils;
 
 import javax.tools.SimpleJavaFileObject;
@@ -27,6 +26,6 @@ public class JavaSourceFromFile extends SimpleJavaFileObject {
      */
     @Override
     public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
-        return FileUtils.readFileToString(new File(this.toUri()), CharsetUtil.UTF_8);
+        return FileUtils.readFileToString(new File(this.toUri()), "UTF-8");
     }
 }

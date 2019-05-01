@@ -1,7 +1,8 @@
 package com.superywd.aion.commons.script;
 
-import com.superywd.library.script.classlistener.ClassListener;
-import com.superywd.library.script.compiler.CompilationResult;
+
+import com.superywd.aion.commons.script.classlistener.ClassListener;
+import com.superywd.aion.commons.script.compiler.CompilationResult;
 
 import java.io.File;
 import java.util.Collection;

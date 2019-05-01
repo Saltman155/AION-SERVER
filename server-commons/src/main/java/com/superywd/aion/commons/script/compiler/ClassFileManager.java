@@ -1,7 +1,7 @@
 package com.superywd.aion.commons.script.compiler;
 
-import com.superywd.library.script.classloader.ScriptClassLoader;
-import com.superywd.library.script.classloader.impl.ScriptClassLoaderImpl;
+import com.superywd.aion.commons.script.classloader.ScriptClassLoader;
+import com.superywd.aion.commons.script.classloader.impl.ScriptClassLoaderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

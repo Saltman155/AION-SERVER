@@ -3,7 +3,13 @@ package com.superywd.aion.commons.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * 包含类的一些常用操作
@@ -46,7 +52,34 @@ public class ClassUtil {
         return false;
     }
 
-    public static Set<String> getClassNameFromPackage(){
-
+    public static Set<String> getClassNamesFromJarFile(File file) throws IOException {
+        if (!file.exists() || file.isDirectory()) {
+            throw new IllegalArgumentException(String.format("文件 %s 不是有效的jar文件！",file.getAbsolutePath()));
+        }
+        Set<String> result = new HashSet<String>();
+        JarFile jarFile = null;
+        try {
+            jarFile = new JarFile(file);
+            Enumeration<JarEntry> entries = jarFile.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                String name = entry.getName();
+                if (name.endsWith(".class")) {
+                    //去掉尾部的.class
+                    name = name.substring(0, name.length() - 6);
+                    name = name.replace('/', '.');
+                    result.add(name);
+                }
+            }
+            return result;
+        } finally {
+            if (jarFile != null) {
+                try {
+                    jarFile.close();
+                } catch (IOException e) {
+                    logger.error("关闭对jar文件 {} 的读取失败！",jarFile.getName());
+                }
+            }
+        }
     }
 }
