@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * 表示来源于文件的脚本源码封装类
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 20:35
  */
 public class JavaSourceFromFile extends SimpleJavaFileObject {

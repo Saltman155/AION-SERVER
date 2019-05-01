@@ -2,7 +2,7 @@ package com.superywd.aion.commons.callbacks;
 
 /**
  *  这个类用来表示回调函数执行的结果
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/10/21 19:10
  */
 

@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * 这个类表示脚本配置文件的 scriptInfo解析结果
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 14:02
  */
 @XmlRootElement(name = "scriptInfo")

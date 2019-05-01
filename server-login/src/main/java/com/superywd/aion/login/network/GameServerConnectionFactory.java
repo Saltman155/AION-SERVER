@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 
 /**
  * 用于创建与游戏主逻辑服务器的连接
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 19:11
  */
 public class GameServerConnectionFactory implements AConnectionFactory {

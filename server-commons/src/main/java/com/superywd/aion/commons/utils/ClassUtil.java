@@ -13,7 +13,7 @@ import java.util.jar.JarFile;
 
 /**
  * 包含类的一些常用操作
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/11/3 21:54
  */
 

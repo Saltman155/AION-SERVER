@@ -20,7 +20,7 @@ import java.util.Set;
 
 /**
  * 脚本引擎启动类
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 13:38
  */
 public class ScriptManager {

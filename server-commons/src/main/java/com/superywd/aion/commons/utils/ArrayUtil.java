@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/13 11:17
  */
 public class ArrayUtil {

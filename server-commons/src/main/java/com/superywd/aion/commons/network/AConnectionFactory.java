@@ -7,7 +7,7 @@ import java.nio.channels.SocketChannel;
 
 /**
  * 这个接口定义了创建连接的工厂类方法
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/21 19:26
  */
 public interface AConnectionFactory {

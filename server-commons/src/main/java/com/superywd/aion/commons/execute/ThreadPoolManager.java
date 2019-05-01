@@ -3,7 +3,7 @@ package com.superywd.aion.commons.execute;
 import java.util.concurrent.Executor;
 
 /**
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 15:33
  */
 public class ThreadPoolManager implements Executor {

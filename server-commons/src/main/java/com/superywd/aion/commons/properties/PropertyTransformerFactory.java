@@ -5,7 +5,7 @@ import com.superywd.aion.commons.properties.transformers.*;
 /**
  *
  * 获取实例对象工厂类
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/1 22:33
  */
 

@@ -2,7 +2,7 @@ package com.superywd.aion.commons.properties.exception;
 
 /**
  * 描述在类型值注入时可能抛出的异常
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/1 23:21
  */
 

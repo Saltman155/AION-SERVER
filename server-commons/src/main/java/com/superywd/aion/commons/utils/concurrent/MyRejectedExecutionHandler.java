@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 自定义线程池溢出处理类
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/11/14 23:30
  */
 

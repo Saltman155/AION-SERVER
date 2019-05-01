@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  *  实现回调辅助方法的类,所有增强对象都将其逻辑的主要部分委托给此类
  *
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/10/26 22:38
  */
 

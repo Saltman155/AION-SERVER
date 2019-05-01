@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
 
 /**
  * 连接或读写事件处理调度器
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 16:17
  */
 public class AcceptReadWriteDispatcher extends Dispatcher {

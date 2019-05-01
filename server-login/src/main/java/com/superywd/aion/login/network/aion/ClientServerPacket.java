@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 /**
  * 从登录服务端发往游戏客户端的基数据包
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/28 19:54
  */
 public abstract class ClientServerPacket extends BaseServerPacket {

@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 
 /**
  * 线程池管理类（技术体现^-^）
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/11/14 22:56
  */
 

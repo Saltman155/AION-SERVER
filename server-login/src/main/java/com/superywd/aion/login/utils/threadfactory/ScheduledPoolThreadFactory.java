@@ -3,7 +3,7 @@ package com.superywd.aion.login.utils.threadfactory;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/18 23:51
  */
 

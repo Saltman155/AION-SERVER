@@ -2,7 +2,7 @@ package com.superywd.aion.commons.network.packet;
 
 /**
  * 基数据包
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/25 22:12
  */
 

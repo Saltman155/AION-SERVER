@@ -5,7 +5,7 @@ import com.superywd.aion.login.utils.ThreadPoolManager;
 
 /**
  * 定时任务调度类
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/11/12 23:44
  */
 

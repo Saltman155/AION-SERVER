@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * NIO网络连接中心
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 14:42
  */
 public class NioServer {

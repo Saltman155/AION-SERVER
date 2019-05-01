@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * Javac实现的脚本编译器
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 13:49
  */
 public class JavacScriptCompiler implements ScriptCompiler {

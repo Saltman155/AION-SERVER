@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * 秘钥生成服务
  *        为Blowfish或RSA加密算法生成密钥对
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/24 15:43
  */
 

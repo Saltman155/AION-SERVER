@@ -19,7 +19,7 @@ import java.util.concurrent.Executor;
  *        {@link AcceptReadWriteDispatcher} 连接请求、读写请求事件处理调度器
  *        服务端需要将相应的服务端通道事件处理注册到各个调度器上
  *
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/21 19:36
  */
 public abstract class Dispatcher extends Thread {

@@ -10,7 +10,7 @@ import java.security.Security;
 import java.util.Arrays;
 
 /**
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/25 20:18
  */
 public class Blowfish {

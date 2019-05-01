@@ -11,7 +11,7 @@ import java.nio.channels.SocketChannel;
  * 服务端通道请求连接的接收器,用来处理客户端新的连接请求。
  * 这个处理器会处理连接请求，创建出连接对象，初始化它，并将新的连接的读写事件注册到某个调度器上
  *
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 17:05
  */
 public class Acceptor {

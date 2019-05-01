@@ -14,7 +14,7 @@ import java.nio.channels.SocketChannel;
  * 连接由 {@link com.superywd.aion.commons.network.AConnectionFactory} 创建
  * 并绑定到一个特定的 {@link java.nio.channels.SelectionKey } 选择器上
  * 然后注册到特定的 {@link Dispatcher} 调度器上
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/21 19:22
  */
 public abstract class AConnection {

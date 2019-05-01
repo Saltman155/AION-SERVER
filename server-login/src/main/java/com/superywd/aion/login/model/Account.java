@@ -1,7 +1,7 @@
 package com.superywd.aion.login.model;
 
 /**
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/16 00:10
  */
 

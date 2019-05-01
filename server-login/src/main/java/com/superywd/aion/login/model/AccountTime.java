@@ -3,7 +3,7 @@ package com.superywd.aion.login.model;
 import java.sql.Timestamp;
 
 /**
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/16 00:18
  */
 

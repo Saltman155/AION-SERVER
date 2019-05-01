@@ -13,7 +13,7 @@ import java.nio.channels.SocketChannel;
 
 /**
  * 与aion客户端连接的数据包对象,继承自类 {@link com.superywd.aion.commons.network.AConnection}
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 23:04
  */
 

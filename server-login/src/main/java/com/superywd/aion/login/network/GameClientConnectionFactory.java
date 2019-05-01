@@ -11,7 +11,7 @@ import java.nio.channels.SocketChannel;
 
 /**
  * 用于创建连接到游戏客户端的连接对象的工厂类
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/22 19:16
  */
 public class GameClientConnectionFactory implements AConnectionFactory {

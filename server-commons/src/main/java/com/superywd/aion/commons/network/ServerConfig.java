@@ -2,7 +2,7 @@ package com.superywd.aion.commons.network;
 
 /**
  * 服务端网络配置包装类
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/21 19:16
  */
 public class ServerConfig {

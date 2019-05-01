@@ -3,7 +3,7 @@ package com.superywd.aion.commons.network.packet;
 /**
  * 数据包类型
  *  表示是游戏服务端发出的数据包，还是游戏客户端发出的数据包
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/25 22:17
  */
 

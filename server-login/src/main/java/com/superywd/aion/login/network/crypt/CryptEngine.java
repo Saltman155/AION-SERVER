@@ -4,7 +4,7 @@ import com.sun.crypto.provider.BlowfishCipher;
 
 /**
  * 用于加/解密数据包，以及错误处理&校验的加密引擎
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/24 16:58
  */
 

@@ -2,7 +2,7 @@ package com.superywd.aion.commons.script.classlistener;
 
 /**
  * 类装载事件监听器
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 13:55
  */
 public interface ClassListener {

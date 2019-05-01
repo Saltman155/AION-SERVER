@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  *     所有增强对象的通用接口。
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/10/22 23:26
  */
 

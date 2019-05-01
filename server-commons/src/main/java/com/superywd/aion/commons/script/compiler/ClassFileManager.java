@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  *这个类用于改写编译的细节。将提供给javac的编译结果容器改成我们自己定义的容器
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 17:32
  */
 public class ClassFileManager extends ForwardingJavaFileManager<JavaFileManager> {

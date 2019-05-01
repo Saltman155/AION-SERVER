@@ -4,7 +4,7 @@ package com.superywd.aion.login.configs;
 import com.superywd.aion.commons.properties.Property;
 
 /**
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2019/3/14 22:25
  */
 

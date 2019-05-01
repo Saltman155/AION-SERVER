@@ -2,7 +2,7 @@ package com.superywd.aion.commons.callbacks.util;
 
 /**
  *  异常退出代码意义
- * @author: 迷宫的中心
+ * @author: saltman155
  * @date: 2018/10/19 00:20
  */
 

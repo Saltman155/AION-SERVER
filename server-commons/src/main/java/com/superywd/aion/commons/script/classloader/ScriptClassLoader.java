@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  * 脚本类加载器
- * @author 迷宫的中心
+ * @author saltman155
  * @date 2019/4/18 16:31
  */
 public abstract class ScriptClassLoader extends URLClassLoader {
