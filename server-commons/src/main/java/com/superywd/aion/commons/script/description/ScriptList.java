@@ -8,8 +8,8 @@ import java.util.Set;
 
 /**
  * 脚本配置描述文件的根元素解析结果
- * @author saltman155
- * @date 2019/4/18 14:12
+ * @author: saltman155
+ * @date: 2019/4/18 14:12
  */
 
 @XmlRootElement(name = "scriptList")

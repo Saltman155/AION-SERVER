@@ -1,6 +1,6 @@
 package com.superywd.aion.commons.script.classloader;
 
-import com.superywd.library.utils.ClassUtil;
+import com.superywd.aion.commons.utils.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +15,8 @@ import java.util.Set;
 
 /**
  * 脚本类加载器
- * @author saltman155
- * @date 2019/4/18 16:31
+ * @author: saltman155
+ * @date: 2019/4/18 16:31
  */
 public abstract class ScriptClassLoader extends URLClassLoader {
 

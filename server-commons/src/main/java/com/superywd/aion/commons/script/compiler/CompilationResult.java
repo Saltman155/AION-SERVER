@@ -4,8 +4,8 @@ import com.superywd.aion.commons.script.classloader.ScriptClassLoader;
 
 /**
  * 编译结果封装
- * @author saltman155
- * @date 2019/4/18 15:53
+ * @author: saltman155
+ * @date: 2019/4/18 15:53
  */
 public class CompilationResult {
 

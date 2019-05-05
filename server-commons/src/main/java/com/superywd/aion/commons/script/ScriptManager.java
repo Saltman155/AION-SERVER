@@ -20,8 +20,8 @@ import java.util.Set;
 
 /**
  * 脚本引擎启动类
- * @author saltman155
- * @date 2019/4/18 13:38
+ * @author: saltman155
+ * @date: 2019/4/18 13:38
  */
 public class ScriptManager {
 
@@ -73,5 +73,12 @@ public class ScriptManager {
         return context;
     }
 
+    /**
+     * 设置相关的装卸载监听器
+     * @param instance      装卸载监听器
+     */
+    public void setGlobalClassListener(ClassListener instance) {
+        this.globalClassListener = instance;
+    }
 
 }

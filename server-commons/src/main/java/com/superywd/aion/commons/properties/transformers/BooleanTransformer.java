@@ -1,7 +1,6 @@
 package com.superywd.aion.commons.properties.transformers;
 
 import com.superywd.aion.commons.properties.PropertyTransformer;
-import javafx.scene.chart.ValueAxis;
 
 import java.lang.reflect.Field;
 

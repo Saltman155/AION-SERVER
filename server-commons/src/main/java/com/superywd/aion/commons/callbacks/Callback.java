@@ -31,8 +31,9 @@ public interface Callback<T> {
 
 
     /**
-     * 返回这个接口的实际实现类
-     * @return
+     * 返回这个回调方法类的基本类
+     * 在ObjectCallback中，所有相同基类的回调方法类会维护到一个List中作为回调链
+     * @return  回调方法类的基类
      */
     Class<? extends Callback> getBaseClass();
 

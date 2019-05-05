@@ -9,8 +9,8 @@ import java.util.Collection;
 
 /**
  * 表示一类脚本的上下文环境
- * @author saltman155
- * @date 2019/4/18 13:52
+ * @author: saltman155
+ * @date: 2019/4/18 13:52
  */
 public interface ScriptContext {
 

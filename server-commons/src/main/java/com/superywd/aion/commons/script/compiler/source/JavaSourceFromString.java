@@ -6,8 +6,8 @@ import java.net.URI;
 
 /**
  * 表示来源于字符串的脚本源码封装类
- * @author saltman155
- * @date 2019/4/18 20:39
+ * @author: saltman155
+ * @date: 2019/4/18 20:39
  */
 public class JavaSourceFromString extends SimpleJavaFileObject {
 

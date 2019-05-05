@@ -1,6 +1,6 @@
 package com.superywd.aion.commons.script.description;
 
-import com.superywd.library.script.ScriptManager;
+import com.superywd.aion.commons.script.ScriptManager;
 
 import javax.xml.bind.annotation.*;
 import java.io.File;
@@ -8,8 +8,8 @@ import java.util.Set;
 
 /**
  * 这个类表示脚本配置文件的 scriptInfo解析结果
- * @author saltman155
- * @date 2019/4/18 14:02
+ * @author: saltman155
+ * @date: 2019/4/18 14:02
  */
 @XmlRootElement(name = "scriptInfo")
 @XmlAccessorType(XmlAccessType.NONE)

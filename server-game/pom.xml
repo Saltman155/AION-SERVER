@@ -18,11 +18,19 @@
   </properties>
 
   <dependencies>
+    <!--server公共包-->
+    <dependency>
+      <groupId>com.superywd.aion</groupId>
+      <artifactId>server-commons</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <!--日志组件-->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
     </dependency>
+    <!--测试组件-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

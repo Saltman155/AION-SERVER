@@ -204,7 +204,7 @@ public class ObjectCallbackEnhancer extends CallbackClassFileTransformer{
 
     /**
      * 让这个类实现被代理接口
-     * @param clazz
+     * @param clazz     需要代理
      * @throws NotFoundException
      * @throws CannotCompileException
      */

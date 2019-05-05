@@ -1,9 +1,9 @@
 package com.superywd.aion.commons.script.classlistener;
 
 /**
- * 类装载事件监听器
- * @author saltman155
- * @date 2019/4/18 13:55
+ * 类装载事件监听器顶层接口
+ * @author: saltman155
+ * @date: 2019/4/18 13:55
  */
 public interface ClassListener {
 

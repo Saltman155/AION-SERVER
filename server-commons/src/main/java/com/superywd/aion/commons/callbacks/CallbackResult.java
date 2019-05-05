@@ -25,7 +25,7 @@ public class CallbackResult<T> {
     public static final int BLOCK_CALLER = 0x02;
 
     /**
-     * 表示被代理的方法和将来可能法神的其他回调方法都被阻止
+     * 表示被代理的方法和将来可能发生的其他回调方法都被阻止
      */
     public static final int BLOCK_ALL = 0x01 | 0x02;
 

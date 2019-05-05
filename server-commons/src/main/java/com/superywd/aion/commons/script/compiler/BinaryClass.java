@@ -8,8 +8,8 @@ import java.net.URI;
 /**
  * 这个类实现了BaseFileObject,用于存储编译结果，脚本编译后的字节码会存储在这个类中，并维护一份引用在ClassFileManager的缓存表中
  * 当它通过缓存表被查询时，它对应的Class对象会被设置。
- * @author saltman155
- * @date 2019/4/18 17:36
+ * @author: saltman155
+ * @date: 2019/4/18 17:36
  */
 public class BinaryClass extends BaseFileObject {
 

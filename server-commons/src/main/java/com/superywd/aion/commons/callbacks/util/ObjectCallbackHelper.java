@@ -44,7 +44,7 @@ public class ObjectCallbackHelper {
             List<Callback> list = cbMap.get(callback.getBaseClass());
             if (list == null) {
                 //这个容器是读写分离的，有空研究一下
-                list = new CopyOnWriteArrayList<Callback>();
+                list = new CopyOnWriteArrayList<>();
                 cbMap.put(callback.getBaseClass(), list);
             }
 

@@ -2,8 +2,8 @@ package com.superywd.aion.commons.utils;
 
 /**
  * 字符串操作类
- * @author saltman155
- * @date 2019/4/17 14:27
+ * @author: saltman155
+ * @date: 2019/4/17 14:27
  */
 public class StringUtil {
 

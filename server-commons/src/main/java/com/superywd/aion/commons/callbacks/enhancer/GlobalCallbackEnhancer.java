@@ -58,6 +58,7 @@ public class GlobalCallbackEnhancer extends CallbackClassFileTransformer {
     protected void enhanceMethod(CtMethod method) throws CannotCompileException, NotFoundException, ClassNotFoundException {
         ClassPool classPool = method.getDeclaringClass().getClassPool();
         method.addLocalVariable("___globalCallbackResult", classPool.get(CallbackResult.class.getName()));
+        //从方法注解上获取包含代理方法的类
         CtClass listenerClazz = classPool.get(((GlobalCallback) method.getAnnotation(GlobalCallback.class)).value().getName());
         boolean isStatic = Modifier.isStatic(method.getModifiers());
         String listenerFieldName = "$$$"+(isStatic? "Static" : "")+listenerClazz.getSimpleName();

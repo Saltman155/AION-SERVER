@@ -27,7 +27,6 @@ public class AggregatedClassListener implements ClassListener {
         this.classListeners.add(classListener);
     }
 
-
     @Override
     public void postLoad(Class<?>[] classes) {
         for(ClassListener listener : classListeners){
