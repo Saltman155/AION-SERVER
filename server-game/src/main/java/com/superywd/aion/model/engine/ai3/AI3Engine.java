@@ -8,12 +8,12 @@ import com.superywd.aion.commons.script.classlistener.ScheduledTaskClassListener
 import com.superywd.aion.commons.utils.ClassUtil;
 import com.superywd.aion.model.engine.GameEngine;
 import com.superywd.aion.model.engine.ai3.metadata.AIName;
+import com.superywd.aion.model.gameobjects.Creature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.lang.reflect.Modifier;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -73,11 +73,24 @@ public class AI3Engine implements GameEngine {
      */
     private void validateScripts() {
         //TODO:从所有NPC的AI配置中查询是否有不存在的AI被配置了
-        Collection<String> npcAINames =
-        npcAINames.removeAll(aiMap.keySet());
-        if(npcAINames.size() > 0){
-            logger.warn("Bad AI names: " + join(npcAINames));
+    }
+
+    /**
+     * 为指定的生物设置其对应的AI
+     * @param name      AI名称
+     * @param owner     指定的生物
+     * @return          绑定结果
+     */
+    public final AI3 setupAI(String name, Creature owner) {
+        AbstractAI aiInstance = null;
+        try{
+            aiInstance = aiMap.get(name).newInstance();
+            aiInstance.
+        } catch (Exception e) {
+            logger.error("AI设置失败！");
+            logger.error(e.getMessage(),e);
         }
+        return aiInstance;
     }
 
     /**
@@ -104,7 +117,6 @@ public class AI3Engine implements GameEngine {
     /**
      * 该类作为在逻辑脚本被编译时，将编译结果存入aiMap中的监听器
      */
-
     private static class AI3HandlerClassListener implements ClassListener{
 
         @Override
@@ -142,6 +154,7 @@ public class AI3Engine implements GameEngine {
                     && Modifier.isPublic(modifiers);
         }
     }
+
 }
 
 

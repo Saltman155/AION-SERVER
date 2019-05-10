@@ -1,7 +1,10 @@
 package com.superywd.aion.model.engine.ai3;
 
-import com.superywd.aion.model.engine.ai3.enums.AIEventType;
-import com.superywd.aion.model.engine.ai3.enums.AIState;
+import com.superywd.aion.model.engine.ai3.event.AIEventType;
+import com.superywd.aion.model.engine.ai3.event.AIState;
+import com.superywd.aion.model.engine.ai3.event.AISubState;
+import com.superywd.aion.model.engine.ai3.poll.AIAnswer;
+import com.superywd.aion.model.engine.ai3.poll.AIQuestion;
 import com.superywd.aion.model.gameobjects.Creature;
 import com.superywd.aion.model.gameobjects.player.Player;
 
@@ -26,9 +29,34 @@ public interface AI3 {
     /**思考*/
     void think();
 
-    /**判断该AI是否是可以*/
+    /**判断该AI是否能够思考*/
     boolean canThink();
+
+    /**获取AI名称*/
+    String getName();
 
     /**获取AI当前状态*/
     AIState getState();
+
+    /**获取AI当前子状态*/
+    AISubState getSubState();
+
+    /**调查AI具体的状态*/
+    boolean poll(AIQuestion question);
+
+    /**询问AI*/
+    AIAnswer ask(AIQuestion question);
+
+    /**获取AI剩余时间*/
+    boolean getRemainingTime();
+
+    /**伤害修改*/
+    int modifyDamage(int damage);
+
+    /**所有者伤害修改*/
+    int modifyOwnerDamage(int damage);
+
+    /**生命值修改*/
+    int modifyHealValue(int value);
+
 }

@@ -16,18 +16,26 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class MapRegion {
 
-    private static final Logger log = LoggerFactory.getLogger(MapRegion.class);
+    private static final Logger logger = LoggerFactory.getLogger(MapRegion.class);
 
     /**区块id（非地图id）*/
     private final int regionId;
+    /**该区块所属地图的实例*/
+    private final WorldMapInstance parent;
     /**周边区块（包含本身）*/
     private volatile MapRegion[] neighbours = new MapRegion[0];
-    /**该区块中注册的对象*/
+    /**该区块中注册的可见对象*/
     private final Map<Integer, VisibleObject> objects = new HashMap<>();
     /**用户数量*/
     private final AtomicInteger playerCount = new AtomicInteger(0);
     /**区块是否活动*/
     private final AtomicBoolean regionActive = new AtomicBoolean(false);
+
+    /**该区块所包含zone数量*/
+    private final int zoneCount;
+    /**该区块包含的所有zone*/
+    private Map<Integer, TreeSet<ZoneInstance>> zoneMap;
+
 
     public MapRegion(int id, WorldMapInstance parent, ZoneInstance[] zones) {
         this.regionId = id;

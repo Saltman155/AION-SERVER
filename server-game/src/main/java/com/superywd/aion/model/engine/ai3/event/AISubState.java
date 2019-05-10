@@ -1,4 +1,4 @@
-package com.superywd.aion.model.engine.ai3.enums;
+package com.superywd.aion.model.engine.ai3.event;
 
 /**
  * 该类用于声明所有的AI的子状态

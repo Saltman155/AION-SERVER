@@ -1,4 +1,4 @@
-package com.superywd.aion.model.engine.ai3.enums;
+package com.superywd.aion.model.engine.ai3.event;
 
 /**
  * 该类用于声明所有的AI状态(暂时还不知道和上面的有什么区别)
@@ -7,12 +7,14 @@ package com.superywd.aion.model.engine.ai3.enums;
  */
 public enum AIState {
 
-    /**创造*/
+    /**刚创造*/
     CREATED,
     /**死亡*/
     DIED,
     /**不再刷新*/
     DESPAWNED,
+    /**空闲状态*/
+    IDLE,
     /**行走中*/
     WALKING,
     /**跟随中*/

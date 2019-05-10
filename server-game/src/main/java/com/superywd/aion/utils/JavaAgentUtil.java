@@ -8,7 +8,7 @@ import com.superywd.aion.commons.callbacks.metadata.ObjectCallback;
 import com.superywd.aion.commons.callbacks.util.GlobalCallbackHelper;
 
 /**
- * javaAgent工具类
+ * javaAgent检查工具类
  * @author: saltman155
  * @date: 2019/5/4 23:19
  */
