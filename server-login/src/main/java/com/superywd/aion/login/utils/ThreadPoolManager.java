@@ -37,7 +37,6 @@ public class ThreadPoolManager {
         int threadPoolSize = 2 + Runtime.getRuntime().availableProcessors() * 4;
         int instantPoolSize = Math.max(1,threadPoolSize/3);
 
-        //TODO: 线程池的使用
         scheduledPool = new ScheduledThreadPoolExecutor(threadPoolSize - instantPoolSize,new ScheduledPoolThreadFactory());
         scheduledPool.setRejectedExecutionHandler(new MyRejectedExecutionHandler());
         // 启动所有的线程，让他们开始工作
