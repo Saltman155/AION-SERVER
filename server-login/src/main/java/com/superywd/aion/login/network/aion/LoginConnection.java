@@ -3,10 +3,11 @@ package com.superywd.aion.login.network.aion;
 import com.superywd.aion.commons.network.AConnection;
 import com.superywd.aion.commons.network.dispatcher.Dispatcher;
 import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
-import com.superywd.aion.login.network.crypt.KeyService;
+import com.superywd.aion.login.network.crypt.LKeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -65,9 +66,9 @@ public class LoginConnection extends AConnection {
     /**解析数据*/
     @Override
     public boolean processData(ByteBuffer data) {
-        if(!decrypt(data)){
-            return false;
-        }
+//        if(!decrypt(data)){
+//            return false;
+//        }
 
         return false;
     }
@@ -87,8 +88,8 @@ public class LoginConnection extends AConnection {
         state = State.CONNECTED;
         logger.info("一个IP来自 {} 的登录尝试...",getIp());
         //TODO: 下面即将进入与客户端的交互
-        encryptedRSAKeyPair = KeyService.getEncryptedRSAKeyPair();
-        SecretKey blowfishKey = KeyService.generateBlowfishKey();
+//        encryptedRSAKeyPair = LKeyGenerator.getEncryptedRSAKeyPair();
+//        SecretKey blowfishKey = LKeyGenerator.generateBlowfishKey();
 
 
     }

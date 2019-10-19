@@ -4,17 +4,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
-import com.superywd.aion.commons.service.CronService;
-import com.superywd.aion.login.configs.ConfigLoad;
-import com.superywd.aion.login.configs.database.DatabaseFactory;
-import com.superywd.aion.login.network.NetConnector;
-import com.superywd.aion.login.network.crypt.KeyService;
-import com.superywd.aion.login.utils.cron.ThreadPoolManagerRunnableRunner;
+import com.superywd.aion.login.network.ClientNetConnector;
+import com.superywd.aion.login.utils.SpringManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 /**
@@ -50,22 +45,36 @@ public class LoginServer {
 
     public static void main(final String[] args) throws GeneralSecurityException {
         long start = System.currentTimeMillis();
+        //日志初始化
         initLogger();
-        //定时任务中心初始化
-        CronService.initSingleton(ThreadPoolManagerRunnableRunner.class);
-        //载入各类配置
-         ConfigLoad.load();
-        //载入数据库配置
-        DatabaseFactory.init();
+        showLogo();
+        //spring容器初始化
+        SpringManager.init(LoginServer.class.getPackage().getName());
 
-        //初始化通讯秘钥生成服务
-        KeyService.init();
+        //定时任务中心初始化
+        //CronService.initSingleton(ThreadPoolManagerRunnableRunner.class);
+        //载入各类配置
+        //ConfigLoad.load();
+        //载入数据库配置
+        //DatabaseFactory.init();
+
+
         try {
+            SpringManager.getContext().getBean(ClientNetConnector.class).start();
             //建立与游戏主逻辑服务器以及游戏客户端的连接服务
-            NetConnector.getInstance().OpenConnection();
-        } catch (IOException e) {
+            //NetConnector.getInstance().OpenConnection();
+        } catch (Exception e) {
             logger.error("网络连接打开失败！",e);
             throw new Error(e);
         }
     }
+
+
+
+    private static void showLogo(){
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("++++++++++ AION LIGHTNING 3.9 +++++++++++++");
+        System.out.println("+++++++++++++++++++++++LOGIN SERVER++++++++");
+    }
+
 }

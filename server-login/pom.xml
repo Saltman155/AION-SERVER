@@ -19,6 +19,18 @@
   </properties>
 
   <dependencies>
+    <!--spring容器-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>5.2.0.RELEASE</version>
+    </dependency>
+    <!--netty网络开发包-->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.42.Final</version>
+    </dependency>
     <!--server公共包-->
     <dependency>
       <groupId>com.superywd.aion</groupId>

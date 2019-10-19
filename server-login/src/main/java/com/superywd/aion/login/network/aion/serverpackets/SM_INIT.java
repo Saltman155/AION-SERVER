@@ -1,36 +1,28 @@
 package com.superywd.aion.login.network.aion.serverpackets;
 
-import com.superywd.aion.login.network.aion.ClientServerPacket;
-import com.superywd.aion.login.network.aion.LoginConnection;
+import com.superywd.aion.login.network.aion.ServerPacket;
+import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
+import io.netty.buffer.ByteBuf;
 
 import javax.crypto.SecretKey;
+import java.nio.ByteBuffer;
 
 /**
- * 登录服务器初始化通讯数据包
- *      游戏客户端与登录服务端连接发出的第一个数据包，与客户端协定rsa公钥以及blowfish密钥
- * @author: saltman155
- * @date: 2019/3/28 20:02
+ *
+ * @author saltman155
+ * @date 2019/10/17 0:33
  */
-public class SM_INIT extends ClientServerPacket {
 
-    /**会话唯一id*/
+public class SM_INIT extends ServerPacket {
+
+    private static final byte OPCODE = 0X00;
+
     private final int sessionId;
-    /**rsa加密公钥*/
-    private final byte[] publicRsaKey;
-    /**blowfish加密密钥*/
-    private final byte[] blowfishKey;
 
 
-    public SM_INIT(LoginConnection connection, SecretKey blowfishKey) {
-        this(connection.getEncryptedModulus(), blowfishKey.getEncoded(), connection.getSessionId());
-    }
-
-    private SM_INIT(byte[] publicRsaKey, byte[] blowfishKey, int sessionId) {
-        //初始数据包的opCode为0x00
-        super(0x00);
+    public SM_INIT(SecretKey blowfishKey, EncryptedRSAKeyPair rsaKeyPair, int sessionId) {
+        super(OPCODE, blowfishKey, rsaKeyPair);
         this.sessionId = sessionId;
-        this.publicRsaKey = publicRsaKey;
-        this.blowfishKey = blowfishKey;
     }
 
     /**
@@ -46,19 +38,24 @@ public class SM_INIT extends ClientServerPacket {
      *      n个字节的blowfish密钥    0x?? ...
      *      一个神奇的数字           0x00 0x03 0x04 0x03
      *      又一个神奇数字           0x00 0x20 0x00 0x00
-     * @param connection    待发送数据的连接
+     * @param buf                   待写入空间
      */
     @Override
-    protected void writePackData(LoginConnection connection) {
-        writeInt(sessionId);
-        writeInt(0x0000c621);
-        writeByteArray(publicRsaKey);
-        writeInt(0x00000000);
-        writeInt(0x00000000);
-        writeInt(0x00000000);
-        writeInt(0x00000000);
-        writeByteArray(blowfishKey);
-        writeInt(0x00030403);
-        writeInt(0x00200000);
+    protected void appendBody(ByteBuffer buf){
+        buf.putInt(sessionId);
+        //序列版本号
+        buf.putInt(0X0000C621);
+        //RSA公钥
+        buf.put(rsaPublicKey.getEncryptedModulus());
+        buf.putInt(0x00000000);
+        buf.putInt(0x00000000);
+        buf.putInt(0x00000000);
+        buf.putInt(0x00000000);
+        //blowfish密钥
+        buf.put(blowfishKey.getEncoded());
+        //两个神秘数字
+        buf.putInt(0x00030403);
+        buf.putInt(0x00200000);
     }
+
 }

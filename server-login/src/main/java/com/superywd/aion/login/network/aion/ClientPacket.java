@@ -9,9 +9,9 @@ import java.nio.ByteBuffer;
  * @author: saltman155
  * @date: 2019/3/28 19:54
  */
-public abstract class ClientServerPacket extends BaseServerPacket {
+public abstract class ClientPacket extends BaseServerPacket {
 
-    public ClientServerPacket(int opcode) {
+    public ClientPacket(int opcode) {
         super(opcode);
     }
 
