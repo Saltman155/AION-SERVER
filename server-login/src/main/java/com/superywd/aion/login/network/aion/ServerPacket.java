@@ -1,12 +1,8 @@
 package com.superywd.aion.login.network.aion;
 
-import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -20,32 +16,18 @@ public abstract class ServerPacket {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerPacket.class);
 
-    /**最大客户端数据包*/
-    private static final int MAX_PACKET_SIZE = 8192 * 2;
+    /**最大服务端数据包*/
+    public static final int MAX_PACKET_SIZE = 8192 * 2;
 
     /**数据包操作符*/
     protected final byte opcode;
-    /**blowfish密钥*/
-    protected final SecretKey blowfishKey;
-    /**rsa公钥*/
-    protected final EncryptedRSAKeyPair rsaPublicKey;
 
-    public ServerPacket(byte opcode, SecretKey blowfishKey, EncryptedRSAKeyPair rsaKeyPair) {
+    public ServerPacket(byte opcode) {
         this.opcode = opcode;
-        this.blowfishKey = blowfishKey;
-        this.rsaPublicKey = rsaKeyPair;
     }
 
     public byte getOpcode() {
         return opcode;
-    }
-
-    public SecretKey getBlowfishKey() {
-        return blowfishKey;
-    }
-
-    public EncryptedRSAKeyPair getRsaPublicKey() {
-        return rsaPublicKey;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.superywd.aion.login.network.handler.client;
 
 import com.superywd.aion.login.network.aion.ClientPacket;
+import com.superywd.aion.login.network.aion.SessionState;
 import com.superywd.aion.login.network.aion.serverpackets.SM_INIT;
 import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
 import com.superywd.aion.login.network.crypt.LKeyGenerator;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import java.net.InetSocketAddress;
+import java.util.concurrent.*;
 
 /**
  * 客户端消息处理器
@@ -27,15 +29,23 @@ class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientChannelHandler.class);
 
+    /**客户端连接的业务操作线程池*/
+    private static final ExecutorService processor =
+            new ThreadPoolExecutor(1, 8, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
+
     @Resource
     private LKeyGenerator keyGenerator;
+
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info(String.format("收到来自IP %s 的连接请求！",getIp(ctx)));
+        //设置连接状态
+        ctx.channel().attr(ClientChannelInitializer.SESSION_STATE).set(SessionState.CONNECTED);
         EncryptedRSAKeyPair keyPair = keyGenerator.getEncryptedRSAKeyPair();
         SecretKey blowfishKey = keyGenerator.generateBlowfishKey();
         String sessionId = ctx.channel().id().asLongText();
+        //发送初始数据包
         ctx.writeAndFlush(new SM_INIT(blowfishKey,keyPair,sessionId.hashCode()));
     }
 
@@ -45,8 +55,11 @@ class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ClientPacket msg) throws Exception {
-
+    protected void channelRead0(ChannelHandlerContext ctx, ClientPacket packet) throws Exception {
+        logger.info("收到客户端数据包！opcode：{}",packet.getOpcode());
+        if(packet.readable()){
+            processor.submit(packet);
+        }
     }
 
     @Override

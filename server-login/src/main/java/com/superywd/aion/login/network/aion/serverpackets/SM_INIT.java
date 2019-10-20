@@ -2,7 +2,6 @@ package com.superywd.aion.login.network.aion.serverpackets;
 
 import com.superywd.aion.login.network.aion.ServerPacket;
 import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
-import io.netty.buffer.ByteBuf;
 
 import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
@@ -17,12 +16,27 @@ public class SM_INIT extends ServerPacket {
 
     private static final byte OPCODE = 0X00;
 
+    /**会话id*/
     private final int sessionId;
+    /**blowfish密钥*/
+    private final SecretKey blowfishKey;
+    /**rsa公钥*/
+    private final EncryptedRSAKeyPair rsaPublicKey;
 
 
     public SM_INIT(SecretKey blowfishKey, EncryptedRSAKeyPair rsaKeyPair, int sessionId) {
-        super(OPCODE, blowfishKey, rsaKeyPair);
+        super(OPCODE);
         this.sessionId = sessionId;
+        this.blowfishKey = blowfishKey;
+        this.rsaPublicKey = rsaKeyPair;
+    }
+
+    public SecretKey getBlowfishKey() {
+        return blowfishKey;
+    }
+
+    public EncryptedRSAKeyPair getRsaPublicKey() {
+        return rsaPublicKey;
     }
 
     /**
@@ -44,7 +58,7 @@ public class SM_INIT extends ServerPacket {
     protected void appendBody(ByteBuffer buf){
         buf.putInt(sessionId);
         //序列版本号
-        buf.putInt(0X0000C621);
+        buf.putInt(0x0000C621);
         //RSA公钥
         buf.put(rsaPublicKey.getEncryptedModulus());
         buf.putInt(0x00000000);

@@ -3,12 +3,9 @@ package com.superywd.aion.login.network.aion;
 import com.superywd.aion.commons.network.AConnection;
 import com.superywd.aion.commons.network.dispatcher.Dispatcher;
 import com.superywd.aion.login.network.crypt.EncryptedRSAKeyPair;
-import com.superywd.aion.login.network.crypt.LKeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 

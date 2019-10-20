@@ -16,16 +16,6 @@ public class XORCheckUtil {
 
     private XORCheckUtil() { }
 
-    /**
-     * 解密获取到的数据
-     * @param data          二进制数据数组
-     * @param offset        数据起点
-     * @param length        数据长度
-     * @return              是否加密成功
-     */
-    public boolean decrypt(byte[] data, int offset, int length) {
-        return false;
-    }
 
     /**
      * 为初始数据增加异或校验
@@ -85,6 +75,41 @@ public class XORCheckUtil {
         data[i + 2] = (byte) (chksum >> 0x10 & 0xff);
         data[i + 3] = (byte) (chksum >> 0x18 & 0xff);
     }
+
+
+    /**
+     * 校验数据
+     * @param data          带校验的数据
+     * @param offset        数据起点
+     * @param length        数据长度
+     * @return              校验结果 true 校验成功 false 校验失败
+     */
+    public static boolean verifyChecksum(byte[] data, int offset, int length) {
+        if ((length & 3) != 0 || (length <= 4)) {
+            return false;
+        }
+        long chksum = 0;
+        int count = length - 4;
+        long check;
+        int i;
+        for (i = offset; i < count; i += 4) {
+            check = data[i] & 0xff;
+            check |= data[i + 1] << 8 & 0xff00;
+            check |= data[i + 2] << 0x10 & 0xff0000;
+            check |= data[i + 3] << 0x18 & 0xff000000;
+            chksum ^= check;
+        }
+        check = data[i] & 0xff;
+        check |= data[i + 1] << 8 & 0xff00;
+        check |= data[i + 2] << 0x10 & 0xff0000;
+        check |= data[i + 3] << 0x18 & 0xff000000;
+        check = data[i] & 0xff;
+        check |= data[i + 1] << 8 & 0xff00;
+        check |= data[i + 2] << 0x10 & 0xff0000;
+        check |= data[i + 3] << 0x18 & 0xff000000;
+        return 0 == chksum;
+    }
+
 
 
 }

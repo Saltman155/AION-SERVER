@@ -1,50 +1,48 @@
 package com.superywd.aion.login.network.factories;
 
 import com.superywd.aion.login.network.aion.ClientPacket;
-import com.superywd.aion.login.network.aion.LoginConnection;
+import com.superywd.aion.login.network.aion.SessionState;
+import com.superywd.aion.login.network.aion.clientpackets.CM_AUTH_GG;
+import com.superywd.aion.login.network.aion.clientpackets.CM_LOGIN;
+import com.superywd.aion.login.network.handler.client.ClientChannelInitializer;
+import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 
-import static com.superywd.aion.login.network.aion.LoginConnection.State;
-
 /**
- * 数据包解析工厂，从二进制流中解析出真实数据
+ * 数据包解析工厂，从二进制数据，生成出客户端具体的数据包对象
  */
 public class AionPacketHandlerFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(AionPacketHandlerFactory.class);
 
-    public static ClientPacket handle(ByteBuffer buffer, LoginConnection connection){
-        ClientPacket clientMessage = null;
-        State state = connection.getState();
-        //紧跟代表数据包长度的后一个字节，意义是这个数据包的类型
+    public static ClientPacket handle(ByteBuffer buffer, Channel channel){
+        SessionState state = channel.attr(ClientChannelInitializer.SESSION_STATE).get();
+        //紧跟代表数据包长度的后一个字节，其意义是这个数据包的类型
         int type = buffer.get() & 0xff;
+        logger.info("解析出type为: {}",type);
         switch (state){
-            case LOGINED:{
+            case CONNECTED:{
                 switch (type){
-                    case 0x07: break;
+                    case 0x07: return new CM_AUTH_GG(channel,buffer);
                     case 0x08: break;
                     default: unknownPacket(state,type);
                 }
                 break;
             }
-            case AUTHENTIC:{
+            case AUTHED_GG:{
                 switch (type){
-                    case 0x0B: break;
+                    case 0x0B: return new CM_LOGIN(channel,buffer);
                     default: unknownPacket(state,type);
                 }
                 break;
             }
-            case CONNECTED:{
+            case AUTHED_LOGIN:{
                 switch (type){
-                    case 0x05:
-//                        clientMessage = new CM_SERVER_LIST(data, client);
-                        break;
-                    case 0x02:
-//                        clientMessage = new CM_PLAY(data, client);
-                        break;
+                    case 0x05: break;
+                    case 0x02: break;
                     default:
                         unknownPacket(state, type);
                 }
@@ -52,13 +50,10 @@ public class AionPacketHandlerFactory {
             }
         }
         return null;
-
     }
 
-    private static void unknownPacket(State state, int id){
+    private static void unknownPacket(SessionState state, int id){
         logger.warn("状态为{}的连接,收到了一个无法识别的数据包！类型id为 {}",state,id);
     }
-
-
 
 }
