@@ -1,6 +1,7 @@
 package com.superywd.aion.login.network.aion.clientpackets;
 
 import com.superywd.aion.login.network.aion.ClientPacket;
+import com.superywd.aion.login.network.aion.LoginAuthResponse;
 import com.superywd.aion.login.network.aion.SessionState;
 import com.superywd.aion.login.network.aion.serverpackets.SM_AUTH_GG;
 import com.superywd.aion.login.network.aion.serverpackets.SM_LOGIN_FAIL;
@@ -38,8 +39,9 @@ public class CM_AUTH_GG extends ClientPacket {
             channel.attr(ClientChannelInitializer.SESSION_STATE).set(SessionState.AUTHED_GG);
             channel.writeAndFlush(new SM_AUTH_GG(id));
         }else{
-            //TODO 这里感觉是不是会有问题，我想实现的实际上是一个写出并关闭的过程,万一它还没写出去就关了...
-            channel.writeAndFlush(new SM_LOGIN_FAIL());
+            // 对不上，就发送一个异常给客户端
+            //TODO 这里感觉是不是会有问题，我想实现的实际上是一个写出并关闭的过程, 万一它还没写出去就关了...
+            channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));
             channel.close();
         }
     }

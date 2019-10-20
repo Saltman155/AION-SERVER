@@ -18,7 +18,7 @@ public abstract class ClientPacket implements Runnable {
     /**最大客户端数据包*/
     public static final int MAX_PACKET_SIZE = 8192 * 2;
 
-    protected final int opcode;
+    private final int opcode;
 
     protected final Channel channel;
 
@@ -58,6 +58,8 @@ public abstract class ClientPacket implements Runnable {
             return false;
         }
     }
+
+
 
     /**
      * 具体数据包执行的逻辑操作
