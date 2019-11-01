@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.saltman155.aion.game.dao.PlayerDao">
+    <!--基本对象映射类-->
+    <resultMap id="BaseResultMap" type="com.saltman155.aion.game.model.entity.Player">
+        <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
+    </resultMap>
+
+</mapper>

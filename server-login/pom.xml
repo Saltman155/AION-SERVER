@@ -25,6 +25,21 @@
       <artifactId>spring-context</artifactId>
       <version>5.2.0.RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>5.2.0.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.batch</groupId>
+      <artifactId>spring-batch-core</artifactId>
+      <version>4.2.0.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>2.0.3</version>
+    </dependency>
     <!--netty网络开发包-->
     <dependency>
       <groupId>io.netty</groupId>
