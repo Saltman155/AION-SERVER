@@ -27,7 +27,7 @@ public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> 
         ChannelPipeline pipeline = ch.pipeline();
         //服务端出站消息编码器
         pipeline.addLast(clientMessageEncoder);
-        //客户端入站Frame编码器
+        //客户端入站Frame解码器
         pipeline.addLast(new PacketFrameDecoder());
         //客户端入站消息解码器
         pipeline.addLast(new ClientMessageDecoder());

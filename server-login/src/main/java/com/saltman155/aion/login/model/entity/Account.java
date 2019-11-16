@@ -14,6 +14,8 @@ public class Account {
     /**用户密码（MD5加密）*/
     private String password;
 
+    private byte lastServer;
+
     public Account() {
     }
 
@@ -39,5 +41,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public byte getLastServer() {
+        return lastServer;
+    }
+
+    public void setLastServer(byte lastServer) {
+        this.lastServer = lastServer;
     }
 }

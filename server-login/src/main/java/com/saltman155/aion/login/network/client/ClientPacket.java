@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 
 /**
- * 从登录服务端发往游戏客户端的基数据包
+ * 从客户端发来的数据包
  * @author: saltman155
  * @date: 2019/3/28 19:54
  */

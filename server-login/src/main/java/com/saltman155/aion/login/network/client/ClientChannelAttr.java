@@ -1,5 +1,6 @@
 package com.saltman155.aion.login.network.client;
 
+import com.saltman155.aion.login.model.entity.Account;
 import com.saltman155.aion.login.network.crypt.EncryptedRSAKeyPair;
 import com.saltman155.aion.login.network.crypt.LBlowfishCipher;
 import io.netty.util.AttributeKey;
@@ -14,7 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ClientChannelAttr {
 
-    public static final AttributeKey<Integer> ACCOUNT_ID = AttributeKey.newInstance("accountId");
     /**当前会话的状态*/
     public static final AttributeKey<SessionState> SESSION_STATE = AttributeKey.newInstance("sessionState");
     /**当前会话key*/
@@ -23,7 +23,8 @@ public class ClientChannelAttr {
     public static final AttributeKey<LBlowfishCipher> BLOWFISH_CIPHER = AttributeKey.newInstance("blowfishCipher");
     /**用于加解密的rsa*/
     public static final AttributeKey<EncryptedRSAKeyPair> RSA_KEY = AttributeKey.newInstance("rsaKey");
-
+    /**当前会话的用户*/
+    public static final AttributeKey<Account> ACCOUNT = AttributeKey.newInstance("account");
 
     /**服务端存储的会话状态*/
     public static enum SessionState {

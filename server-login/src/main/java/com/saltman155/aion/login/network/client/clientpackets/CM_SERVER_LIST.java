@@ -1,5 +1,7 @@
 package com.saltman155.aion.login.network.client.clientpackets;
 
+import com.saltman155.aion.login.config.spring.SpringContext;
+import com.saltman155.aion.login.controller.AccountController;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ClientPacket;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
@@ -38,7 +40,7 @@ public class CM_SERVER_LIST extends ClientPacket {
         ClientChannelAttr.SessionKey key = channel.attr(ClientChannelAttr.SESSION_KEY).get();
         //登录检查通过，则获取相关的服务器，并传输给客户端
         if(key.checkLogin(accountId,loginSession)){
-            //TODO 一些操作
+            SpringContext.getContext().getBean(AccountController.class).loadGameServerCharacters(accountId);
         }else{
             logger.warn("这个ip的用户session对不上了：{}", ChannelUtil.getIp(channel));
             channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR))

@@ -1,6 +1,5 @@
 package com.saltman155.aion.login.network;
 
-import com.saltman155.aion.login.network.handler.client.ClientChannelInitializer;
 import com.saltman155.aion.login.network.handler.gameserver.GameChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -17,7 +16,7 @@ import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 
 /**
- * 主服务端端网络连接处理服务启动类
+ * 主服务器网络连接处理服务启动类
  * @author saltman155
  * @date 2019/10/23 2:52
  */
@@ -45,7 +44,7 @@ public class GameNetConnector {
                     .localAddress(new InetSocketAddress(mainBindPort))
                     .childHandler(channelInitializer);
             ChannelFuture f = bootstrap.bind().sync();
-            logger.info("登录服务器已在端口 {} 上开启游戏主服务端连接监听！",mainBindPort);
+            logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",mainBindPort);
         } catch (Exception e){
             logger.error(e.getMessage(),e);
         }

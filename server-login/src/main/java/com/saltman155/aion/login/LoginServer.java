@@ -51,6 +51,8 @@ public class LoginServer {
         initLogger();
         //spring容器初始化
         SpringContext.init(LoginServer.class.getPackage().getName());
+        //载入游戏主服务器配置
+        SpringContext.getContext().getBean(GameServerManager.class).init();
         try {
             //开启与游戏主逻辑服务器的网络通信服务
             SpringContext.getContext().getBean(GameNetConnector.class).start();

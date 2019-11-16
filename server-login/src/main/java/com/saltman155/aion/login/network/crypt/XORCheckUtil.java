@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.crypt;
 
 /**
- * 用于加/解密数据包，以及数据校验的工作类
+ * 用于数据异或校验的工作类
  * @author: saltman155
  * @date: 2019/3/24 16:58
  */

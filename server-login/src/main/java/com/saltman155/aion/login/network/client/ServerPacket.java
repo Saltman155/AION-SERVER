@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
- * 聊天服务端发送给客户端的数据包的基本结构
+ * 发给客户端的数据包
  * @author saltman155
  * @date 2019/10/16 23:58
  */

@@ -6,7 +6,7 @@ import com.saltman155.aion.login.network.client.ServerPacket;
 import java.nio.ByteBuffer;
 
 /**
- * 这个是登录成功，服务端给客户端返回的数据包
+ * 这个是登录成功，服务端给客户端返回的封包
  * @author saltman155
  * @date 2019/10/20 21:23
  */

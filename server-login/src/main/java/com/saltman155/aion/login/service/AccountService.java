@@ -1,25 +1,33 @@
 package com.saltman155.aion.login.service;
 
 import com.saltman155.aion.login.dao.AccountMapper;
+import com.saltman155.aion.login.model.entity.Account;
+import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
 import io.netty.channel.Channel;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
+ * 用户业务处理类
  * @author saltman155
- * @date 2019/10/23 2:57
+ * @date 2019/10/26 1:47
  */
 
-public interface AccountService {
+@Service
+public class AccountService {
 
+    @Resource
+    private AccountMapper accountMapper;
 
+    public Account loginCheck(String account, String password) {
+        Account user = accountMapper.selectByAccount(account);
+        if(user == null || !user.getPassword().equals(password)){
+            return null;
+        }
+        return user;
 
-    /**
-     * 检查用户登录
-     * @param account   用户账号
-     * @param password  用户密码
-     * @param channel   会话通道
-     * @return          检查结果
-     */
-    LoginAuthResponse userLogin(String account, String password, Channel channel);
+    }
 
 }
