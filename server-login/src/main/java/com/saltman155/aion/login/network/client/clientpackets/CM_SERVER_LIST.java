@@ -1,11 +1,11 @@
-package com.saltman155.aion.login.network.client.clientpackets.request;
+package com.saltman155.aion.login.network.client.clientpackets;
 
-import com.saltman155.aion.login.config.spring.SpringContext;
+import com.saltman155.aion.login.SpringContext;
 import com.saltman155.aion.login.controller.AccountController;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ClientPacket;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
-import com.saltman155.aion.login.network.client.serverpackets.response.SM_LOGIN_FAIL_RESPONSE;
+import com.saltman155.aion.login.network.client.serverpackets.SM_LOGIN_FAIL;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
@@ -21,9 +21,9 @@ import java.nio.ByteBuffer;
  * @date 2019/10/26 2:25
  */
 
-public class CM_SERVER_LIST_REQUEST extends ClientPacket {
+public class CM_SERVER_LIST extends ClientPacket {
 
-    private static final Logger logger = LoggerFactory.getLogger(CM_SERVER_LIST_REQUEST.class);
+    private static final Logger logger = LoggerFactory.getLogger(CM_SERVER_LIST.class);
 
     private static final int OPCODE = 0x05;
 
@@ -31,7 +31,7 @@ public class CM_SERVER_LIST_REQUEST extends ClientPacket {
 
     private int loginSession;
 
-    public CM_SERVER_LIST_REQUEST(Channel channel, ByteBuffer data) {
+    public CM_SERVER_LIST(Channel channel, ByteBuffer data) {
         super(OPCODE, channel, data);
     }
 
@@ -43,7 +43,7 @@ public class CM_SERVER_LIST_REQUEST extends ClientPacket {
             SpringContext.getContext().getBean(AccountController.class).loadGameServerCharacters(accountId);
         }else{
             logger.warn("这个ip的用户session对不上了：{}", ChannelUtil.getIp(channel));
-            channel.writeAndFlush(new SM_LOGIN_FAIL_RESPONSE(LoginAuthResponse.SYSTEM_ERROR))
+            channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR))
                     .addListener((GenericFutureListener<? extends Future<? super Void>>)(future-> channel.close()));
         }
     }

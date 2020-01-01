@@ -1,4 +1,4 @@
-package com.saltman155.aion.login.network.client.serverpackets.request;
+package com.saltman155.aion.login.network.client.serverpackets;
 
 import com.saltman155.aion.login.network.crypt.EncryptedRSAKeyPair;
 import com.saltman155.aion.login.network.client.ServerPacket;
@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
  * @date 2019/10/17 0:33
  */
 
-public class SM_INIT_REQUEST extends ServerPacket {
+public class SM_INIT extends ServerPacket {
 
     private static final byte OPCODE = 0X00;
 
@@ -24,7 +24,7 @@ public class SM_INIT_REQUEST extends ServerPacket {
     private final EncryptedRSAKeyPair rsaPublicKey;
 
 
-    public SM_INIT_REQUEST(SecretKey blowfishKey, EncryptedRSAKeyPair rsaKeyPair, int sessionId) {
+    public SM_INIT(SecretKey blowfishKey, EncryptedRSAKeyPair rsaKeyPair, int sessionId) {
         super(OPCODE);
         this.sessionId = sessionId;
         this.blowfishKey = blowfishKey;

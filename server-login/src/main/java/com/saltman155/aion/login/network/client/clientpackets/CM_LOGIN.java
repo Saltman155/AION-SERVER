@@ -1,12 +1,12 @@
-package com.saltman155.aion.login.network.client.clientpackets.request;
+package com.saltman155.aion.login.network.client.clientpackets;
 
-import com.saltman155.aion.login.config.spring.SpringContext;
+import com.saltman155.aion.login.SpringContext;
 import com.saltman155.aion.login.controller.AccountController;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ClientPacket;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
-import com.saltman155.aion.login.network.client.serverpackets.response.SM_LOGIN_FAIL_RESPONSE;
-import com.saltman155.aion.login.network.client.serverpackets.response.SM_LOGIN_OK_RESPONSE;
+import com.saltman155.aion.login.network.client.serverpackets.SM_LOGIN_FAIL;
+import com.saltman155.aion.login.network.client.serverpackets.SM_LOGIN_OK;
 import com.saltman155.aion.login.network.crypt.EncryptedRSAKeyPair;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
@@ -25,9 +25,9 @@ import java.nio.ByteBuffer;
  * @date 2019/10/20 20:01
  */
 
-public class CM_LOGIN_REQUEST extends ClientPacket {
+public class CM_LOGIN extends ClientPacket {
 
-    private static final Logger logger = LoggerFactory.getLogger(CM_LOGIN_REQUEST.class);
+    private static final Logger logger = LoggerFactory.getLogger(CM_LOGIN.class);
 
     private static final int OPCODE = 0x0b;
 
@@ -35,7 +35,7 @@ public class CM_LOGIN_REQUEST extends ClientPacket {
 
     private byte[] accountData;
 
-    public CM_LOGIN_REQUEST(Channel channel, ByteBuffer data) {
+    public CM_LOGIN(Channel channel, ByteBuffer data) {
         super(OPCODE, channel, data);
     }
 
@@ -53,7 +53,7 @@ public class CM_LOGIN_REQUEST extends ClientPacket {
             accountData = cipher.doFinal(accountData,0,ACCOUNT_DATA_SIZE);
         }catch (Exception e){
             //有啥异常，发就完事了
-            channel.writeAndFlush(new SM_LOGIN_FAIL_RESPONSE(LoginAuthResponse.SYSTEM_ERROR));
+            channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));
             return;
         }
         String user = new String(accountData, 64, 32).trim().toLowerCase();
@@ -66,16 +66,16 @@ public class CM_LOGIN_REQUEST extends ClientPacket {
             case AUTHED:
                 //取出登录成功后业务层放置的sessionKey
                 ClientChannelAttr.SessionKey key = channel.attr(ClientChannelAttr.SESSION_KEY).get();
-                channel.writeAndFlush(new SM_LOGIN_OK_RESPONSE(key));
+                channel.writeAndFlush(new SM_LOGIN_OK(key));
                 logger.info("用户 {} 登录成功！",user);
                 break;
             case INVALID_PASSWORD:
                 //这边原版还做了一个反复登录失败的次数限制，我这里就先不做了
-                channel.writeAndFlush(new SM_LOGIN_FAIL_RESPONSE(LoginAuthResponse.INVALID_PASSWORD));
+                channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.INVALID_PASSWORD));
                 break;
             default:
                 //发送数据包，并关闭连接
-                channel.writeAndFlush(new SM_LOGIN_FAIL_RESPONSE(response))
+                channel.writeAndFlush(new SM_LOGIN_FAIL(response))
                         .addListener((GenericFutureListener<? extends Future<? super Void>>) channel.close());
         }
 

@@ -2,7 +2,7 @@ package com.saltman155.aion.login.network.handler.client;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ClientPacket;
-import com.saltman155.aion.login.network.client.serverpackets.request.SM_INIT_REQUEST;
+import com.saltman155.aion.login.network.client.serverpackets.SM_INIT;
 import com.saltman155.aion.login.network.crypt.EncryptedRSAKeyPair;
 import com.saltman155.aion.login.network.crypt.LKeyGenerator;
 import io.netty.channel.ChannelHandler;
@@ -46,7 +46,7 @@ class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
         SecretKey blowfishKey = keyGenerator.generateBlowfishKey();
         String sessionId = ctx.channel().id().asLongText();
         //发送初始数据包
-        ctx.writeAndFlush(new SM_INIT_REQUEST(blowfishKey,keyPair,sessionId.hashCode()));
+        ctx.writeAndFlush(new SM_INIT(blowfishKey,keyPair,sessionId.hashCode()));
     }
 
     @Override

@@ -1,0 +1,4 @@
+
+
+logging:
+  config: config/logback/logback-dev.xml

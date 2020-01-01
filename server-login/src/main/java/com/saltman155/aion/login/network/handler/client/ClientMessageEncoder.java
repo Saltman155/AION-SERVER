@@ -2,7 +2,7 @@ package com.saltman155.aion.login.network.handler.client;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ServerPacket;
-import com.saltman155.aion.login.network.client.serverpackets.request.SM_INIT_REQUEST;
+import com.saltman155.aion.login.network.client.serverpackets.SM_INIT;
 import com.saltman155.aion.login.network.crypt.LBlowfishCipher;
 import com.saltman155.aion.login.network.crypt.LKeyGenerator;
 import com.saltman155.aion.login.network.crypt.XORCheckUtil;
@@ -55,7 +55,7 @@ public class ClientMessageEncoder extends MessageToByteEncoder<ServerPacket> {
             XORCheckUtil.encXORPass(data,2,dataLen, ThreadLocalRandom.current().nextInt());
             //加密数据域
             cipher.cipher(data,2,dataLen);
-            SM_INIT_REQUEST initPacket = (SM_INIT_REQUEST) packet;
+            SM_INIT initPacket = (SM_INIT) packet;
             //加密完成后，用新密钥更新cipher以便下一次加密&解密时使用
             cipher.updateKey(initPacket.getBlowfishKey().getEncoded());
             channel.attr(ClientChannelAttr.BLOWFISH_CIPHER).set(cipher);

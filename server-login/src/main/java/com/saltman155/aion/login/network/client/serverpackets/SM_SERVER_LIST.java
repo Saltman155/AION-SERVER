@@ -1,11 +1,12 @@
-package com.saltman155.aion.login.network.client.serverpackets.response;
+package com.saltman155.aion.login.network.client.serverpackets;
 
 import com.saltman155.aion.login.MainServerManager;
-import com.saltman155.aion.login.config.spring.SpringContext;
+import com.saltman155.aion.login.SpringContext;
 import com.saltman155.aion.login.model.MainServerInfo;
 import com.saltman155.aion.login.model.entity.Account;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ServerPacket;
+import com.saltman155.aion.login.network.client.clientpackets.CM_SERVER_LIST;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
 
@@ -14,13 +15,13 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 对客户端 ${@link com.saltman155.aion.login.network.client.clientpackets.request.CM_SERVER_LIST_REQUEST}
+ * 对客户端 ${@link CM_SERVER_LIST}
  * 封包的响应封包，返回登录服务器的各种信息
  * @author saltman155
  * @date 2019/11/16 18:07
  */
 
-public class SM_SERVER_LIST_RESPONSE extends ServerPacket {
+public class SM_SERVER_LIST extends ServerPacket {
 
     private static final byte OPCODE = 0x04;
 
@@ -28,7 +29,7 @@ public class SM_SERVER_LIST_RESPONSE extends ServerPacket {
 
     private Map<Integer,Integer> characterCounts;
 
-    public SM_SERVER_LIST_RESPONSE(Channel userConnection, Map<Integer,Integer> characterCounts) {
+    public SM_SERVER_LIST(Channel userConnection, Map<Integer,Integer> characterCounts) {
         super(OPCODE);
         this.userConnection = userConnection;
         this.characterCounts = characterCounts;

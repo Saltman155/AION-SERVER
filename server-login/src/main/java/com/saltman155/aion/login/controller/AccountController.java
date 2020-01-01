@@ -5,7 +5,7 @@ import com.saltman155.aion.login.model.MainServerInfo;
 import com.saltman155.aion.login.model.entity.Account;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
-import com.saltman155.aion.login.network.client.serverpackets.response.SM_SERVER_LIST_RESPONSE;
+import com.saltman155.aion.login.network.client.serverpackets.SM_SERVER_LIST;
 import com.saltman155.aion.login.network.gameserver.loginpackets.request.SM_CHARACTER_REQUEST;
 import com.saltman155.aion.login.service.AccountService;
 import com.saltman155.aion.login.utils.ChannelUtil;
@@ -94,7 +94,7 @@ public class AccountController {
         Channel channel = accountConnMap.get(accountId);
         Map<Integer,Integer> characterCounts = gameServerCharacterCounts.get(accountId);
         if(channel != null && channel.isActive()){
-            channel.writeAndFlush(new SM_SERVER_LIST_RESPONSE(channel,characterCounts));
+            channel.writeAndFlush(new SM_SERVER_LIST(channel,characterCounts));
         }
     }
 

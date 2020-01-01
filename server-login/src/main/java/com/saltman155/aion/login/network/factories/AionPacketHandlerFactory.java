@@ -2,9 +2,9 @@ package com.saltman155.aion.login.network.factories;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ClientPacket;
-import com.saltman155.aion.login.network.client.clientpackets.response.CM_AUTH_GG_RESPONSE;
-import com.saltman155.aion.login.network.client.clientpackets.request.CM_LOGIN_REQUEST;
-import com.saltman155.aion.login.network.client.clientpackets.request.CM_SERVER_LIST_REQUEST;
+import com.saltman155.aion.login.network.client.clientpackets.CM_AUTH_GG;
+import com.saltman155.aion.login.network.client.clientpackets.CM_LOGIN;
+import com.saltman155.aion.login.network.client.clientpackets.CM_SERVER_LIST;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class AionPacketHandlerFactory {
         switch (state){
             case CONNECTED:{
                 switch (type){
-                    case 0x07: return new CM_AUTH_GG_RESPONSE(channel,buffer);
+                    case 0x07: return new CM_AUTH_GG(channel,buffer);
                     case 0x08: break;
                     default: unknownPacket(state,type);
                 }
@@ -34,14 +34,14 @@ public class AionPacketHandlerFactory {
             }
             case AUTHED_GG:{
                 switch (type){
-                    case 0x0B: return new CM_LOGIN_REQUEST(channel,buffer);
+                    case 0x0B: return new CM_LOGIN(channel,buffer);
                     default: unknownPacket(state,type);
                 }
                 break;
             }
             case AUTHED_LOGIN:{
                 switch (type){
-                    case 0x05: return new CM_SERVER_LIST_REQUEST(channel,buffer);
+                    case 0x05: return new CM_SERVER_LIST(channel,buffer);
                     case 0x02: break;
                     default:
                         unknownPacket(state, type);

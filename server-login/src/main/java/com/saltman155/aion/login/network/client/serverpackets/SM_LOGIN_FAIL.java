@@ -1,4 +1,4 @@
-package com.saltman155.aion.login.network.client.serverpackets.response;
+package com.saltman155.aion.login.network.client.serverpackets;
 
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
 import com.saltman155.aion.login.network.client.ServerPacket;
@@ -11,13 +11,13 @@ import java.nio.ByteBuffer;
  * @date 2019/10/20 18:30
  */
 
-public class SM_LOGIN_FAIL_RESPONSE extends ServerPacket {
+public class SM_LOGIN_FAIL extends ServerPacket {
 
     private static final byte OPCODE = 0x01;
 
     private LoginAuthResponse response;
 
-    public SM_LOGIN_FAIL_RESPONSE(LoginAuthResponse response) {
+    public SM_LOGIN_FAIL(LoginAuthResponse response) {
         super(OPCODE);
         this.response = response;
     }

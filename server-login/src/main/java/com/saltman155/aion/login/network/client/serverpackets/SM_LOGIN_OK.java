@@ -1,18 +1,19 @@
-package com.saltman155.aion.login.network.client.serverpackets.response;
+package com.saltman155.aion.login.network.client.serverpackets;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.ServerPacket;
+import com.saltman155.aion.login.network.client.clientpackets.CM_LOGIN;
 
 import java.nio.ByteBuffer;
 
 /**
- * 对客户端 ${@link com.saltman155.aion.login.network.client.clientpackets.request.CM_LOGIN_REQUEST}
+ * 对客户端 ${@link CM_LOGIN}
  * 封包的响应封包，表示登录成功
  * @author saltman155
  * @date 2019/10/20 21:23
  */
 
-public class SM_LOGIN_OK_RESPONSE extends ServerPacket {
+public class SM_LOGIN_OK extends ServerPacket {
 
     private static final byte OPCODE = 0x03;
 
@@ -21,7 +22,7 @@ public class SM_LOGIN_OK_RESPONSE extends ServerPacket {
     /**会话密钥*/
     private final int loginSession;
 
-    public SM_LOGIN_OK_RESPONSE(ClientChannelAttr.SessionKey key){
+    public SM_LOGIN_OK(ClientChannelAttr.SessionKey key){
         super(OPCODE);
         this.accountId = key.accountId;
         this.loginSession = key.loginSession;
