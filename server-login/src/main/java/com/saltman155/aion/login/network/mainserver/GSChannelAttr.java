@@ -1,4 +1,4 @@
-package com.saltman155.aion.login.network.gameserver;
+package com.saltman155.aion.login.network.mainserver;
 
 import io.netty.util.AttributeKey;
 

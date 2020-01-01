@@ -1,4 +1,4 @@
 
 
 logging:
-  config: config/logback/logback-dev.xml
+  config: config/logback/logback-prod.xml

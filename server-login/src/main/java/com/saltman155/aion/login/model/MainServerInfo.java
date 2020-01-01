@@ -16,6 +16,8 @@ public class MainServerInfo {
 
     /**游戏服务器id*/
     private byte id;
+    /**游戏服务器名称*/
+    private String name;
     /**游戏服务器地址*/
     private String ip;
     /**游戏服务器对客户端暴露的端口*/
@@ -63,6 +65,14 @@ public class MainServerInfo {
 
     public void setId(byte id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getIp() {

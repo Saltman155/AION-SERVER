@@ -5,12 +5,13 @@
 
     <resultMap id="GameServerInfo" type="com.saltman155.aion.login.model.MainServerInfo">
         <id column="id" jdbcType="TINYINT" javaType="byte" property="id"/>
+        <result column="name" jdbcType="VARCHAR" javaType="String" property="name"/>
         <result column="address" jdbcType="VARCHAR" javaType="String" property="ip"/>
         <result column="password" jdbcType="VARCHAR" javaType="String" property="password"/>
     </resultMap>
 
     <select id="getAllGameServer" resultMap="GameServerInfo">
-        SELECT `id`,`address`,`password` FROM main_server
+        SELECT `id`,`name`,`address`,`password` FROM main_server
     </select>
 
 </mapper>

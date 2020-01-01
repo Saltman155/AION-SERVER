@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.handler.client;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.factories.AionPacketHandlerFactory;
+import com.saltman155.aion.login.network.factories.ClientPacketHandlerFactory;
 import com.saltman155.aion.login.network.client.ClientPacket;
 import com.saltman155.aion.login.network.crypt.LBlowfishCipher;
 import com.saltman155.aion.login.network.crypt.XORCheckUtil;
@@ -44,7 +44,7 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
             ctx.channel().close();
         }
         //然后生成具体的Client包对象
-        ClientPacket packet = AionPacketHandlerFactory.handle(data,channel);
+        ClientPacket packet = ClientPacketHandlerFactory.handle(data,channel);
         out.add(packet);
     }
 

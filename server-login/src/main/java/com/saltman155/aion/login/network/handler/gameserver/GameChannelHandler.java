@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.handler.gameserver;
 
-import com.saltman155.aion.login.network.gameserver.GSChannelAttr;
-import com.saltman155.aion.login.network.gameserver.GamePacket;
+import com.saltman155.aion.login.network.mainserver.GSChannelAttr;
+import com.saltman155.aion.login.network.mainserver.MainPacket;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ChannelHandler.Sharable
 @PropertySource(value = {"file:./config/network/network.properties"})
-public class GameChannelHandler extends SimpleChannelInboundHandler<GamePacket> {
+public class GameChannelHandler extends SimpleChannelInboundHandler<MainPacket> {
 
     private static final Logger logger = LoggerFactory.getLogger(GameChannelHandler.class);
 
@@ -41,7 +41,7 @@ public class GameChannelHandler extends SimpleChannelInboundHandler<GamePacket> 
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, GamePacket msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, MainPacket msg) throws Exception {
 
     }
 

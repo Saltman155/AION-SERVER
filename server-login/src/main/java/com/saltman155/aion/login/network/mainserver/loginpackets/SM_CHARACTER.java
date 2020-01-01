@@ -1,6 +1,6 @@
-package com.saltman155.aion.login.network.gameserver.loginpackets.request;
+package com.saltman155.aion.login.network.mainserver.loginpackets;
 
-import com.saltman155.aion.login.network.gameserver.LoginPacket;
+import com.saltman155.aion.login.network.mainserver.LoginPacket;
 
 import java.nio.ByteBuffer;
 
@@ -10,13 +10,13 @@ import java.nio.ByteBuffer;
  * @date 2019/11/16 19:48
  */
 
-public class SM_CHARACTER_REQUEST extends LoginPacket {
+public class SM_CHARACTER extends LoginPacket {
 
     private static final byte OPCODE = 0x08;
 
     private final int accountId;
 
-    public SM_CHARACTER_REQUEST(int accountId) {
+    public SM_CHARACTER(int accountId) {
         super(OPCODE);
         this.accountId = accountId;
     }

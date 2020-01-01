@@ -1,4 +1,4 @@
-package com.saltman155.aion.login.network.gameserver;
+package com.saltman155.aion.login.network.mainserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public abstract class LoginPacket {
     private static final Logger logger = LoggerFactory.getLogger(LoginPacket.class);
 
     /**登陆服务端发往游戏服务端数据包最大长度*/
-    public static final int MAX_PACKET_SIZE = 8192 * 2;
+    private static final int MAX_PACKET_SIZE = 8192 * 2;
 
     /**数据包操作符*/
     protected final byte opcode;

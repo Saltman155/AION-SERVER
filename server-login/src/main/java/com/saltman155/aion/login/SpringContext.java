@@ -17,7 +17,8 @@ public class SpringContext {
         return context;
     }
 
-    public static void setContext(ApplicationContext context) {
+    static void setContext(ApplicationContext context) {
         SpringContext.context = context;
     }
+
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
 
@@ -25,13 +26,16 @@ public class MainServerManager {
 
     private Map<Byte, MainServerInfo> mainServerInfoMap;
 
+    @PostConstruct
     public void init(){
+        logger.info("开始载入游戏主服务器配置...");
         List<MainServerInfo> serverList = mainServerMapper.getAllGameServer();
         mainServerInfoMap = new HashMap<>();
         for(MainServerInfo gameServer : serverList){
+            logger.info("载入名称为 {} ,IP为 {} 的主服务器配置...",gameServer.getName(),gameServer.getIp());
             mainServerInfoMap.put(gameServer.getId(),gameServer);
         }
-        logger.info("载入了 {} 个游戏主服务器...",mainServerInfoMap.size());
+        logger.info("共载入了 {} 个游戏主服务器配置！",mainServerInfoMap.size());
     }
 
     /**

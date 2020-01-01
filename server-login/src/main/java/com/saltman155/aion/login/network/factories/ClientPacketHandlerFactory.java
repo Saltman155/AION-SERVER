@@ -14,9 +14,9 @@ import java.nio.ByteBuffer;
 /**
  * 数据包解析工厂，从二进制数据，生成出客户端具体的数据包对象
  */
-public class AionPacketHandlerFactory {
+public class ClientPacketHandlerFactory {
 
-    private static final Logger logger = LoggerFactory.getLogger(AionPacketHandlerFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientPacketHandlerFactory.class);
 
     public static ClientPacket handle(ByteBuffer buffer, Channel channel){
         ClientChannelAttr.SessionState state = channel.attr(ClientChannelAttr.SESSION_STATE).get();

@@ -6,7 +6,7 @@ import com.saltman155.aion.login.model.entity.Account;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
 import com.saltman155.aion.login.network.client.serverpackets.SM_SERVER_LIST;
-import com.saltman155.aion.login.network.gameserver.loginpackets.request.SM_CHARACTER_REQUEST;
+import com.saltman155.aion.login.network.mainserver.loginpackets.SM_CHARACTER;
 import com.saltman155.aion.login.service.AccountService;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
@@ -77,7 +77,7 @@ public class AccountController {
             Channel gsc = gameServer.getLoginConnection();
             if(gsc != null && gsc.isActive()) {
                 //发一个包查询该账号在主服务器上的角色数量
-                gsc.writeAndFlush(new SM_CHARACTER_REQUEST(accountId));
+                gsc.writeAndFlush(new SM_CHARACTER(accountId));
             }else{
                 characterCounts.put((int) gameServer.getId(),0);
             }

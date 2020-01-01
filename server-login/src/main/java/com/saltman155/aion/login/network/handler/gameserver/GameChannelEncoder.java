@@ -1,6 +1,6 @@
 package com.saltman155.aion.login.network.handler.gameserver;
 
-import com.saltman155.aion.login.network.gameserver.LoginPacket;
+import com.saltman155.aion.login.network.mainserver.LoginPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;

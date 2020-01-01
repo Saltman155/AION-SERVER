@@ -1,4 +1,26 @@
 
 
+################数据库环境配置################
+
+database:
+  jdbcUrl: jdbc:mysql://127.0.0.1:3306/aion_loginserver?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+  driver: com.mysql.cj.jdbc.Driver
+  username: root
+  password: 123456
+
+################网络参数配置################
+
+login-server:
+  network:
+    client:
+      port: 17777
+      boss-thread: 1
+      worker-thread: 3
+    main-server:
+      port: 14513
+      thread: 2
+      pingpong-check: true
+
+################日志文件配置################
 logging:
   config: config/logback/logback-dev.xml

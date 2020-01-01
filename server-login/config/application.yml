@@ -1,4 +1,7 @@
 
+login-server:
+  #多次登录保护
+  flood-protector: false
 
 #彩色日志支持
 spring.output.ansi.enabled: ALWAYS
