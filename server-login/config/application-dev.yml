@@ -13,7 +13,7 @@ database:
 login-server:
   network:
     client:
-      port: 17777
+      port: 2106
       boss-thread: 1
       worker-thread: 3
     main-server:
