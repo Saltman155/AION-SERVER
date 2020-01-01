@@ -35,18 +35,14 @@ public class GameNetConnector {
     @Resource
     private GameChannelInitializer channelInitializer;
 
-    public void start() throws InterruptedException {
+    public void start() throws Exception {
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup(threadCount);
-        try{
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(eventLoopGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .localAddress(new InetSocketAddress(mainBindPort))
-                    .childHandler(channelInitializer);
-            ChannelFuture f = bootstrap.bind().sync();
-            logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",mainBindPort);
-        } catch (Exception e){
-            logger.error(e.getMessage(),e);
-        }
+        ServerBootstrap bootstrap = new ServerBootstrap();
+        bootstrap.group(eventLoopGroup)
+                .channel(NioServerSocketChannel.class)
+                .localAddress(new InetSocketAddress(mainBindPort))
+                .childHandler(channelInitializer);
+        ChannelFuture f = bootstrap.bind().sync();
+        logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",mainBindPort);
     }
 }

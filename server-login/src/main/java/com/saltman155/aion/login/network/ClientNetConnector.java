@@ -38,20 +38,16 @@ public class ClientNetConnector {
     @Resource
     private ClientChannelInitializer channelInitializer;
 
-    public void start() throws InterruptedException {
+    public void start() throws Exception {
         Executor workExecutor = Executors.newFixedThreadPool(workThreadCount);
         EventLoopGroup eventLoopGroup = new NioEventLoopGroup(bossThreadCount, workExecutor);
-        try{
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(eventLoopGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .localAddress(new InetSocketAddress(clientBindPort))
-                    .childHandler(channelInitializer);
-            ChannelFuture f = bootstrap.bind().sync();
-            logger.info("登录服务器已在端口 {} 上开启游戏客户端连接监听！",clientBindPort);
-        } catch (Exception e){
-            logger.error(e.getMessage(),e);
-        }
+        ServerBootstrap bootstrap = new ServerBootstrap();
+        bootstrap.group(eventLoopGroup)
+                .channel(NioServerSocketChannel.class)
+                .localAddress(new InetSocketAddress(clientBindPort))
+                .childHandler(channelInitializer);
+        ChannelFuture f = bootstrap.bind().sync();
+        logger.info("登录服务器已在端口 {} 上开启游戏客户端连接监听！",clientBindPort);
     }
 
 }

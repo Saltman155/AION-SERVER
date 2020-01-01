@@ -13,7 +13,7 @@ public class Account {
     private String name;
     /**用户密码（MD5加密）*/
     private String password;
-
+    /**上一次登录服务器ip*/
     private byte lastServer;
 
     public Account() {

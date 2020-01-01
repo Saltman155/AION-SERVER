@@ -18,12 +18,16 @@ import javax.annotation.Resource;
 public class GameChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @Resource
+    private GameChannelEncoder gameChannelEncoder;
+    @Resource
     private GameChannelHandler gameChannelHandler;
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        //入站Frame编码器
+        //出站数据包编码器
+        pipeline.addLast(gameChannelEncoder);
+        //入站Frame解码器
         pipeline.addLast(new PacketFrameDecoder());
         //主服务端封包处理器
         pipeline.addLast(gameChannelHandler);

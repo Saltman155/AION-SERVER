@@ -1,11 +1,12 @@
 package com.saltman155.aion.login.controller;
 
-import com.saltman155.aion.login.GameServerManager;
-import com.saltman155.aion.login.model.GameServerInfo;
+import com.saltman155.aion.login.MainServerManager;
+import com.saltman155.aion.login.model.MainServerInfo;
 import com.saltman155.aion.login.model.entity.Account;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
-import com.saltman155.aion.login.network.client.serverpackets.SM_SERVER_LIST;
+import com.saltman155.aion.login.network.client.serverpackets.response.SM_SERVER_LIST_RESPONSE;
+import com.saltman155.aion.login.network.gameserver.loginpackets.request.SM_CHARACTER_REQUEST;
 import com.saltman155.aion.login.service.AccountService;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
@@ -38,7 +39,7 @@ public class AccountController {
     @Resource
     private AccountService accountService;
     @Resource
-    private GameServerManager gameServerManager;
+    private MainServerManager mainServerManager;
 
     /**
      * 用户登录判断
@@ -72,11 +73,11 @@ public class AccountController {
         //重新统计角色数量
         Map<Integer,Integer> characterCounts = new ConcurrentHashMap<>();
         gameServerCharacterCounts.put(accountId,characterCounts);
-        for(GameServerInfo gameServer : gameServerManager.getGameServers()){
+        for(MainServerInfo gameServer : mainServerManager.getGameServers()){
             Channel gsc = gameServer.getLoginConnection();
             if(gsc != null && gsc.isActive()) {
                 //发一个包查询该账号在主服务器上的角色数量
-                gsc.writeAndFlush(null);
+                gsc.writeAndFlush(new SM_CHARACTER_REQUEST(accountId));
             }else{
                 characterCounts.put((int) gameServer.getId(),0);
             }
@@ -93,7 +94,7 @@ public class AccountController {
         Channel channel = accountConnMap.get(accountId);
         Map<Integer,Integer> characterCounts = gameServerCharacterCounts.get(accountId);
         if(channel != null && channel.isActive()){
-            channel.writeAndFlush(new SM_SERVER_LIST(channel,characterCounts));
+            channel.writeAndFlush(new SM_SERVER_LIST_RESPONSE(channel,characterCounts));
         }
     }
 

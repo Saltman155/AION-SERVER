@@ -32,11 +32,6 @@ public abstract class ServerPacket {
 
     /**
      * 获取数据包内容
-     *      数据包结构为：
-     *      1个字节  0x??      数据包类型，如CM_INIT数据包就是0x00
-     *      n个字节  0x?? ...  包中的真实数据（每种数据包都不一样）
-     *      将上面两段数据拼在一起，然后做Blowfish加密（第一次通讯时，用和客户端协定好的密钥，后面的通讯用第一次通讯发送的数据包中商定的密钥）
-     *      得到的加密结果就是最后的数据包数据，附加在开头的两个描述长度的字节后面
      * @return  数据包内容
      */
     public ByteBuffer getData(){
@@ -49,6 +44,10 @@ public abstract class ServerPacket {
         return data;
     }
 
+    /**
+     * 向buf中追加数据包具体数据
+     * @param buf 数据包buf
+     */
     protected abstract void appendBody(ByteBuffer buf);
 
 }

@@ -29,7 +29,7 @@ public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> 
         pipeline.addLast(clientMessageEncoder);
         //客户端入站Frame解码器
         pipeline.addLast(new PacketFrameDecoder());
-        //客户端入站消息解码器
+        //客户端入站消息解密
         pipeline.addLast(new ClientMessageDecoder());
         //客户端数据包处理
         pipeline.addLast(clientChannelHandler);

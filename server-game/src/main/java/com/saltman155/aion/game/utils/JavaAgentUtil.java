@@ -1,11 +1,11 @@
 package com.saltman155.aion.game.utils;
 
-import com.saltman155.aion.game.commons.callbacks.Callback;
-import com.saltman155.aion.game.commons.callbacks.CallbackResult;
-import com.saltman155.aion.game.commons.callbacks.EnhancedObject;
-import com.saltman155.aion.game.commons.callbacks.metadata.GlobalCallback;
-import com.saltman155.aion.game.commons.callbacks.metadata.ObjectCallback;
-import com.saltman155.aion.game.commons.callbacks.util.GlobalCallbackHelper;
+import com.saltman155.aion.commons.callbacks.Callback;
+import com.saltman155.aion.commons.callbacks.CallbackResult;
+import com.saltman155.aion.commons.callbacks.EnhancedObject;
+import com.saltman155.aion.commons.callbacks.metadata.GlobalCallback;
+import com.saltman155.aion.commons.callbacks.metadata.ObjectCallback;
+import com.saltman155.aion.commons.callbacks.util.GlobalCallbackHelper;
 
 /**
  * javaAgent检查工具类

@@ -16,7 +16,7 @@ public abstract class ClientPacket implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(ServerPacket.class);
 
     /**最大客户端数据包*/
-    public static final int MAX_PACKET_SIZE = 8192 * 2;
+    public static final int MAX_PACKET_SIZE = 8192 * 8;
 
     private final int opcode;
 
@@ -36,8 +36,7 @@ public abstract class ClientPacket implements Runnable {
             handler();
         }catch (Exception e){
             logger.error("处理channelId为 {} 的channel，opcode为 {} 的数据包发生异常！",
-                    channel.id().asLongText().hashCode(),
-                    opcode);
+                    channel.id().asLongText().hashCode(), opcode);
             logger.error(e.getMessage(),e);
         }
     }
@@ -59,15 +58,13 @@ public abstract class ClientPacket implements Runnable {
         }
     }
 
-
-
     /**
      * 具体数据包执行的逻辑操作
      */
     protected abstract void handler();
 
     /**
-     * 读取数据
+     * 读取包里的数据
      */
     protected abstract void readData();
 
