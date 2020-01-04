@@ -15,7 +15,7 @@ public abstract class LoginPacket {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginPacket.class);
 
-    /**登陆服务端发往游戏服务端数据包最大长度*/
+      /**登陆服务端发往游戏服务端数据包最大长度*/
     private static final int MAX_PACKET_SIZE = 8192 * 2;
 
     /**数据包操作符*/
