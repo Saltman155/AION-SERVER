@@ -83,4 +83,4 @@ crashlytics-build.properties
 *.log
 
 # 我的配置文件
-application-dev.yml
+./config/application-dev.yml
