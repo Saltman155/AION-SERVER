@@ -1,9 +1,8 @@
 
-
 ################数据库环境配置################
 
 database:
-  jdbcUrl: jdbc:mysql://127.0.0.1:3306/aion_loginserver?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+  jdbcUrl: jdbc:mysql://116.62.166.68:3306/aion_login_server?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
   driver: com.mysql.cj.jdbc.Driver
   username: root
   password: 123456
@@ -16,10 +15,14 @@ login-server:
       port: 2106
       boss-thread: 1
       worker-thread: 3
+      write-buffer-size: 8196
+      read-buffer-size: 8196
     main-server:
       port: 14513
       thread: 2
       pingpong-check: true
+      write-buffer-size: 8196
+      read-buffer-size: 8196
 
 ################日志文件配置################
 logging:

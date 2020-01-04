@@ -1,6 +1,7 @@
 package com.saltman155.aion.login.network;
 
 import com.saltman155.aion.login.model.configure.Network;
+import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.handler.client.ClientChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 
 /**
  * 客户端网络连接处理服务启动类
@@ -41,7 +43,10 @@ public class ClientNetConnector {
         bootstrap.group(bossGroup,workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(network.client.getPort()))
-                .childHandler(channelInitializer);
+                .childHandler(channelInitializer)
+                .childAttr(ClientChannelAttr.SESSION_STATE,ClientChannelAttr.SessionState.CONNECTED)
+                .childAttr(ClientChannelAttr.WRITE_TMP, ByteBuffer.allocate(network.client.getWriteBufferSize()))
+                .childAttr(ClientChannelAttr.READ_TMP,ByteBuffer.allocate(network.client.getReadBufferSize()));
         ChannelFuture f = bootstrap.bind().sync();
         logger.info("登录服务器已在端口 {} 上开启游戏客户端连接监听！",network.client.getPort());
     }

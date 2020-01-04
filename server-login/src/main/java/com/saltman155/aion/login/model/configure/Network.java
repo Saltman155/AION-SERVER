@@ -37,6 +37,8 @@ public class Network {
         private int port;
         private int bossThread;
         private int workerThread;
+        private int writeBufferSize;
+        private int readBufferSize;
 
         public int getPort() { return port; }
         public void setPort(int port) { this.port = port; }
@@ -44,12 +46,18 @@ public class Network {
         public void setBossThread(int bossThread) { this.bossThread = bossThread; }
         public int getWorkerThread() { return workerThread; }
         public void setWorkerThread(int workerThread) { this.workerThread = workerThread; }
+        public int getWriteBufferSize() { return writeBufferSize; }
+        public void setWriteBufferSize(int writeBufferSize) { this.writeBufferSize = writeBufferSize; }
+        public int getReadBufferSize() { return readBufferSize; }
+        public void setReadBufferSize(int readBufferSize) { this.readBufferSize = readBufferSize; }
     }
 
     public static class MainServer{
         private int port;
         private int thread;
         private boolean pingpongCheck;
+        private int writeBufferSize;
+        private int readBufferSize;
 
         public int getPort() { return port; }
         public void setPort(int port) { this.port = port; }
@@ -57,6 +65,10 @@ public class Network {
         public void setThread(int thread) { this.thread = thread; }
         public boolean isPingpongCheck() { return pingpongCheck; }
         public void setPingpongCheck(boolean pingpongCheck) { this.pingpongCheck = pingpongCheck; }
+        public int getWriteBufferSize() { return writeBufferSize; }
+        public void setWriteBufferSize(int writeBufferSize) { this.writeBufferSize = writeBufferSize; }
+        public int getReadBufferSize() { return readBufferSize; }
+        public void setReadBufferSize(int readBufferSize) { this.readBufferSize = readBufferSize; }
     }
 
 

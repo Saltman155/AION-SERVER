@@ -81,3 +81,6 @@ crashlytics-build.properties
 
 # 日志文件
 *.log
+
+# 我的配置文件
+application-dev.yml

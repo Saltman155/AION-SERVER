@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 
 /**
- * 该数据包，是客户端对登录服务器发出的初始化数据校验包 ${@link SM_INIT }
- * 校验通过后，发出的响应包
+ * 该数据包，是客户端对登录服务器发出的初始化数据校验包 ${@link SM_INIT } 校验通过后，发出的响应包
  * @author saltman155
  * @date 2019/10/20 17:44
  */
