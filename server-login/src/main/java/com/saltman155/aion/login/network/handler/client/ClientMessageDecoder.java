@@ -2,7 +2,7 @@ package com.saltman155.aion.login.network.handler.client;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
 import com.saltman155.aion.login.network.factories.ClientPacketHandlerFactory;
-import com.saltman155.aion.login.network.client.ClientPacket;
+import com.saltman155.aion.commons.network.packet.ClientPacket;
 import com.saltman155.aion.login.network.crypt.LBlowfishCipher;
 import com.saltman155.aion.login.network.crypt.XORCheckUtil;
 import io.netty.buffer.ByteBuf;
@@ -29,13 +29,11 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         logger.info("收到客户端消息！");
+        Channel channel = ctx.channel();
         int dataLen = in.readableBytes();
-        ByteBuffer data = ByteBuffer.allocate(ClientPacket.MAX_PACKET_SIZE);
-        //这里是个坑，记得设置成小端模式
-        data.order(ByteOrder.LITTLE_ENDIAN);
+        ByteBuffer data = channel.attr(ClientChannelAttr.C_READ_TMP).get();
         in.readBytes(data.array(),0,dataLen);
         data.position(0).limit(dataLen);
-        Channel channel = ctx.channel();
         //获取之前存的cipher与state
         LBlowfishCipher cipher = channel.attr(ClientChannelAttr.BLOWFISH_CIPHER).get();
         //校验不通过直接断开连接

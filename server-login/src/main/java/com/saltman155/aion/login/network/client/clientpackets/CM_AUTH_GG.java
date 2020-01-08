@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.client.clientpackets;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.client.ClientPacket;
+import com.saltman155.aion.commons.network.packet.ClientPacket;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
 import com.saltman155.aion.login.network.client.serverpackets.SM_INIT;
 import com.saltman155.aion.login.network.client.serverpackets.SM_AUTH_GG;
@@ -37,7 +37,7 @@ public class CM_AUTH_GG extends ClientPacket {
         int id = channel.id().asLongText().hashCode();
         //检查id是不是对的上
         if(id == sessionId){
-            channel.attr(ClientChannelAttr.SESSION_STATE).set(ClientChannelAttr.SessionState.AUTHED_GG);
+            channel.attr(ClientChannelAttr.C_SESSION_STATE).set(ClientChannelAttr.SessionState.AUTHED_GG);
             channel.writeAndFlush(new SM_AUTH_GG(id));
         }else{
             // 对不上，就发送一个异常给客户端，并关闭连接

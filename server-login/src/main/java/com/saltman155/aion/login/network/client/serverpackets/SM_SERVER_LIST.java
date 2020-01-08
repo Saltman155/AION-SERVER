@@ -5,7 +5,7 @@ import com.saltman155.aion.login.SpringContext;
 import com.saltman155.aion.login.model.MainServerInfo;
 import com.saltman155.aion.login.model.entity.Account;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.client.ServerPacket;
+import com.saltman155.aion.commons.network.packet.ServerPacket;
 import com.saltman155.aion.login.network.client.clientpackets.CM_SERVER_LIST;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;

@@ -1,7 +1,8 @@
 package com.saltman155.aion.login.network;
 
 import com.saltman155.aion.login.model.configure.Network;
-import com.saltman155.aion.login.network.handler.gameserver.GameChannelInitializer;
+import com.saltman155.aion.login.network.handler.mainserver.MainChannelInitializer;
+import com.saltman155.aion.login.network.mainserver.MSChannelAttr;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -22,15 +23,15 @@ import java.net.InetSocketAddress;
  */
 
 @Component
-public class MainNetConnector {
+public class MSNetConnector {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientNetConnector.class);
 
     private final Network network;
 
-    private final GameChannelInitializer channelInitializer;
+    private final MainChannelInitializer channelInitializer;
 
-    public MainNetConnector(Network network, GameChannelInitializer channelInitializer) {
+    public MSNetConnector(Network network, MainChannelInitializer channelInitializer) {
         this.network = network;
         this.channelInitializer = channelInitializer;
     }
@@ -42,7 +43,8 @@ public class MainNetConnector {
         bootstrap.group(eventLoopGroup)
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(network.mainServer.getPort()))
-                .childHandler(channelInitializer);
+                .childHandler(channelInitializer)
+                .childAttr(MSChannelAttr.M_SESSION_STATE,MSChannelAttr.SessionState.CONNECTED);
         ChannelFuture f = bootstrap.bind().sync();
         logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",network.mainServer.getPort());
     }

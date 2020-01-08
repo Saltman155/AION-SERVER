@@ -40,16 +40,16 @@ public class KnownList {
     }
 
     public void clear() {
-        for (VisibleObject object : knownObjects.values()) {
-            object.getKnownList().del(owner, false);
-        }
-        knownObjects.clear();
-        if (knownPlayers != null) {
-            knownPlayers.clear();
-        }
-        visualObjects.clear();
-        if (visualPlayers != null) {
-            visualPlayers.clear();
-        }
+//        for (VisibleObject object : knownObjects.values()) {
+//            object.getKnownList().del(owner, false);
+//        }
+//        knownObjects.clear();
+//        if (knownPlayers != null) {
+//            knownPlayers.clear();
+//        }
+//        visualObjects.clear();
+//        if (visualPlayers != null) {
+//            visualPlayers.clear();
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package com.saltman155.aion.game.network;
 
+import com.saltman155.aion.game.model.configure.ClientNetwork;
 import com.saltman155.aion.game.network.client.ClientChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -8,14 +9,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.net.InetSocketAddress;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * 客户端网络连接处理服务启动类
@@ -24,33 +20,30 @@ import java.util.concurrent.Executors;
  */
 
 @Component
-@PropertySource(value = {"file:./config/network/network.properties"})
 public class ClientNetConnector {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientNetConnector.class);
 
-    @Value("${gameserver.network.main.port}")
-    private Integer gameServerPort;
-    @Value("${gameserver.network.boss.threads}")
-    private Integer bossThreadCount;
-    @Value("${gameserver.network.worker.threads}")
-    private Integer workThreadCount;
 
-    @Resource
-    private ClientChannelInitializer channelInitializer;
+    private final ClientNetwork clientNetwork;
+    private final ClientChannelInitializer channelInitializer;
+
+    public ClientNetConnector(ClientNetwork clientNetwork, ClientChannelInitializer channelInitializer) {
+        this.clientNetwork = clientNetwork;
+        this.channelInitializer = channelInitializer;
+    }
 
     public void start() {
-        //又是这些有的没的的netty代码
-        Executor workExecutor = Executors.newFixedThreadPool(workThreadCount);
-        EventLoopGroup eventLoopGroup = new NioEventLoopGroup(bossThreadCount, workExecutor);
+        EventLoopGroup bossGroup = new NioEventLoopGroup(clientNetwork.getBossTread());
+        EventLoopGroup workerGroup = new NioEventLoopGroup(clientNetwork.getWorkerThread());
         try{
             ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(eventLoopGroup)
+            bootstrap.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .localAddress(new InetSocketAddress(gameServerPort))
+                    .localAddress(new InetSocketAddress(clientNetwork.getPort()))
                     .childHandler(channelInitializer);
             ChannelFuture f = bootstrap.bind().sync();
-            logger.info("游戏主服务器已在端口 {} 上开启游戏客户端连接监听！",gameServerPort);
+            logger.info("游戏主服务器已在端口 {} 上开启游戏客户端连接监听！",clientNetwork.getPort());
         } catch (Exception e){
             logger.error(e.getMessage(),e);
         }

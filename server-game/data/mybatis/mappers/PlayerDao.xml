@@ -7,4 +7,8 @@
         <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
     </resultMap>
 
+    <select id="getPlayerCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM player WHERE account_id = #{accountId} AND isvalid = 1
+    </select>
+
 </mapper>

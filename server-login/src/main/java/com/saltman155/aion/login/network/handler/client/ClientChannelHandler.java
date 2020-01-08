@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.handler.client;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.client.ClientPacket;
+import com.saltman155.aion.commons.network.packet.ClientPacket;
 import com.saltman155.aion.login.network.client.serverpackets.SM_INIT;
 import com.saltman155.aion.login.network.crypt.EncryptedRSAKeyPair;
 import com.saltman155.aion.login.network.crypt.LKeyGenerator;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.util.concurrent.*;
 
 /**
@@ -40,8 +41,6 @@ class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info(String.format("收到来自IP %s 的连接请求！",getIp(ctx)));
-        //设置连接状态
-        ctx.channel().attr(ClientChannelAttr.SESSION_STATE).set(ClientChannelAttr.SessionState.CONNECTED);
         EncryptedRSAKeyPair keyPair = keyGenerator.getEncryptedRSAKeyPair();
         SecretKey blowfishKey = keyGenerator.generateBlowfishKey();
         String sessionId = ctx.channel().id().asLongText();

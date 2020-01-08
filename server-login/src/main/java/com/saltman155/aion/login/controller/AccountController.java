@@ -102,7 +102,7 @@ public class AccountController {
     private void loginRegister(final Account user,Channel channel){
         ClientChannelAttr.SessionKey key = new ClientChannelAttr.SessionKey(user.getId());
         //改变连接的登录状态
-        channel.attr(ClientChannelAttr.SESSION_STATE).set(ClientChannelAttr.SessionState.AUTHED_LOGIN);
+        channel.attr(ClientChannelAttr.C_SESSION_STATE).set(ClientChannelAttr.SessionState.AUTHED_LOGIN);
         channel.attr(ClientChannelAttr.SESSION_KEY).set(key);
         channel.attr(ClientChannelAttr.ACCOUNT).set(user);
         accountConnMap.put(user.getId(),channel);

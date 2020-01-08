@@ -1,21 +1,21 @@
 package com.saltman155.aion.game.network;
 
+import com.saltman155.aion.game.model.configure.LoginNetwork;
 import com.saltman155.aion.game.network.loginserver.LoginChannelInitializer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.net.InetSocketAddress;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 与登录服务的网络连接处理启动类
@@ -24,46 +24,57 @@ import java.net.InetSocketAddress;
  */
 
 @Component
-@PropertySource(value = {"file:./config/network/network.properties"})
 public class LoginNetConnector {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginNetConnector.class);
 
-    @Resource
-    private LoginChannelInitializer channelInitializer;
+    private final ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
 
-    @Value("${gameserver.network.login.host}")
-    private String loginServerHost;
-    @Value("${gameserver.network.login.port}")
-    private Integer loginServerPort;
+    private final LoginNetwork loginNetwork;
+    private final LoginChannelInitializer channelInitializer;
 
-    public void start() throws InterruptedException {
-        EventLoopGroup group = new NioEventLoopGroup();
-        Bootstrap bootstrap = new Bootstrap();
+    private EventLoopGroup group;
+    private Bootstrap bootstrap;
+    private Channel loginChannel;
+
+    public LoginNetConnector(LoginNetwork loginNetwork, LoginChannelInitializer channelInitializer) {
+        this.loginNetwork = loginNetwork;
+        this.channelInitializer = channelInitializer;
+    }
+
+
+    public synchronized void start() throws InterruptedException {
+        if(group != null){
+            logger.warn("与登录服务器的网络连接服务已启动！");
+            return;
+        }
+        group = new NioEventLoopGroup(loginNetwork.getThread());
+        bootstrap = new Bootstrap();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
-                .remoteAddress(new InetSocketAddress(loginServerHost,loginServerPort))
+                .remoteAddress(new InetSocketAddress(loginNetwork.getRemoteAddr(),loginNetwork.getRemotePort()))
                 .handler(channelInitializer);
-        new Thread(()->{
-            ChannelFuture future;
-            while(true){
-                try {
-                    logger.info("等待与登录服务端建立连接...");
-                    future = bootstrap.connect().sync();
-                    if(future.isSuccess()){
-                        future.addListener(f -> {
-                           logger.info("与登录服务端建立连接！");
-                            ((ChannelFuture)f).channel().closeFuture().addListener(item -> group.shutdownGracefully().sync());
-                        });
-                        break;
-                    }
-                } catch (Exception connectFail) {
-                    //连接不成功，则等待3秒后继续尝试连接
-                    try { Thread.sleep(3000); }
-                    catch (InterruptedException ignored) { }
-                }
-            }}).start();
+        service.scheduleAtFixedRate(this::connect,0,3000, TimeUnit.MILLISECONDS);
+    }
 
+    private void connect(){
+        if(loginChannel == null || !loginChannel.isOpen()) {
+            logger.info("尝试与登录服务器连接...");
+            try {
+                ChannelFuture future = bootstrap.connect().sync();
+                future.addListener(f -> {
+                    if(f.isSuccess()){
+                        logger.info("与登录服务器连接成功！");
+                        loginChannel = ((ChannelFuture)f).channel();
+                        loginChannel.closeFuture().addListener(f2->{
+                           logger.error("与登录服务器的连接中断！");
+                           loginChannel = null;
+                           //做一些关闭的动作
+                        });
+                    }
+                });
+            } catch (Exception ignore) { }
+        }
     }
 
 }

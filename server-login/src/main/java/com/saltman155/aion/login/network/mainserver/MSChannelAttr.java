@@ -8,10 +8,10 @@ import io.netty.util.AttributeKey;
  * @date 2019/11/16 20:55
  */
 
-public class GSChannelAttr {
+public class MSChannelAttr {
 
     /**当前会话的状态*/
-    public static final AttributeKey<SessionState> SESSION_STATE = AttributeKey.newInstance("sessionState");
+    public static final AttributeKey<SessionState> M_SESSION_STATE = AttributeKey.newInstance("mSessionState");
 
     /**服务端存储的会话状态*/
     public enum SessionState {

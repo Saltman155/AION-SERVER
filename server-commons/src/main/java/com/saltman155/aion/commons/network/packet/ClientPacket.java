@@ -1,4 +1,4 @@
-package com.saltman155.aion.login.network.client;
+package com.saltman155.aion.commons.network.packet;
 
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -7,16 +7,13 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 
 /**
- * 从客户端发来的数据包
+ * 接收的数据包基类
  * @author: saltman155
  * @date: 2019/3/28 19:54
  */
 public abstract class ClientPacket implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(ServerPacket.class);
-
-    /**最大客户端数据包*/
-    public static final int MAX_PACKET_SIZE = 8192 * 8;
+    private static final Logger logger = LoggerFactory.getLogger(ClientPacket.class);
 
     private final int opcode;
 

@@ -22,7 +22,7 @@ public class LKeyGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(LKeyGenerator.class);
 
-    /**默认的blowfish密钥*/
+    /**初始的blowfish密钥*/
     public static final byte[] BLOWFISH_INIT_KEY = {
             (byte) 0x6b, (byte) 0x60, (byte) 0xcb, (byte) 0x5b, (byte) 0x82,
             (byte) 0xce, (byte) 0x90, (byte) 0xb1, (byte) 0xcc, (byte) 0x2b,

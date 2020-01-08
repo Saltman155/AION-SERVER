@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ClientChannelAttr {
 
     /**当前会话的状态*/
-    public static final AttributeKey<SessionState> SESSION_STATE = AttributeKey.newInstance("sessionState");
+    public static final AttributeKey<SessionState> C_SESSION_STATE = AttributeKey.newInstance("cSessionState");
     /**当前会话key*/
     public static final AttributeKey<SessionKey> SESSION_KEY = AttributeKey.newInstance("sessionKey");
     /**用于加解密的blowfish*/
@@ -28,9 +28,9 @@ public class ClientChannelAttr {
     public static final AttributeKey<Account> ACCOUNT = AttributeKey.newInstance("account");
 
     /**连接读入缓冲区*/
-    public static final AttributeKey<ByteBuffer> READ_TMP = AttributeKey.newInstance("readTmp");
+    public static final AttributeKey<ByteBuffer> C_READ_TMP = AttributeKey.newInstance("cReadTmp");
     /**连接写出缓冲区*/
-    public static final AttributeKey<ByteBuffer> WRITE_TMP = AttributeKey.newInstance("writeTmp");
+    public static final AttributeKey<ByteBuffer> C_WRITE_TMP = AttributeKey.newInstance("cWriteTmp");
 
     /**服务端存储的会话状态*/
     public enum SessionState {

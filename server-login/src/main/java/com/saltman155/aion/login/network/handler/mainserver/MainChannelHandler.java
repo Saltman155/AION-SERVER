@@ -1,7 +1,7 @@
-package com.saltman155.aion.login.network.handler.gameserver;
+package com.saltman155.aion.login.network.handler.mainserver;
 
 import com.saltman155.aion.login.model.configure.Network;
-import com.saltman155.aion.login.network.mainserver.GSChannelAttr;
+import com.saltman155.aion.login.network.mainserver.MSChannelAttr;
 import com.saltman155.aion.login.network.mainserver.MainPacket;
 import com.saltman155.aion.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
@@ -10,9 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,13 +20,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ChannelHandler.Sharable
-public class GameChannelHandler extends SimpleChannelInboundHandler<MainPacket> {
+public class MainChannelHandler extends SimpleChannelInboundHandler<MainPacket> {
 
-    private static final Logger logger = LoggerFactory.getLogger(GameChannelHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainChannelHandler.class);
 
     private final Network network;
 
-    public GameChannelHandler(Network network) {
+    public MainChannelHandler(Network network) {
         this.network = network;
     }
 
@@ -37,7 +34,6 @@ public class GameChannelHandler extends SimpleChannelInboundHandler<MainPacket> 
     public void channelActive(ChannelHandlerContext ctx) {
         Channel channel = ctx.channel();
         String ip = ChannelUtil.getIp(channel);
-        channel.attr(GSChannelAttr.SESSION_STATE).set(GSChannelAttr.SessionState.CONNECTED);
         if(network.mainServer.isPingpongCheck()){
             //建立心跳
         }

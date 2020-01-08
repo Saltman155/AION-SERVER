@@ -3,7 +3,7 @@ package com.saltman155.aion.login.network.client.clientpackets;
 import com.saltman155.aion.login.SpringContext;
 import com.saltman155.aion.login.controller.AccountController;
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.client.ClientPacket;
+import com.saltman155.aion.commons.network.packet.ClientPacket;
 import com.saltman155.aion.login.network.client.LoginAuthResponse;
 import com.saltman155.aion.login.network.client.serverpackets.SM_LOGIN_FAIL;
 import com.saltman155.aion.login.utils.ChannelUtil;

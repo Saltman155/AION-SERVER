@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.handler.client;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.client.ServerPacket;
+import com.saltman155.aion.commons.network.packet.ServerPacket;
 import com.saltman155.aion.login.network.client.serverpackets.SM_INIT;
 import com.saltman155.aion.login.network.crypt.LBlowfishCipher;
 import com.saltman155.aion.login.network.crypt.LKeyGenerator;
@@ -42,8 +42,9 @@ public class ClientMessageEncoder extends MessageToByteEncoder<ServerPacket> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ServerPacket packet, ByteBuf out) throws Exception {
         Channel channel = ctx.channel();
-        //获取数据包数据
-        ByteBuffer buffer = packet.getData();
+        ByteBuffer buffer = channel.attr(ClientChannelAttr.C_WRITE_TMP).get();
+        //向buffer中写入数据
+        packet.writeData(buffer);
         byte[] data = buffer.array();
         //计算最终封包长度与数据长度
         int packetLen = calLastPacketLen(buffer.position());

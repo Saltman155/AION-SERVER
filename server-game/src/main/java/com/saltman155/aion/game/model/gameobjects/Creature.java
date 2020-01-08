@@ -2,8 +2,10 @@ package com.saltman155.aion.game.model.gameobjects;
 
 import com.saltman155.aion.game.model.engine.ai.status.container.CreatureGameStats;
 import com.saltman155.aion.game.model.engine.ai.status.container.CreatureLifeStats;
-import com.superywd.aion.model.gameobjects.VisibleObject;
 import com.saltman155.aion.game.model.engine.ai.AI;
+import com.saltman155.aion.game.model.templates.VisibleObjectTemplate;
+import com.saltman155.aion.game.model.templates.spawns.SpawnTemplate;
+import com.saltman155.aion.game.word.WorldPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,4 +29,7 @@ public class Creature extends VisibleObject {
     private CreatureGameStats<? extends Creature> gameStats;
 
 
+    public Creature(Integer objectId, VisibleObjectTemplate objectTemplate, SpawnTemplate spawn, WorldPosition position) {
+        super(objectId, objectTemplate, spawn, position);
+    }
 }

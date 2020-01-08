@@ -1,4 +1,4 @@
-package com.saltman155.aion.login.network.handler.gameserver;
+package com.saltman155.aion.login.network.handler.mainserver;
 
 import com.saltman155.aion.login.network.handler.PacketFrameDecoder;
 import io.netty.channel.ChannelInitializer;
@@ -15,22 +15,22 @@ import javax.annotation.Resource;
  */
 
 @Component
-public class GameChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class MainChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @Resource
-    private GameChannelEncoder gameChannelEncoder;
+    private MainChannelEncoder mainChannelEncoder;
     @Resource
-    private GameChannelHandler gameChannelHandler;
+    private MainChannelHandler mainChannelHandler;
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
         //出站数据包编码器
-        pipeline.addLast(gameChannelEncoder);
+        pipeline.addLast(mainChannelEncoder);
         //入站Frame解码器
         pipeline.addLast(new PacketFrameDecoder());
         //主服务端封包处理器
-        pipeline.addLast(gameChannelHandler);
+        pipeline.addLast(mainChannelHandler);
     }
 
 }

@@ -22,7 +22,7 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@MapperScan(basePackages = {"com.saltman155.aion.login.dao"},sqlSessionFactoryRef = "al_server_ls")
+@MapperScan(basePackages = {"com.saltman155.aion.login.dao"},sqlSessionFactoryRef = "login_server_factory")
 public class MybatisConfigure {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisConfigure.class);
@@ -52,7 +52,7 @@ public class MybatisConfigure {
         return target;
     }
 
-    @Bean(name = "al_server_ls")
+    @Bean(name = "login_server_factory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("hikariCP") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);

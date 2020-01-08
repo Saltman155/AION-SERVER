@@ -1,6 +1,5 @@
-package com.saltman155.aion.login.network.handler;
+package com.saltman155.aion.commons.network.codec;
 
-import com.saltman155.aion.login.network.client.ClientPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -10,12 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteOrder;
 
 /**
- * 消息解码器
- *      目前，客户端与游戏主服务端的通信，均采用 包长+包数据内容 的协议，包长为两个字节，存储包长+具体数据内容的长度
- *      这个解码器用于在接收消息时，会出现分包的问题，所以通过实现这个 LengthFieldBasedFrameDecoder，
- *      自定义长度解码器来解决。
  * @author saltman155
- * @date 2019/10/17 0:16
+ * @date 2020/1/5 17:09
  */
 
 public class PacketFrameDecoder extends LengthFieldBasedFrameDecoder {
@@ -28,7 +23,7 @@ public class PacketFrameDecoder extends LengthFieldBasedFrameDecoder {
     private static final int INITIAL_BYTES_TO_STRIP = 2;
 
 
-    public PacketFrameDecoder() {
+    public PacketFrameDecoder(int maxPacketSize) {
 
         //对于这个自定义封包长度编码器的参数详解：
         //  byteOrder             数据存储模式（大端&小端）
@@ -42,13 +37,13 @@ public class PacketFrameDecoder extends LengthFieldBasedFrameDecoder {
 
         //这里我设置lengthAdjustment为-2，是因为客户端的封包里存的长度包含了存长度的空间本身的长度
         super(
-            ByteOrder.LITTLE_ENDIAN,
-            ClientPacket.MAX_PACKET_SIZE,
-            LENGTH_FIELD_OFFSET,
-            LENGTH_FIELD_LENGTH,
-            LENGTH_FIELD_ADJUSTMENT,
-            INITIAL_BYTES_TO_STRIP,
-            true);
+                ByteOrder.LITTLE_ENDIAN,
+                maxPacketSize,
+                LENGTH_FIELD_OFFSET,
+                LENGTH_FIELD_LENGTH,
+                LENGTH_FIELD_ADJUSTMENT,
+                INITIAL_BYTES_TO_STRIP,
+                true);
     }
 
     @Override

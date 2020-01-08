@@ -1,4 +1,4 @@
-package com.saltman155.aion.game.config.datasource;
+package com.saltman155.aion.game.config.mybatis;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -19,15 +20,15 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@MapperScan(basePackages = {"com.saltman155.aion.game.dao"},sqlSessionFactoryRef = "al_server_gs")
+@MapperScan(basePackages = {"com.saltman155.aion.game.dao"},sqlSessionFactoryRef = "main_server_factory")
 public class MybatisConfigure {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisConfigure.class);
 
-    @Resource(name = "hikariCP")
+    @Resource(name = "mainServerDataSource")
     private DataSource dataSource;
 
-    @Bean(name = "al_server_gs")
+    @Bean(name = "main_server_factory")
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);

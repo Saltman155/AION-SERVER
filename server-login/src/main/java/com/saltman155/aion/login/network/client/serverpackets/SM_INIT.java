@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.client.serverpackets;
 
 import com.saltman155.aion.login.network.crypt.EncryptedRSAKeyPair;
-import com.saltman155.aion.login.network.client.ServerPacket;
+import com.saltman155.aion.commons.network.packet.ServerPacket;
 
 import javax.crypto.SecretKey;
 import java.nio.ByteBuffer;

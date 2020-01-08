@@ -1,12 +1,11 @@
 package com.saltman155.aion.login.network.handler.client;
 
-import com.saltman155.aion.login.network.handler.PacketFrameDecoder;
+import com.saltman155.aion.commons.network.codec.PacketFrameDecoder;
+import com.saltman155.aion.login.model.configure.Network;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 连接handler初始化
@@ -17,10 +16,17 @@ import javax.annotation.Resource;
 @Component
 public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-    @Resource
-    private ClientChannelHandler clientChannelHandler;
-    @Resource
-    private ClientMessageEncoder clientMessageEncoder;
+    private final ClientChannelHandler clientChannelHandler;
+    private final ClientMessageEncoder clientMessageEncoder;
+    private final Network network;
+
+    public ClientChannelInitializer(ClientChannelHandler clientChannelHandler,
+                                    ClientMessageEncoder clientMessageEncoder,
+                                    Network network) {
+        this.clientChannelHandler = clientChannelHandler;
+        this.clientMessageEncoder = clientMessageEncoder;
+        this.network = network;
+    }
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
@@ -28,7 +34,7 @@ public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> 
         //服务端出站消息编码器
         pipeline.addLast(clientMessageEncoder);
         //客户端入站Frame解码器
-        pipeline.addLast(new PacketFrameDecoder());
+        pipeline.addLast(new PacketFrameDecoder(network.client.getReadBufferSize()));
         //客户端入站消息解密
         pipeline.addLast(new ClientMessageDecoder());
         //客户端数据包处理

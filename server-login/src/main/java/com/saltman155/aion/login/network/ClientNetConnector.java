@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * 客户端网络连接处理服务启动类
@@ -44,9 +45,11 @@ public class ClientNetConnector {
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(network.client.getPort()))
                 .childHandler(channelInitializer)
-                .childAttr(ClientChannelAttr.SESSION_STATE,ClientChannelAttr.SessionState.CONNECTED)
-                .childAttr(ClientChannelAttr.WRITE_TMP, ByteBuffer.allocate(network.client.getWriteBufferSize()))
-                .childAttr(ClientChannelAttr.READ_TMP,ByteBuffer.allocate(network.client.getReadBufferSize()));
+                .childAttr(ClientChannelAttr.C_SESSION_STATE,ClientChannelAttr.SessionState.CONNECTED)
+                .childAttr(ClientChannelAttr.C_WRITE_TMP,
+                        ByteBuffer.allocate(network.client.getWriteBufferSize()).order(ByteOrder.LITTLE_ENDIAN))
+                .childAttr(ClientChannelAttr.C_READ_TMP,
+                        ByteBuffer.allocate(network.client.getReadBufferSize()).order(ByteOrder.LITTLE_ENDIAN));
         ChannelFuture f = bootstrap.bind().sync();
         logger.info("登录服务器已在端口 {} 上开启游戏客户端连接监听！",network.client.getPort());
     }

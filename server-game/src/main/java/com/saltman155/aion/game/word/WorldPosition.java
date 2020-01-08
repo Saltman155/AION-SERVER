@@ -15,7 +15,7 @@ public class WorldPosition {
     /**地图编号*/
     private int mapId;
     /**所属地图块*/
-    private MapRegion mapRegion;
+//    private MapRegion mapRegion;
     /**x轴坐标*/
     private double x;
     /**y轴坐标*/
@@ -50,9 +50,9 @@ public class WorldPosition {
         return z;
     }
 
-    public MapRegion getMapRegion() {
-        return isSpawned ? mapRegion : null;
-    }
+//    public MapRegion getMapRegion() {
+//        return isSpawned ? mapRegion : null;
+//    }
 
 //    public int getInstanceId() {
 //        return mapRegion.getParent().getInstanceId();

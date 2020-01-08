@@ -1,7 +1,7 @@
 package com.saltman155.aion.login.network.factories;
 
 import com.saltman155.aion.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.login.network.client.ClientPacket;
+import com.saltman155.aion.commons.network.packet.ClientPacket;
 import com.saltman155.aion.login.network.client.clientpackets.CM_AUTH_GG;
 import com.saltman155.aion.login.network.client.clientpackets.CM_LOGIN;
 import com.saltman155.aion.login.network.client.clientpackets.CM_SERVER_LIST;
@@ -19,7 +19,7 @@ public class ClientPacketHandlerFactory {
     private static final Logger logger = LoggerFactory.getLogger(ClientPacketHandlerFactory.class);
 
     public static ClientPacket handle(ByteBuffer buffer, Channel channel){
-        ClientChannelAttr.SessionState state = channel.attr(ClientChannelAttr.SESSION_STATE).get();
+        ClientChannelAttr.SessionState state = channel.attr(ClientChannelAttr.C_SESSION_STATE).get();
         //紧跟代表数据包长度的后一个字节，其意义是这个数据包的类型
         int type = buffer.get() & 0xff;
         logger.info("解析出type为: {}",type);
