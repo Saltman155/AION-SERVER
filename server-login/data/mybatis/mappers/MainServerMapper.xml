@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.saltman155.aion.login.dao.MainServerMapper">
+<mapper namespace="com.aionstar.login.dao.MainServerMapper">
 
-    <resultMap id="GameServerInfo" type="com.saltman155.aion.login.model.MainServerInfo">
+    <resultMap id="GameServerInfo" type="com.aionstar.login.model.MainServerInfo">
         <id column="id" jdbcType="TINYINT" javaType="byte" property="id"/>
         <result column="name" jdbcType="VARCHAR" javaType="String" property="name"/>
         <result column="address" jdbcType="VARCHAR" javaType="String" property="ip"/>
