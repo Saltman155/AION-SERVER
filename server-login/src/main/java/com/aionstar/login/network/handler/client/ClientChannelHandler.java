@@ -1,9 +1,12 @@
 package com.aionstar.login.network.handler.client;
 
+import com.aionstar.login.model.configure.Network;
+import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.crypt.EncryptedRSAKeyPair;
 import com.aionstar.login.network.crypt.LKeyGenerator;
-import com.saltman155.aion.commons.network.packet.ClientPacket;
+import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.login.network.client.serverpackets.SM_INIT;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -34,7 +37,8 @@ class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
 
     @Resource
     private LKeyGenerator keyGenerator;
-
+    @Resource
+    private Network network;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -42,6 +46,8 @@ class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
         EncryptedRSAKeyPair keyPair = keyGenerator.getEncryptedRSAKeyPair();
         SecretKey blowfishKey = keyGenerator.generateBlowfishKey();
         String sessionId = ctx.channel().id().asLongText();
+        //设置临时空间
+        ctx.channel().attr(ClientChannelAttr.BUFFER).set(Unpooled.buffer(network.client.getBufferSize()));
         //发送初始数据包
         ctx.writeAndFlush(new SM_INIT(blowfishKey,keyPair,sessionId.hashCode()));
     }

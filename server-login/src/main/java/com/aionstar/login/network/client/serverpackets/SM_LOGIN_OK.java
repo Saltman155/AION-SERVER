@@ -1,8 +1,9 @@
 package com.aionstar.login.network.client.serverpackets;
 
 import com.aionstar.login.network.client.ClientChannelAttr;
-import com.saltman155.aion.commons.network.packet.ServerPacket;
+import com.aionstar.commons.network.packet.ServerPacket;
 import com.aionstar.login.network.client.clientpackets.CM_LOGIN;
+import io.netty.buffer.ByteBuf;
 
 import java.nio.ByteBuffer;
 
@@ -29,21 +30,21 @@ public class SM_LOGIN_OK extends ServerPacket {
     }
 
     @Override
-    protected void appendBody(ByteBuffer buf) {
+    protected void appendBody(ByteBuf buffer) {
         //写入数据内容（里面又有一些莫名奇妙的数字）
-        buf.putInt(accountId);
-        buf.putInt(loginSession);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x000003ea);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.put((byte) 0x13);
+        buffer.writeIntLE(accountId);
+        buffer.writeIntLE(loginSession);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x000003ea);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeByte(0x13);
     }
 }

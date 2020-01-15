@@ -1,11 +1,11 @@
 package com.aionstar.login.network.client;
 
+import com.aionstar.commons.network.BaseChannelAttr;
 import com.aionstar.login.network.crypt.LBlowfishCipher;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.crypt.EncryptedRSAKeyPair;
 import io.netty.util.AttributeKey;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @date 2019/10/26 1:23
  */
 
-public class ClientChannelAttr {
+public class ClientChannelAttr extends BaseChannelAttr {
 
     /**当前会话的状态*/
     public static final AttributeKey<SessionState> C_SESSION_STATE = AttributeKey.newInstance("cSessionState");
@@ -26,11 +26,6 @@ public class ClientChannelAttr {
     public static final AttributeKey<EncryptedRSAKeyPair> RSA_KEY = AttributeKey.newInstance("rsaKey");
     /**当前会话的用户*/
     public static final AttributeKey<Account> ACCOUNT = AttributeKey.newInstance("account");
-
-    /**连接读入缓冲区*/
-    public static final AttributeKey<ByteBuffer> C_READ_TMP = AttributeKey.newInstance("cReadTmp");
-    /**连接写出缓冲区*/
-    public static final AttributeKey<ByteBuffer> C_WRITE_TMP = AttributeKey.newInstance("cWriteTmp");
 
     /**服务端存储的会话状态*/
     public enum SessionState {

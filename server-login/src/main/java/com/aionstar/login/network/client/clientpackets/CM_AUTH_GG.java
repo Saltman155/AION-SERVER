@@ -5,7 +5,8 @@ import com.aionstar.login.network.client.LoginAuthResponse;
 import com.aionstar.login.network.client.serverpackets.SM_AUTH_GG;
 import com.aionstar.login.network.client.serverpackets.SM_INIT;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
-import com.saltman155.aion.commons.network.packet.ClientPacket;
+import com.aionstar.commons.network.packet.ClientPacket;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -28,7 +29,7 @@ public class CM_AUTH_GG extends ClientPacket {
 
     private int sessionId;
 
-    public CM_AUTH_GG(Channel channel, ByteBuffer data) {
+    public CM_AUTH_GG(Channel channel, ByteBuf data) {
         super(OPCODE, channel,data);
     }
 
@@ -49,6 +50,6 @@ public class CM_AUTH_GG extends ClientPacket {
     @Override
     protected void readData() {
         //读取客户端封包数据中的id
-        sessionId = data.getInt();
+        sessionId = data.readIntLE();
     }
 }

@@ -6,14 +6,14 @@ import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.client.LoginAuthResponse;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
 import com.aionstar.login.utils.ChannelUtil;
-import com.saltman155.aion.commons.network.packet.ClientPacket;
+import com.aionstar.commons.network.packet.ClientPacket;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
 
 /**
  * 游戏客户端请求游戏服务器列表封包
@@ -31,7 +31,7 @@ public class CM_SERVER_LIST extends ClientPacket {
 
     private int loginSession;
 
-    public CM_SERVER_LIST(Channel channel, ByteBuffer data) {
+    public CM_SERVER_LIST(Channel channel, ByteBuf data) {
         super(OPCODE, channel, data);
     }
 
@@ -50,9 +50,9 @@ public class CM_SERVER_LIST extends ClientPacket {
 
     @Override
     protected void readData() {
-        accountId = data.getInt();
-        loginSession = data.getInt();
+        accountId = data.readIntLE();
+        loginSession = data.readIntLE();
         //这边还能再取一个数据，但不知道是做什么的
-        data.getInt();
+        data.readIntLE();
     }
 }

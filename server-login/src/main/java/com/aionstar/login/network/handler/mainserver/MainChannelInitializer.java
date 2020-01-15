@@ -1,6 +1,7 @@
 package com.aionstar.login.network.handler.mainserver;
 
-import com.saltman155.aion.login.network.handler.PacketFrameDecoder;
+import com.aionstar.commons.network.codec.PacketFrameDecoder;
+import com.aionstar.login.model.configure.Network;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -18,6 +19,8 @@ import javax.annotation.Resource;
 public class MainChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @Resource
+    private Network network;
+    @Resource
     private MainChannelEncoder mainChannelEncoder;
     @Resource
     private MainChannelHandler mainChannelHandler;
@@ -28,7 +31,7 @@ public class MainChannelInitializer extends ChannelInitializer<SocketChannel> {
         //出站数据包编码器
         pipeline.addLast(mainChannelEncoder);
         //入站Frame解码器
-        pipeline.addLast(new PacketFrameDecoder());
+        pipeline.addLast(new PacketFrameDecoder(network.mainServer.getReadBufferSize()));
         //主服务端封包处理器
         pipeline.addLast(mainChannelHandler);
     }

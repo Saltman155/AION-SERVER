@@ -1,7 +1,7 @@
 package com.aionstar.login.network.handler.client;
 
 import com.aionstar.login.model.configure.Network;
-import com.saltman155.aion.commons.network.codec.PacketFrameDecoder;
+import com.aionstar.commons.network.codec.PacketFrameDecoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -34,7 +34,7 @@ public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> 
         //服务端出站消息编码器
         pipeline.addLast(clientMessageEncoder);
         //客户端入站Frame解码器
-        pipeline.addLast(new PacketFrameDecoder(network.client.getReadBufferSize()));
+        pipeline.addLast(new PacketFrameDecoder(network.client.getBufferSize()));
         //客户端入站消息解密
         pipeline.addLast(new ClientMessageDecoder());
         //客户端数据包处理

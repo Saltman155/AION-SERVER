@@ -4,6 +4,7 @@ import com.aionstar.login.model.configure.Network;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.handler.client.ClientChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -45,11 +46,7 @@ public class ClientNetConnector {
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(network.client.getPort()))
                 .childHandler(channelInitializer)
-                .childAttr(ClientChannelAttr.C_SESSION_STATE,ClientChannelAttr.SessionState.CONNECTED)
-                .childAttr(ClientChannelAttr.C_WRITE_TMP,
-                        ByteBuffer.allocate(network.client.getWriteBufferSize()).order(ByteOrder.LITTLE_ENDIAN))
-                .childAttr(ClientChannelAttr.C_READ_TMP,
-                        ByteBuffer.allocate(network.client.getReadBufferSize()).order(ByteOrder.LITTLE_ENDIAN));
+                .childAttr(ClientChannelAttr.C_SESSION_STATE, ClientChannelAttr.SessionState.CONNECTED);
         ChannelFuture f = bootstrap.bind().sync();
         logger.info("登录服务器已在端口 {} 上开启游戏客户端连接监听！",network.client.getPort());
     }

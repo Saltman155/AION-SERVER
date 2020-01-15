@@ -8,7 +8,8 @@ import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_OK;
 import com.aionstar.login.network.crypt.EncryptedRSAKeyPair;
 import com.aionstar.login.utils.ChannelUtil;
-import com.saltman155.aion.commons.network.packet.ClientPacket;
+import com.aionstar.commons.network.packet.ClientPacket;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
-import java.nio.ByteBuffer;
 
 /**
  * 客户端请求登陆封包
@@ -35,7 +35,7 @@ public class CM_LOGIN extends ClientPacket {
 
     private byte[] accountData;
 
-    public CM_LOGIN(Channel channel, ByteBuffer data) {
+    public CM_LOGIN(Channel channel, ByteBuf data) {
         super(OPCODE, channel, data);
     }
 
@@ -83,11 +83,11 @@ public class CM_LOGIN extends ClientPacket {
 
     @Override
     protected void readData() {
-        data.getInt();
+        data.readIntLE();
         //读取出账号和密码等信息,存在accountData里
-        if(data.remaining() >= ACCOUNT_DATA_SIZE){
+        if(data.readableBytes() >= ACCOUNT_DATA_SIZE){
             accountData = new byte[ACCOUNT_DATA_SIZE];
-            data.get(accountData,0,ACCOUNT_DATA_SIZE);
+            data.readBytes(accountData,0,ACCOUNT_DATA_SIZE);
         }
     }
 }

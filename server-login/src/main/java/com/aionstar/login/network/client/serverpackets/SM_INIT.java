@@ -1,10 +1,10 @@
 package com.aionstar.login.network.client.serverpackets;
 
 import com.aionstar.login.network.crypt.EncryptedRSAKeyPair;
-import com.saltman155.aion.commons.network.packet.ServerPacket;
+import com.aionstar.commons.network.packet.ServerPacket;
+import io.netty.buffer.ByteBuf;
 
 import javax.crypto.SecretKey;
-import java.nio.ByteBuffer;
 
 /**
  * 与客户端初始连接时，发送的第一个数据包，协定blowfish密钥以及rsa密钥
@@ -52,24 +52,24 @@ public class SM_INIT extends ServerPacket {
      *      n个字节的blowfish密钥    0x?? ...
      *      一个神奇的数字           0x00 0x03 0x04 0x03
      *      又一个神奇数字           0x00 0x20 0x00 0x00
-     * @param buf                   待写入空间
+     * @param buffer                待写入空间
      */
     @Override
-    protected void appendBody(ByteBuffer buf){
-        buf.putInt(sessionId);
+    protected void appendBody(ByteBuf buffer){
+        buffer.writeIntLE(sessionId);
         //序列版本号
-        buf.putInt(0x0000C621);
+        buffer.writeIntLE(0x0000C621);
         //RSA公钥
-        buf.put(rsaPublicKey.getEncryptedModulus());
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
+        buffer.writeBytes(rsaPublicKey.getEncryptedModulus());
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
         //blowfish密钥
-        buf.put(blowfishKey.getEncoded());
+        buffer.writeBytes(blowfishKey.getEncoded());
         //两个神秘数字
-        buf.putInt(0x00030403);
-        buf.putInt(0x00200000);
+        buffer.writeIntLE(0x00030403);
+        buffer.writeIntLE(0x00200000);
     }
 
 }

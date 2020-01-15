@@ -22,30 +22,30 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@MapperScan(basePackages = {"com.saltman155.aion.login.dao"},sqlSessionFactoryRef = "login_server_factory")
+@MapperScan(basePackages = {"com.aionstar.login.dao"},sqlSessionFactoryRef = "login_server_factory")
 public class MybatisConfigure {
 
     private static final Logger logger = LoggerFactory.getLogger(MybatisConfigure.class);
 
-    private final Database dataSource;
+    private final Database database;
 
     public MybatisConfigure(Database database) {
-        this.dataSource = database;
+        this.database = database;
     }
 
     @Bean(name = "hikariCP")
     public DataSource buildDataSource() {
         logger.info("准备构建数据源...");
-        logger.info("jdbcUrl: {}", dataSource.getJdbcUrl());
-        logger.info("driver: {}", dataSource.getDriver());
-        logger.info("username: {}", dataSource.getUsername());
-        logger.info("password: {}", dataSource.getPassword());
+        logger.info("jdbcUrl: {}", database.getJdbcUrl());
+        logger.info("driver: {}", database.getDriver());
+        logger.info("username: {}", database.getUsername());
+        logger.info("password: {}", database.getPassword());
         //配置类
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(dataSource.getJdbcUrl());
-        config.setDriverClassName(dataSource.getDriver());
-        config.setUsername(dataSource.getUsername());
-        config.setPassword(dataSource.getPassword());
+        config.setJdbcUrl(database.getJdbcUrl());
+        config.setDriverClassName(database.getDriver());
+        config.setUsername(database.getUsername());
+        config.setPassword(database.getPassword());
         DataSource target = new HikariDataSource(config);
         logger.info("数据源创建完成！");
         //然后创建对象

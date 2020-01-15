@@ -4,7 +4,7 @@ import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.crypt.LBlowfishCipher;
 import com.aionstar.login.network.crypt.XORCheckUtil;
 import com.aionstar.login.network.factories.ClientPacketHandlerFactory;
-import com.saltman155.aion.commons.network.packet.ClientPacket;
+import com.aionstar.commons.network.packet.ClientPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,9 +30,8 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
         logger.info("收到客户端消息！");
         Channel channel = ctx.channel();
         int dataLen = in.readableBytes();
-        ByteBuffer data = channel.attr(ClientChannelAttr.C_READ_TMP).get();
-        in.readBytes(data.array(),0,dataLen);
-        data.position(0).limit(dataLen);
+        ByteBuf data = channel.attr(ClientChannelAttr.BUFFER).get();
+        in.readBytes(data,0,dataLen);
         //获取之前存的cipher与state
         LBlowfishCipher cipher = channel.attr(ClientChannelAttr.BLOWFISH_CIPHER).get();
         //校验不通过直接断开连接
@@ -51,11 +50,11 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
      * @param data          带解密的数据
      * @return              是否解密成功
      */
-    private boolean decrypt(LBlowfishCipher cipher,ByteBuffer data){
+    private boolean decrypt(LBlowfishCipher cipher,ByteBuf data){
         //解密客户端数据包
-        cipher.decipher(data.array(),data.position(),data.limit());
+        cipher.decipher(data.array(),0,data.writerIndex());
         //校验数据包
-        return XORCheckUtil.verifyChecksum(data.array(),data.position(),data.limit());
+        return XORCheckUtil.verifyChecksum(data.array(),0,data.writerIndex());
     }
 
 }

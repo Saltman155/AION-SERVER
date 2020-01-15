@@ -2,8 +2,8 @@ package com.saltman155.aion.game;
 
 import static org.junit.Assert.assertTrue;
 
-import com.saltman155.aion.commons.properties.ConfigurableProcessor;
-import com.saltman155.aion.commons.properties.Property;
+import com.aionstar.commons.properties.ConfigurableProcessor;
+import com.aionstar.commons.properties.Property;
 import org.junit.Test;
 
 import java.io.File;

@@ -4,7 +4,7 @@ import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.crypt.LBlowfishCipher;
 import com.aionstar.login.network.crypt.LKeyGenerator;
 import com.aionstar.login.network.crypt.XORCheckUtil;
-import com.saltman155.aion.commons.network.packet.ServerPacket;
+import com.aionstar.commons.network.packet.ServerPacket;
 import com.aionstar.login.network.client.serverpackets.SM_INIT;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -42,12 +42,12 @@ public class ClientMessageEncoder extends MessageToByteEncoder<ServerPacket> {
     @Override
     protected void encode(ChannelHandlerContext ctx, ServerPacket packet, ByteBuf out) throws Exception {
         Channel channel = ctx.channel();
-        ByteBuffer buffer = channel.attr(ClientChannelAttr.C_WRITE_TMP).get();
+        ByteBuf buffer = channel.attr(ClientChannelAttr.BUFFER).get();
         //向buffer中写入数据
         packet.writeData(buffer);
         byte[] data = buffer.array();
         //计算最终封包长度与数据长度
-        int packetLen = calLastPacketLen(buffer.position());
+        int packetLen = calLastPacketLen(buffer.writerIndex());
         int dataLen = packetLen - 2;
         //如果连接没有携带key，则是初次创建连接，设置两个key
         if(!channel.hasAttr(ClientChannelAttr.BLOWFISH_CIPHER)){
@@ -68,8 +68,8 @@ public class ClientMessageEncoder extends MessageToByteEncoder<ServerPacket> {
             cipher.cipher(data,2,dataLen);
         }
         //在头部写入封包长度
-        buffer.putShort(0,(short)(packetLen));
-        buffer.position(0).limit(packetLen);
+        buffer.setShortLE(0,packetLen);
+        buffer.readerIndex(0).writerIndex(packetLen);
         //数据写出
         out.writeBytes(buffer);
     }

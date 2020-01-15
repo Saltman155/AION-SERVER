@@ -1,9 +1,9 @@
 package com.aionstar.login.network.client.serverpackets;
 
 import com.aionstar.login.network.client.LoginAuthResponse;
-import com.saltman155.aion.commons.network.packet.ServerPacket;
+import com.aionstar.commons.network.packet.ServerPacket;
+import io.netty.buffer.ByteBuf;
 
-import java.nio.ByteBuffer;
 
 /**
  * 这个数据封包用来表示服务端向客户端响应各种错误的状态。
@@ -23,8 +23,8 @@ public class SM_LOGIN_FAIL extends ServerPacket {
     }
 
     @Override
-    protected void appendBody(ByteBuffer buf) {
-        buf.putInt(response.getId());
+    protected void appendBody(ByteBuf buffer) {
+        buffer.writeIntLE(response.getId());
     }
 
 }

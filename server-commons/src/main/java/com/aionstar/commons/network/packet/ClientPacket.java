@@ -1,0 +1,69 @@
+package com.aionstar.commons.network.packet;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
+
+/**
+ * 接收的数据包基类
+ * @author: saltman155
+ * @date: 2019/3/28 19:54
+ */
+public abstract class ClientPacket implements Runnable {
+
+    private static final Logger logger = LoggerFactory.getLogger(ClientPacket.class);
+
+    private final int opcode;
+
+    protected final Channel channel;
+
+    protected final ByteBuf data;
+
+    protected ClientPacket(int opcode, Channel channel, ByteBuf data) {
+        this.opcode = opcode;
+        this.channel = channel;
+        this.data = data;
+    }
+
+    @Override
+    public void run() {
+        try{
+            handler();
+        }catch (Exception e){
+            logger.error("处理channelId为 {} 的channel，opcode为 {} 的数据包发生异常！",
+                    channel.id().asLongText().hashCode(), opcode);
+            logger.error(e.getMessage(),e);
+        }
+    }
+
+    public int getOpcode() {
+        return opcode;
+    }
+
+    public boolean readable(){
+        try{
+            readData();
+            return true;
+        }catch (Exception e){
+            logger.error("channelId为 {} 的channel，opcode为 {} 的数据包可读性检查失败！",
+                    channel.id().asLongText().hashCode(),
+                    opcode);
+            logger.error(e.getMessage(),e);
+            return false;
+        }
+    }
+
+    /**
+     * 具体数据包执行的逻辑操作
+     */
+    protected abstract void handler();
+
+    /**
+     * 读取包里的数据
+     */
+    protected abstract void readData();
+
+}

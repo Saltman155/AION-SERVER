@@ -1,7 +1,8 @@
 package com.aionstar.login.network.client.serverpackets;
 
 import com.aionstar.login.network.client.clientpackets.CM_AUTH_GG;
-import com.saltman155.aion.commons.network.packet.ServerPacket;
+import com.aionstar.commons.network.packet.ServerPacket;
+import io.netty.buffer.ByteBuf;
 
 import java.nio.ByteBuffer;
 
@@ -24,12 +25,13 @@ public class SM_AUTH_GG extends ServerPacket {
     }
 
     @Override
-    protected void appendBody(ByteBuffer buf) {
-        buf.putInt(sessionId);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.putInt(0x00000000);
-        buf.put((byte)0x13);
+    protected void appendBody(ByteBuf buffer) {
+        buffer.writeIntLE(sessionId);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeIntLE(0x00000000);
+        buffer.writeByte(0x13);
     }
 }
