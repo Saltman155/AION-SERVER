@@ -11,7 +11,7 @@
   </parent>
 
 
-  <groupId>com.saltmain155.aion</groupId>
+  <groupId>com.aionstar</groupId>
   <artifactId>login-server</artifactId>
   <version>0.0.1</version>
 

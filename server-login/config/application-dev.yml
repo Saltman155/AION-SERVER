@@ -15,14 +15,12 @@ login-server:
       port: 2106
       boss-thread: 1
       worker-thread: 3
-      write-buffer-size: 8196
-      read-buffer-size: 8196
+      buffer-size: 8196
     main-server:
-      port: 14513
+      port: 10086
       thread: 2
       pingpong-check: true
-      write-buffer-size: 8196
-      read-buffer-size: 8196
+      buffer-size: 8196
 
 ################日志文件配置################
 logging:
