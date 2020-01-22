@@ -1,6 +1,11 @@
 package com.aionstar.login.controller;
 
+import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.login.service.AccountBannedService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import java.util.Map;
 
 /**
  * @author saltman155
@@ -9,6 +14,13 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class AccountBannedController {
+
+    private final AccountBannedService accountBannedService;
+
+    @Autowired
+    public AccountBannedController(AccountBannedService accountBannedService) {
+        this.accountBannedService = accountBannedService;
+    }
 
     /**
      * 检查ip是否被禁止登录
@@ -27,4 +39,14 @@ public class AccountBannedController {
     public boolean macIsBanned(String mac){
         return false;
     }
+
+
+    /**
+     * 获取所有被禁止的mac地址
+     * @return          返回所有被禁止的mac地址
+     */
+    public Map<String, BannedMacEntry> getAllMacBand(){
+        return accountBannedService.getAllMacBand();
+    }
+
 }

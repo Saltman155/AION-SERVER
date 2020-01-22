@@ -1,5 +1,6 @@
 package com.aionstar.login.network.mainserver;
 
+import com.aionstar.commons.network.BaseChannelAttr;
 import io.netty.util.AttributeKey;
 
 /**
@@ -8,17 +9,9 @@ import io.netty.util.AttributeKey;
  * @date 2019/11/16 20:55
  */
 
-public class MSChannelAttr {
+public class MSChannelAttr extends BaseChannelAttr {
 
     /**当前会话的状态*/
-    public static final AttributeKey<SessionState> M_SESSION_STATE = AttributeKey.newInstance("mSessionState");
-
-    /**服务端存储的会话状态*/
-    public enum SessionState {
-        //表示与游戏服务端仅仅是建立连接
-        CONNECTED,
-        //表示游戏服务端已经通过连接验证
-        AUTHED
-    }
+    public static final AttributeKey<InnerSessionState> M_SESSION_STATE = AttributeKey.newInstance("mSessionState");
 
 }

@@ -5,7 +5,6 @@ import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
 
 /**
  * 接收的数据包基类
@@ -16,17 +15,18 @@ public abstract class ClientPacket implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientPacket.class);
 
-    private final int opcode;
+    private final byte opcode;
 
-    protected final Channel channel;
+    protected Channel channel;
 
-    protected final ByteBuf data;
+    protected ByteBuf data;
 
-    protected ClientPacket(int opcode, Channel channel, ByteBuf data) {
+    protected ClientPacket(byte opcode, Channel channel, ByteBuf data) {
         this.opcode = opcode;
         this.channel = channel;
         this.data = data;
     }
+
 
     @Override
     public void run() {
@@ -62,8 +62,31 @@ public abstract class ClientPacket implements Runnable {
     protected abstract void handler();
 
     /**
-     * 读取包里的数据
+     * 读取数据
      */
     protected abstract void readData();
 
+    /**
+     * 设置channel
+     * @param channel   待设置的channel
+     */
+    public void setChannel(Channel channel) { this.channel = channel; }
+
+    /**
+     * 设置data数据
+     * @param data      待设置的数据
+     */
+    public void setData(ByteBuf data) { this.data = data; }
+
+    /**
+     * 数据包结构复制
+     * @return          新的封包结构对象
+     */
+    public ClientPacket clonePacket(){
+        try {
+            return (ClientPacket) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

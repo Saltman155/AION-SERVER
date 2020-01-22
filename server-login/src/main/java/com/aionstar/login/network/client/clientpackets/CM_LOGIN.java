@@ -29,7 +29,7 @@ public class CM_LOGIN extends ClientPacket {
 
     private static final Logger logger = LoggerFactory.getLogger(CM_LOGIN.class);
 
-    private static final int OPCODE = 0x0b;
+    private static final byte OPCODE = 0x0b;
 
     private static final int ACCOUNT_DATA_SIZE = 128;
 
@@ -75,8 +75,7 @@ public class CM_LOGIN extends ClientPacket {
                 break;
             default:
                 //发送数据包，并关闭连接
-                channel.writeAndFlush(new SM_LOGIN_FAIL(response))
-                        .addListener((GenericFutureListener<? extends Future<? super Void>>) channel.close());
+                ChannelUtil.close(channel,new SM_LOGIN_FAIL(response));
         }
 
     }

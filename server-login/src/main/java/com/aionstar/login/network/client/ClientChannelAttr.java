@@ -20,9 +20,9 @@ public class ClientChannelAttr extends BaseChannelAttr {
     public static final AttributeKey<SessionState> C_SESSION_STATE = AttributeKey.newInstance("cSessionState");
     /**当前会话key*/
     public static final AttributeKey<SessionKey> SESSION_KEY = AttributeKey.newInstance("sessionKey");
-    /**用于加解密的blowfish*/
+    /**用于会话信息加解密的blowfish*/
     public static final AttributeKey<LBlowfishCipher> BLOWFISH_CIPHER = AttributeKey.newInstance("blowfishCipher");
-    /**用于加解密的rsa*/
+    /**用于账号密码加解密的rsa*/
     public static final AttributeKey<EncryptedRSAKeyPair> RSA_KEY = AttributeKey.newInstance("rsaKey");
     /**当前会话的用户*/
     public static final AttributeKey<Account> ACCOUNT = AttributeKey.newInstance("account");

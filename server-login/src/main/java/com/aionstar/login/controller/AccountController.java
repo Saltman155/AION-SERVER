@@ -7,7 +7,7 @@ import com.aionstar.login.service.AccountService;
 import com.aionstar.login.MainServerManager;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.network.client.serverpackets.SM_SERVER_LIST;
-import com.aionstar.login.network.mainserver.loginpackets.SM_CHARACTER;
+import com.aionstar.login.network.mainserver.serverpackets.SM_CHARACTER;
 import com.aionstar.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;

@@ -53,6 +53,12 @@
       <artifactId>server-commons</artifactId>
       <version>1.0.0</version>
     </dependency>
+    <!--commons类库-->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.9</version>
+    </dependency>
     <!--mysql连接驱动-->
     <dependency>
       <groupId>mysql</groupId>

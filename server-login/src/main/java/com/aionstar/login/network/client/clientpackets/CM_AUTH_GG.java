@@ -6,6 +6,7 @@ import com.aionstar.login.network.client.serverpackets.SM_AUTH_GG;
 import com.aionstar.login.network.client.serverpackets.SM_INIT;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.login.utils.ChannelUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
@@ -13,7 +14,6 @@ import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
 
 /**
  * 该数据包，是客户端对登录服务器发出的初始化数据校验包 ${@link SM_INIT } 校验通过后，发出的响应包
@@ -25,7 +25,7 @@ public class CM_AUTH_GG extends ClientPacket {
 
     private static final Logger logger = LoggerFactory.getLogger(CM_AUTH_GG.class);
 
-    private static final int OPCODE = 0x07;
+    private static final byte OPCODE = 0x07;
 
     private int sessionId;
 
@@ -42,8 +42,7 @@ public class CM_AUTH_GG extends ClientPacket {
             channel.writeAndFlush(new SM_AUTH_GG(id));
         }else{
             // 对不上，就发送一个异常给客户端，并关闭连接
-            channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR))
-            .addListener((GenericFutureListener<? extends Future<? super Void>>) channel.close());
+            ChannelUtil.close(channel,new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));
         }
     }
 

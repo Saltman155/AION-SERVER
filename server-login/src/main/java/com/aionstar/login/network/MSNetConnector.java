@@ -1,7 +1,7 @@
 package com.aionstar.login.network;
 
 import com.aionstar.login.model.configure.Network;
-import com.aionstar.login.network.handler.mainserver.MainChannelInitializer;
+import com.aionstar.login.network.handler.MSChannelInitializer;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -29,9 +29,9 @@ public class MSNetConnector {
 
     private final Network network;
 
-    private final MainChannelInitializer channelInitializer;
+    private final MSChannelInitializer channelInitializer;
 
-    public MSNetConnector(Network network, MainChannelInitializer channelInitializer) {
+    public MSNetConnector(Network network, MSChannelInitializer channelInitializer) {
         this.network = network;
         this.channelInitializer = channelInitializer;
     }
@@ -44,7 +44,7 @@ public class MSNetConnector {
                 .channel(NioServerSocketChannel.class)
                 .localAddress(new InetSocketAddress(network.mainServer.getPort()))
                 .childHandler(channelInitializer)
-                .childAttr(MSChannelAttr.M_SESSION_STATE,MSChannelAttr.SessionState.CONNECTED);
+                .childAttr(MSChannelAttr.M_SESSION_STATE,MSChannelAttr.InnerSessionState.CONNECTED);
         ChannelFuture f = bootstrap.bind().sync();
         logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",network.mainServer.getPort());
     }

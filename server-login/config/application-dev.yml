@@ -17,7 +17,7 @@ login-server:
       worker-thread: 3
       buffer-size: 8196
     main-server:
-      port: 14513
+      port: 10086
       thread: 2
       pingpong-check: true
       buffer-size: 8196

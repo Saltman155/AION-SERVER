@@ -1,4 +1,24 @@
 
 
+main-server:
+  network:
+    #客户端网络连接配置
+    client:
+      port:           7695
+      boss-thread:    3
+      worker-thread:  10
+      buffer-size:    8196
+    #登录服务端网络连接配置
+    login-server:
+      #登录服务器上登记的id
+      server-id: 1
+      #登录服务器连接密码
+      server-password: aion
+      #网络连接配置
+      thread:       3
+      buffer-size:  8196
+      remote-addr:  127.0.0.1
+      remote-port:  10086
+
 logging:
   config: config/logback/logback-prod.xml

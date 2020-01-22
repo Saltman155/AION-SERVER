@@ -8,18 +8,17 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-import java.nio.ByteBuffer;
 
 @ChannelHandler.Sharable
 public class InnerPacketEncoder extends MessageToByteEncoder<ServerPacket> {
 
     /**
      * 将数据包转成二进制写出
-     * 登录服务端与游戏服务端的数据通讯是明文的，所以处理比较简单，直接在数据包头两个字节写入长度就行了
-     * @param ctx
-     * @param packet
-     * @param out
-     * @throws Exception
+     * 这个编码器用于在内部服务器两端通信时使用，没有做加密处理
+     * @param ctx           上下文
+     * @param packet        数据包
+     * @param out           输出流
+     * @throws Exception    随意抛出
      */
     @Override
     protected void encode(ChannelHandlerContext ctx, ServerPacket packet, ByteBuf out) throws Exception {

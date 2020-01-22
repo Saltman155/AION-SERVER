@@ -53,8 +53,7 @@ public class Network {
         private int port;
         private int thread;
         private boolean pingpongCheck;
-        private int writeBufferSize;
-        private int readBufferSize;
+        private int bufferSize;
 
         public int getPort() { return port; }
         public void setPort(int port) { this.port = port; }
@@ -62,10 +61,8 @@ public class Network {
         public void setThread(int thread) { this.thread = thread; }
         public boolean isPingpongCheck() { return pingpongCheck; }
         public void setPingpongCheck(boolean pingpongCheck) { this.pingpongCheck = pingpongCheck; }
-        public int getWriteBufferSize() { return writeBufferSize; }
-        public void setWriteBufferSize(int writeBufferSize) { this.writeBufferSize = writeBufferSize; }
-        public int getReadBufferSize() { return readBufferSize; }
-        public void setReadBufferSize(int readBufferSize) { this.readBufferSize = readBufferSize; }
+        public int getBufferSize() { return bufferSize; }
+        public void setBufferSize(int bufferSize) { this.bufferSize = bufferSize; }
     }
 
 

@@ -25,7 +25,7 @@ public class CM_SERVER_LIST extends ClientPacket {
 
     private static final Logger logger = LoggerFactory.getLogger(CM_SERVER_LIST.class);
 
-    private static final int OPCODE = 0x05;
+    private static final byte OPCODE = 0x05;
 
     private int accountId;
 
@@ -43,8 +43,7 @@ public class CM_SERVER_LIST extends ClientPacket {
             SpringContext.getContext().getBean(AccountController.class).loadGameServerCharacters(accountId);
         }else{
             logger.warn("这个ip的用户session对不上了：{}", ChannelUtil.getIp(channel));
-            channel.writeAndFlush(new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR))
-                    .addListener((GenericFutureListener<? extends Future<? super Void>>)(future-> channel.close()));
+            ChannelUtil.close(channel,new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));
         }
     }
 

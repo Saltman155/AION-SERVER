@@ -1,9 +1,13 @@
 package com.aionstar.login.model;
 
+import com.aionstar.commons.network.BaseChannelAttr;
+import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.login.model.entity.Account;
+import com.aionstar.login.network.mainserver.MSChannelAttr;
 import io.netty.channel.Channel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,24 +28,26 @@ public class MainServerInfo {
     private Integer clientPort;
     /**游戏服务器密码*/
     private String password;
+    /**默认的什么东西*/
+    private byte[] defaultAddress;
     /**游戏服务器用户登录IP范围*/
-    private String allowIp;
+    private List<IPRange> ipRanges;
     /**服务器人数上限*/
     private int maxPlayers;
     /**当前在线用户*/
-    private Map<Integer, Account> onlineUsers = new HashMap<>();
+    private Map<Integer, Account> onlineUser = new HashMap<>();
     /**与登录服务器的会话连接*/
     private Channel loginConnection;
-    /**该服务器当前在线用户*/
-    private final Map<Integer, Account> onlineUser = new HashMap<Integer, Account>();
 
 
     /**
      * 当前游戏服务器是否在线
-     * @return
+     * @return      是否在线
      */
     public final boolean isOnline() {
-        return false;
+        return loginConnection.isActive() &&
+                MSChannelAttr.InnerSessionState.AUTHED
+                        .equals(loginConnection.attr(MSChannelAttr.M_SESSION_STATE).get());
     }
 
     public int getCurrentPlayers() {
@@ -97,6 +103,22 @@ public class MainServerInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public byte[] getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(byte[] defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
+    public List<IPRange> getIpRanges() {
+        return ipRanges;
+    }
+
+    public void setIpRanges(List<IPRange> ipRanges) {
+        this.ipRanges = ipRanges;
     }
 
     public int getMaxPlayers() {

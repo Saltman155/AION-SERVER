@@ -27,7 +27,7 @@ import java.util.concurrent.*;
 
 @Component
 @ChannelHandler.Sharable
-class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
+public class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientChannelHandler.class);
 

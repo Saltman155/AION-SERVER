@@ -2,9 +2,8 @@ package com.aionstar.login.network;
 
 import com.aionstar.login.model.configure.Network;
 import com.aionstar.login.network.client.ClientChannelAttr;
-import com.aionstar.login.network.handler.client.ClientChannelInitializer;
+import com.aionstar.login.network.handler.ClientChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 /**
  * 客户端网络连接处理服务启动类

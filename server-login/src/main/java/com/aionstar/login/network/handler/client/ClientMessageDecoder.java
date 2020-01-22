@@ -1,9 +1,9 @@
 package com.aionstar.login.network.handler.client;
 
+import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.crypt.LBlowfishCipher;
 import com.aionstar.login.network.crypt.XORCheckUtil;
-import com.aionstar.login.network.factories.ClientPacketHandlerFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -12,7 +12,6 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 /**
@@ -25,13 +24,19 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientMessageDecoder.class);
 
+    private final BasePacketFactory packetHandler;
+
+    public ClientMessageDecoder(BasePacketFactory handler){
+        this.packetHandler = handler;
+    }
+
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        logger.info("收到客户端消息！");
         Channel channel = ctx.channel();
         int dataLen = in.readableBytes();
         ByteBuf data = channel.attr(ClientChannelAttr.BUFFER).get();
         in.readBytes(data,0,dataLen);
+        data.readerIndex(0).writerIndex(dataLen);
         //获取之前存的cipher与state
         LBlowfishCipher cipher = channel.attr(ClientChannelAttr.BLOWFISH_CIPHER).get();
         //校验不通过直接断开连接
@@ -40,8 +45,13 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
             ctx.channel().close();
         }
         //然后生成具体的Client包对象
-        ClientPacket packet = ClientPacketHandlerFactory.handle(data,channel);
-        out.add(packet);
+        ClientPacket packet = packetHandler.handle(data,channel);
+        if(packet != null){
+            logger.info("收到客户端消息！code: {}",packet.getOpcode());
+            out.add(packet);
+        }else {
+            logger.warn("收到无效数据包！");
+        }
     }
 
     /**
