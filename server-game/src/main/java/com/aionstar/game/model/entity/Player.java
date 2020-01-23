@@ -9,6 +9,10 @@ public class Player {
 
     private Integer id;
 
+    private Integer accountId;
+
+    private String name;
+
     public Player() {
     }
 
@@ -18,5 +22,21 @@ public class Player {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

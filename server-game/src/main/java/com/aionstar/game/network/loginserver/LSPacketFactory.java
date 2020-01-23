@@ -1,8 +1,10 @@
 package com.aionstar.game.network.loginserver;
 
+import com.aionstar.commons.network.BaseChannelAttr;
 import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.game.network.loginserver.clientpackets.CM_GS_AUTH_RPS;
+import com.aionstar.game.network.loginserver.clientpackets.CM_GS_CHARACTER;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -54,6 +56,7 @@ public class LSPacketFactory extends BasePacketFactory {
             unknownPacket(code);
             return null;
         }
+        //这里是克隆一个包对象
         ClientPacket result = packet.clonePacket();
         result.setData(buf);
         result.setChannel(channel);
@@ -61,11 +64,12 @@ public class LSPacketFactory extends BasePacketFactory {
     }
 
     /**
-     * 载入所有的封包结构
+     * 载入所有登录服务器发送的封包结构
      */
     @PostConstruct
     public void loadAllPacket(){
         addPacketPrototype(new CM_GS_AUTH_RPS((byte) 0x00,null,null),LSChannelAttr.InnerSessionState.CONNECTED);
+        addPacketPrototype(new CM_GS_CHARACTER((byte) 0x08,null,null),LSChannelAttr.InnerSessionState.AUTHED);
     }
 
     /**

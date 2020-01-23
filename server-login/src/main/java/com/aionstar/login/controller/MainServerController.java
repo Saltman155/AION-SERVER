@@ -5,6 +5,7 @@ import com.aionstar.login.MainServerManager;
 import com.aionstar.login.exception.MSAlreadyRegisterException;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.network.mainserver.MSAuthResponse;
+import com.aionstar.login.network.mainserver.MSChannelAttr;
 import com.aionstar.login.service.MainServerService;
 import com.aionstar.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
@@ -13,7 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 主服务器连接控制器
@@ -27,6 +31,8 @@ public class MainServerController {
     private static final Logger logger = LoggerFactory.getLogger(MainServerController.class);
 
     private final MainServerService mainServerService;
+
+
 
     private final MainServerManager mainServerManager;
 
@@ -67,11 +73,16 @@ public class MainServerController {
         info.setLoginConnection(channel);
         //验证通过则进行注册
         try {
-            mainServerManager.registerServer(info);
+            mainServerService.registerServer(info);
+            //更新成功后，将主服务端信息绑定到连接上
+            channel.attr(MSChannelAttr.SERVER_INFO).set(info);
             return MSAuthResponse.AUTHED;
         } catch (MSAlreadyRegisterException e) {
             logger.error(e.getMessage());
             return MSAuthResponse.ALREADY_REGISTER;
         }
     }
+
+
+
 }

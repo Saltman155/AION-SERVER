@@ -1,7 +1,8 @@
 package com.aionstar.login.network.client.clientpackets;
 
-import com.aionstar.login.SpringContext;
+import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.controller.AccountController;
+import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.client.LoginAuthResponse;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
@@ -9,8 +10,6 @@ import com.aionstar.login.utils.ChannelUtil;
 import com.aionstar.commons.network.packet.ClientPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +39,8 @@ public class CM_SERVER_LIST extends ClientPacket {
         ClientChannelAttr.SessionKey key = channel.attr(ClientChannelAttr.SESSION_KEY).get();
         //登录检查通过，则获取相关的服务器，并传输给客户端
         if(key.checkLogin(accountId,loginSession)){
-            SpringContext.getContext().getBean(AccountController.class).loadGameServerCharacters(accountId);
+            Account account = channel.attr(ClientChannelAttr.ACCOUNT).get();
+            SpringContext.getBean(AccountController.class).loadGameServerCharacters(account);
         }else{
             logger.warn("这个ip的用户session对不上了：{}", ChannelUtil.getIp(channel));
             ChannelUtil.close(channel,new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));

@@ -1,5 +1,6 @@
 package com.aionstar.login;
 
+import com.aionstar.login.config.spring.SpringContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

@@ -1,5 +1,6 @@
 package com.aionstar.login.service;
 
+import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.dao.BannedMacMapper;
 import com.aionstar.login.model.BannedMacEntry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,18 @@ import java.util.Map;
  * @date 2020/1/18 22:14
  */
 
-@Service
 public class AccountBannedService {
 
-    private final BannedMacMapper bannedMacMapper;
+    private static final BannedMacMapper bannedMacMapper;
 
-    @Autowired
+    static {
+        bannedMacMapper =
+    }
     public AccountBannedService(BannedMacMapper bannedMacMapper) {
         this.bannedMacMapper = bannedMacMapper;
     }
 
-    public Map<String, BannedMacEntry> getAllMacBand(){
+    public static Map<String, BannedMacEntry> getAllMacBand(){
         List<BannedMacEntry> list = bannedMacMapper.selectAll();
         Map<String,BannedMacEntry> result = new HashMap<>();
         for(BannedMacEntry item : list ){

@@ -24,4 +24,20 @@ public class SpringContext {
     public static void setContext(ApplicationContext context) {
         SpringContext.context = context;
     }
+
+    /**
+     * 获取bean的实例
+     * @param clazz     类型class
+     * @param <T>       bean类型
+     * @return          bean实例
+     */
+    public static <T> T getBean(Class<T> clazz){ return context.getBean(clazz); }
+
+    /**
+     * 获取bean的实例
+     * @param beanName  bean的名称
+     * @return          bean的实例
+     */
+    public static Object getBean(String beanName){ return context.getBean(beanName); }
+
 }
