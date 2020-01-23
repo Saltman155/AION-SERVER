@@ -1,4 +1,0 @@
-
-
-#彩色日志支持
-spring.output.ansi.enabled: ALWAYS
