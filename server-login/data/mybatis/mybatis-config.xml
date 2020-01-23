@@ -3,10 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <environments default="development">
-        <environment id="development">
+    <environments default="dev">
+        <environment id="dev">
             <transactionManager type="JDBC"/>
-            <dataSource type="com.aionstar.login.config.database.CustomDataSource"/>
+            <dataSource type="com.aionstar.login.config.database.CustomDataSource">
+                <property name="datasource.url" value=""/>
+                <property name="datasource.driver" value=""/>
+                <property name="datasource.username" value=""/>
+                <property name="datasource.password" value=""/>
+            </dataSource>
+        </environment>
+        <environment id="product">
+            <transactionManager type="JDBC"/>
+            <dataSource type="com.aionstar.login.config.database.CustomDataSource">
+                <property name="datasource.url" value=""/>
+                <property name="datasource.driver" value=""/>
+                <property name="datasource.username" value=""/>
+                <property name="datasource.password" value=""/>
+            </dataSource>
         </environment>
     </environments>
     <mappers>
