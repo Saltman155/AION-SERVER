@@ -47,7 +47,6 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
         //然后生成具体的Client包对象
         ClientPacket packet = packetHandler.handle(data,channel);
         if(packet != null){
-            logger.info("收到客户端消息！code: {}",packet.getOpcode());
             out.add(packet);
         }else {
             logger.warn("收到无效数据包！");

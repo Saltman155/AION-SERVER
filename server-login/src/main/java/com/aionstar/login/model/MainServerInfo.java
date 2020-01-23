@@ -9,6 +9,7 @@ import io.netty.channel.Channel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 游戏服务器对象
@@ -35,7 +36,7 @@ public class MainServerInfo {
     /**服务器人数上限*/
     private int maxPlayers;
     /**当前在线用户*/
-    private Map<Integer, Account> onlineUser = new HashMap<>();
+    private Map<Integer, Account> onlineUser = new ConcurrentHashMap<>();
     /**与登录服务器的会话连接*/
     private Channel loginConnection;
 
@@ -50,6 +51,18 @@ public class MainServerInfo {
                         .equals(loginConnection.attr(MSChannelAttr.M_SESSION_STATE).get());
     }
 
+    /**
+     * 当前游戏服务器是否已满
+     * @return      是否已满
+     */
+    public boolean isFull() {
+        return getCurrentPlayers() >= getMaxPlayers();
+    }
+
+    /**
+     * 查询当前游戏服务器人数
+     * @return      当前游戏服务器人数
+     */
     public int getCurrentPlayers() {
         return onlineUser.size();
     }

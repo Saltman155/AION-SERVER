@@ -17,7 +17,7 @@ public abstract class ServerPacket {
         this.opcode = opcode;
     }
 
-    public byte getOpcode() {
+    public int getOpcode() {
         return opcode;
     }
 

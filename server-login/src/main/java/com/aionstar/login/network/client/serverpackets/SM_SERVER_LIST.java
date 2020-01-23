@@ -60,7 +60,7 @@ public class SM_SERVER_LIST extends ServerPacket {
             buffer.writeShortLE(server.getMaxPlayers());
             //1个字节 是否在线
             buffer.writeByte(server.isOnline() ? 0x01 : 0x00);
-            buffer.writeIntLE(0x00000000);
+            buffer.writeIntLE(0x00000001);
             //server.brackets ? 0x01 : 0x00
             buffer.writeByte(0x00);
         }

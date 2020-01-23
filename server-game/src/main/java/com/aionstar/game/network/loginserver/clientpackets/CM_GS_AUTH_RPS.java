@@ -38,6 +38,8 @@ public class CM_GS_AUTH_RPS extends ClientPacket {
         if(response == 0x00){
             logger.error("与登录服务器的连接验证成功！");
             channel.attr(LSChannelAttr.LS_SESSION_STATE).set(BaseChannelAttr.InnerSessionState.AUTHED);
+            //TODO 这里有一个步骤非常关键，目前没有做，连接上后，需要将游戏服务器上的角色信息发送给
+            // 登录服务器（如果登录服务器是异常终止的），帮助登录服务器恢复终止前的状态
             //保存游戏服务器数量（不知道有什么用）
             NetworkController.updateServerCount(serverCount);
         }

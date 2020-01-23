@@ -1,6 +1,5 @@
 package com.aionstar.game.network.loginserver;
 
-import com.aionstar.commons.network.BaseChannelAttr;
 import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.game.network.loginserver.clientpackets.CM_BAN_MAC_LIST;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 登录服务器发送的封包解析
+ * 登录服务器发送的封包解析器
  * @author saltman155
  * @date 2020/1/18 18:10
  */

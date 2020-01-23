@@ -4,6 +4,7 @@ import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.client.clientpackets.CM_AUTH_GG;
 import com.aionstar.login.network.client.clientpackets.CM_LOGIN;
+import com.aionstar.login.network.client.clientpackets.CM_PLAY;
 import com.aionstar.login.network.client.clientpackets.CM_SERVER_LIST;
 import com.aionstar.commons.network.packet.ClientPacket;
 import io.netty.buffer.ByteBuf;
@@ -26,29 +27,30 @@ public class ClientPacketFactory extends BasePacketFactory {
     public ClientPacket handle(ByteBuf buffer, Channel channel){
         ClientChannelAttr.SessionState state = channel.attr(ClientChannelAttr.C_SESSION_STATE).get();
         //紧跟代表数据包长度的后一个字节，其意义是这个数据包的类型
-        int type = buffer.readByte() & 0xff;
+        int opcode = buffer.readByte() & 0xff;
+        logger.info("收到客户端消息！opcode: {}",opcode);
         switch (state){
             case CONNECTED:{
-                switch (type){
+                switch (opcode){
                     case 0x07: return new CM_AUTH_GG(channel,buffer);
                     case 0x08: break;
-                    default: unknownPacket(type);
+                    default: unknownPacket(opcode);
                 }
                 break;
             }
             case AUTHED_GG:{
-                switch (type){
+                switch (opcode){
                     case 0x0B: return new CM_LOGIN(channel,buffer);
-                    default: unknownPacket(type);
+                    default: unknownPacket(opcode);
                 }
                 break;
             }
             case AUTHED_LOGIN:{
-                switch (type){
+                switch (opcode){
                     case 0x05: return new CM_SERVER_LIST(channel,buffer);
-                    case 0x02: break;
+                    case 0x02: return new CM_PLAY(channel,buffer);
                     default:
-                        unknownPacket(type);
+                        unknownPacket(opcode);
                 }
                 break;
             }

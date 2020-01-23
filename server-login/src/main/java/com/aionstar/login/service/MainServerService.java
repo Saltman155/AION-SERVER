@@ -84,4 +84,13 @@ public class MainServerService {
         return Collections.unmodifiableCollection(mainServerInfoMap.values());
     }
 
+    /**
+     * 根据游戏服务器id获取主服务器对象数据
+     * @param id        游戏主服务器id
+     * @return          游戏主服务对象
+     */
+    public static MainServerInfo getGameServer(byte id){
+        return mainServerInfoMap.get(id);
+    }
+
 }
