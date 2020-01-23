@@ -2,6 +2,7 @@ package com.aionstar.game.network.loginserver.clientpackets;
 
 import com.aionstar.commons.network.BaseChannelAttr;
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.game.controller.NetworkController;
 import com.aionstar.game.network.loginserver.LSChannelAttr;
 import com.aionstar.game.network.loginserver.serverpackets.SM_GS_AUTH;
 import io.netty.buffer.ByteBuf;
@@ -37,6 +38,8 @@ public class CM_GS_AUTH_RPS extends ClientPacket {
         if(response == 0x00){
             logger.error("与登录服务器的连接验证成功！");
             channel.attr(LSChannelAttr.LS_SESSION_STATE).set(BaseChannelAttr.InnerSessionState.AUTHED);
+            //保存游戏服务器数量（不知道有什么用）
+            NetworkController.updateServerCount(serverCount);
         }
         //验证失败 账号&密码错误
         if(response == 0x01){

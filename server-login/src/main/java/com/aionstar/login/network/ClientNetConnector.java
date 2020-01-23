@@ -24,7 +24,7 @@ public class ClientNetConnector {
     private static final Logger logger = LoggerFactory.getLogger(ClientNetConnector.class);
 
 
-    public static void start() throws Exception {
+    public static void open() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(NetworkConfigure.CLIENT_BOSS_THREAD);
         EventLoopGroup workerGroup = new NioEventLoopGroup(NetworkConfigure.CLIENT_WORKER_THREAD);
         ServerBootstrap bootstrap = new ServerBootstrap();

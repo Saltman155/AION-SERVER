@@ -3,7 +3,7 @@ package com.aionstar.commons.network.model;
 import java.util.Arrays;
 
 /**
- * 玩家允许登录的IP区间
+ * 玩家ip区间对应的主服务器ip区间
  * @author saltman155
  * @date 2020/1/18 20:22
  */

@@ -2,6 +2,7 @@ package com.aionstar.game;
 
 
 import com.aionstar.game.config.ConfigLoader;
+import com.aionstar.game.config.datasource.DaoManager;
 import com.aionstar.game.network.ClientNetConnector;
 import com.aionstar.game.network.LoginNetConnector;
 import com.aionstar.game.utils.LoggerUtil;
@@ -33,6 +34,9 @@ public class GameServer {
     private static void initServerEnvironment() throws IOException {
         //加载一堆配置
         ConfigLoader.load();
+        //加载数据库连接
+        DaoManager.init();
+
     }
 
     /**

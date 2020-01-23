@@ -1,7 +1,9 @@
 package com.aionstar.login.network.mainserver.clientpackets;
 
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.login.controller.AccountController;
 import com.aionstar.login.model.MainServerInfo;
+import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -27,7 +29,12 @@ public class CM_GS_CHARACTER extends ClientPacket {
     @Override
     protected void handler() {
         MainServerInfo info = channel.attr(MSChannelAttr.SERVER_INFO).get();
-        //TODO 一通操作
+        //更新用户关联主服务器角色数统计表
+        AccountController.addGameServerCount(info.getId(),accountId,count);
+        //如果所有的主服务器都返回了统计结果，则向那个用户发送服务器数据
+        if(AccountController.allGameServerHandled(accountId)){
+            AccountController.sendServerList(accountId);
+        }
     }
 
     @Override
@@ -35,4 +42,5 @@ public class CM_GS_CHARACTER extends ClientPacket {
         accountId = data.readIntLE();
         count = data.readByte();
     }
+
 }

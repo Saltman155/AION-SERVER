@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.*;
 
 /**
+ * 登录服务器消息处理器
  * @author saltman155
  * @date 2020/1/17 1:10
  */
@@ -34,7 +35,7 @@ public class LSMessageHandler extends SimpleChannelInboundHandler<ClientPacket> 
         Channel channel = ctx.channel();
         //分配一个连接空间给该通道
         channel.attr(LSChannelAttr.BUFFER).set(Unpooled.buffer(NetworkConfigure.LS_BUFFER_SIZE));
-        //发送验证数据包
+        //发送登录服务器验证数据包
         ctx.writeAndFlush(new SM_GS_AUTH());
     }
 

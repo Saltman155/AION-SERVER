@@ -1,6 +1,7 @@
 package com.aionstar.login.network.client.serverpackets;
 
 import com.aionstar.commons.network.packet.ServerPacket;
+import com.aionstar.login.controller.AccountController;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.clientpackets.CM_SERVER_LIST;
@@ -24,17 +25,18 @@ public class SM_SERVER_LIST extends ServerPacket {
 
     private Account account;
 
-    private Map<Byte,Integer> characterCounts;
+    private String userIp;
 
-    public SM_SERVER_LIST(Account account, Map<Byte,Integer> characterCounts) {
+    public SM_SERVER_LIST(Account account,String userIp) {
         super(OPCODE);
         this.account = account;
-        this.characterCounts = characterCounts;
+        this.userIp = userIp;
     }
 
     @Override
     protected void appendBody(ByteBuf buffer) {
         Collection<MainServerInfo> servers = MainServerService.getGameServers();
+        Map<Byte,Integer> characterCounts = AccountController.getAccountServerCount(account.getId());
         int maxId = 0;
         //写入游戏服务器数量
         buffer.writeByte(servers.size());
@@ -44,8 +46,8 @@ public class SM_SERVER_LIST extends ServerPacket {
             maxId = Math.max(server.getId(),maxId);
             //1个字节 写入服务器id
             buffer.writeByte(server.getId());
-            //n个字节 ???
-            buffer.writeBytes(server.getIpAddressForPlayerIp(ChannelUtil.getIp(null)));
+            //n个字节 写入服务器ip
+            buffer.writeBytes(server.getIpAddressForPlayerIp(userIp));
             //8个字节 写入服务器port
             buffer.writeIntLE(server.getClientPort());
             //1个字节 age limit
@@ -65,7 +67,7 @@ public class SM_SERVER_LIST extends ServerPacket {
         buffer.writeShortLE(maxId + 1);
         buffer.writeByte(0x01);
         //写入每个服务器的当前账号注册角色数量
-        for(int i = 1;i< maxId;i++){
+        for(int i = 0;i< maxId;i++){
             Integer count = characterCounts.get(i);
             buffer.writeByte(count == null ? 0 : count);
         }

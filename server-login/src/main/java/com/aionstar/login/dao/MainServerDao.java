@@ -1,5 +1,6 @@
 package com.aionstar.login.dao;
 
+import com.aionstar.commons.datasource.BaseDao;
 import com.aionstar.login.dao.mapper.MainServerMapper;
 import com.aionstar.login.model.MainServerInfo;
 import org.apache.ibatis.session.SqlSessionFactory;

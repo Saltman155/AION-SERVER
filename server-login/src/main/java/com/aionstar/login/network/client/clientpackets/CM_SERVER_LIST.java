@@ -39,7 +39,7 @@ public class CM_SERVER_LIST extends ClientPacket {
         //登录检查通过，则获取相关的服务器，并传输给客户端
         if(key.checkLogin(accountId,loginSession)){
             Account account = channel.attr(ClientChannelAttr.ACCOUNT).get();
-            AccountController.loadGameServerCharacters(account);
+            AccountController.loadGameServerCharacters(account.getId());
         }else{
             logger.warn("这个ip的用户session对不上了：{}", ChannelUtil.getIp(channel));
             ChannelUtil.close(channel,new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));

@@ -74,15 +74,15 @@ public class CM_GS_AUTH extends ClientPacket {
 
     @Override
     protected void readData() {
-        int size;
+        int len,size;
         serverId = data.readByte();
         size = data.readByte();
         defaultAddress = new byte[size];
         data.readBytes(defaultAddress,0,size);
-        size = data.readIntLE();
-        ranges = new ArrayList<>(size);
+        len = data.readIntLE();
+        ranges = new ArrayList<>(len);
         //咔咔一通读就完事了
-        for(int i = 0 ;i < size; i++){
+        for(int i = 0 ;i < len; i++){
             byte[] min,max,address;
             size = data.readByte();
             min = new byte[size];

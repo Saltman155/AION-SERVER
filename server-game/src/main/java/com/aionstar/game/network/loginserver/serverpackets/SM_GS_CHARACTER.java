@@ -4,6 +4,8 @@ import com.aionstar.commons.network.packet.ServerPacket;
 import io.netty.buffer.ByteBuf;
 
 /**
+ * 该数据包是响应客户端发来的封包 ${@link com.aionstar.game.network.loginserver.clientpackets.CM_GS_CHARACTER}
+ * 返回指定账号的角色数量
  * @author saltman155
  * @date 2020/1/22 23:00
  */

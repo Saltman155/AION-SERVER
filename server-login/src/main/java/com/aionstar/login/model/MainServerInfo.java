@@ -62,7 +62,18 @@ public class MainServerInfo {
      * @return  对应的游戏服务器ip
      */
     public byte[] getIpAddressForPlayerIp(String playerIp){
-        return null;
+        //蛇皮操作 游戏服务器不在线，就返回本地ip
+        if (!isOnline()) {
+            return new byte[] { 127, 0, 0, 1 };
+        }
+        //否则就从 ipRange 里查询，然后返回
+        for (IPRange ipr : ipRanges) {
+            if (ipr.isInRange(playerIp)) {
+                return ipr.getAddress();
+            }
+        }
+        //如果找不到，就返回默认的
+        return defaultAddress;
     }
 
     public byte getId() {

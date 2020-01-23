@@ -26,5 +26,8 @@ public class NetworkConfigure {
     @Property(key = "mainserver.network.login-server.password")
     public static String LS_PASSWORD;
 
+    @Property(key="loginserver.mybatis-config")
+    public static String MYBATIS_CONFIG_PATH;
+
 
 }

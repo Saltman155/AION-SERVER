@@ -61,42 +61,51 @@ public class AccountController {
 
     /**
      * 向所有的游戏服务器请求指定账号在游戏服务器上的角色数量
-     * @param account        账号信息
+     * @param accountId        账号数据
      */
-    public static synchronized void loadGameServerCharacters(Account account){
+    public static synchronized void loadGameServerCharacters(int accountId){
         //重新统计角色数量
         Map<Byte,Integer> countMap = new HashMap<>();
-        gameServerCharacterCounts.put(account.getId(),countMap);
+        gameServerCharacterCounts.put(accountId,countMap);
         for(MainServerInfo gameServer : MainServerService.getGameServers()){
             Channel gsc = gameServer.getLoginConnection();
             if(gsc != null && gsc.isActive()) {
                 // 发一个包查询该账号在主服务器上的角色数量，
                 // 稍后主服务器会返回查询结果的封包，再次设置countMap
-                gsc.writeAndFlush(new SM_CHARACTER(account.getId()));
+                gsc.writeAndFlush(new SM_CHARACTER(accountId));
             }else{
                 //服务器没有存活，就直接存放一个0进去
                 countMap.put(gameServer.getId(),0);
             }
         }
         //如果所有主服务器的查询响应都处理完成，则发送服务器列表封包给客户端
-        if(allGameServerHandled(account.getId())){
+        if(allGameServerHandled(accountId)){
             //发送游戏服务器列表封包
-            sendServerList(account);
+            sendServerList(accountId);
         }
 
     }
 
     /**
      * 发送游戏服务端列表给指定账号
-     * @param account 账号id
+     * @param accountId 账号id
      */
-    public static void sendServerList(Account account){
-        int accountId = account.getId();
+    public static void sendServerList(int accountId){
         Channel channel = accountConnMap.get(accountId);
-        Map<Byte,Integer> characterCounts = gameServerCharacterCounts.get(accountId);
         if(channel != null && channel.isActive()){
-            channel.writeAndFlush(new SM_SERVER_LIST(account,characterCounts));
+            Account account = channel.attr(ClientChannelAttr.ACCOUNT).get();
+            String userIp = ChannelUtil.getIp(channel);
+            channel.writeAndFlush(new SM_SERVER_LIST(account,userIp));
         }
+    }
+
+    /**
+     * 获取指定账号对于所有游戏主服务器上的角色数量统计表
+     * @param accountId     用户id
+     * @return              数量统计表
+     */
+    public static Map<Byte,Integer> getAccountServerCount(int accountId){
+        return gameServerCharacterCounts.get(accountId);
     }
 
     /**
@@ -112,6 +121,23 @@ public class AccountController {
             return countMap.size() == MainServerService.getGameServers().size();
         }
         return false;
+    }
+
+    /**
+     * 再次向用户关联服务器角色统计表中更新数据
+     * @param serverId          服务器id
+     * @param accountId         用户账号
+     * @param count             账号下角色数量
+     */
+    public static synchronized void addGameServerCount(byte serverId,int accountId,int count){
+        Map<Byte,Integer> serverCountMap;
+        if(!gameServerCharacterCounts.containsKey(accountId)){
+            serverCountMap = new HashMap<>();
+            gameServerCharacterCounts.put(accountId,serverCountMap);
+        }else{
+            serverCountMap = gameServerCharacterCounts.get(accountId);
+        }
+        serverCountMap.put(serverId,count);
     }
 
     /**

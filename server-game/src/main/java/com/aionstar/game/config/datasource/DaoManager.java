@@ -1,11 +1,9 @@
-package com.aionstar.login.config.datasource;
+package com.aionstar.game.config.datasource;
 
-import com.aionstar.login.config.ConfigLoader;
-import com.aionstar.login.config.MainConfigure;
-import com.aionstar.login.dao.AccountDao;
-import com.aionstar.login.dao.BannedMacDao;
 import com.aionstar.commons.datasource.BaseDao;
-import com.aionstar.login.dao.MainServerDao;
+import com.aionstar.game.config.ConfigLoader;
+import com.aionstar.game.config.NetworkConfigure;
+import com.aionstar.game.dao.PlayerDao;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -30,7 +28,7 @@ public class DaoManager {
         InputStream inputStream = null;
         try {
             //从文件中加载sqlSessionFactory
-            inputStream = Resources.getUrlAsStream(MainConfigure.MYBATIS_CONFIG_PATH);
+            inputStream = Resources.getUrlAsStream(NetworkConfigure.MYBATIS_CONFIG_PATH);
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, ConfigLoader.ENVIRONMENT);
             loadDaoInstance();
         } catch (Exception e) {
@@ -47,9 +45,7 @@ public class DaoManager {
 
     private static void loadDaoInstance(){
         daoMap = new HashMap<>();
-        daoMap.put(AccountDao.class,new AccountDao(sqlSessionFactory));
-        daoMap.put(BannedMacDao.class,new BannedMacDao(sqlSessionFactory));
-        daoMap.put(MainServerDao.class,new MainServerDao(sqlSessionFactory));
+        daoMap.put(PlayerDao.class,new PlayerDao(sqlSessionFactory));
     }
 
     @SuppressWarnings("unchecked")

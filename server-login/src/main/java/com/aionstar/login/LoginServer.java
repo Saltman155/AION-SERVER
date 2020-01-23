@@ -9,7 +9,6 @@ import com.aionstar.login.service.MainServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.crypto.KeyGenerator;
 import java.io.IOException;
 
 /**
@@ -44,8 +43,10 @@ public class LoginServer {
 
     private static void openNetwork(){
         try {
-            ClientNetConnector.start();
-            MSNetConnector.start();
+            //打开客户端连接服务
+            ClientNetConnector.open();
+            //打开主服务端连接服务
+            MSNetConnector.open();
         } catch (Exception e) {
             throw new Error(e);
         }

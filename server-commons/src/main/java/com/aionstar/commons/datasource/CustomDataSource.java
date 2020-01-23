@@ -1,4 +1,4 @@
-package com.aionstar.login.config.datasource;
+package com.aionstar.commons.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * 数据源配置
+ * 自定义的数据源配置
  * @author saltman155
  * @date 2020/1/23 0:36
  */

@@ -53,7 +53,6 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPack
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ClientPacket packet) throws Exception {
-        logger.info("收到客户端数据包！opcode：{}",packet.getOpcode());
         if(packet.readable()){
             processor.submit(packet);
         }

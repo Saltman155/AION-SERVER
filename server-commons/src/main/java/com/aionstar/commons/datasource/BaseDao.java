@@ -1,8 +1,12 @@
-package com.aionstar.login.dao;
+package com.aionstar.commons.datasource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+/**
+ * mapper操作基类
+ * 主要是保存当前线程上下文的sqlSession,方便进行事务的控制
+ */
 public abstract class BaseDao {
 
     private final SqlSessionFactory sessionFactory;

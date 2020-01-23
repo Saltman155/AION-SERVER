@@ -48,7 +48,7 @@ public abstract class ClientPacket implements Runnable,Cloneable {
             readData();
             return true;
         }catch (Exception e){
-            logger.error("channelId为 {} 的channel，opcode为 {} 的数据包可读性检查失败！",
+            logger.error("channelId为 {} 的channel，opcode为 {} 的数据包数据读取失败！",
                     channel.id().asLongText().hashCode(),
                     opcode);
             logger.error(e.getMessage(),e);
