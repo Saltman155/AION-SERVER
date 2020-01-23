@@ -6,6 +6,7 @@ import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 import com.aionstar.commons.properties.ConfigurableProcessor;
 import com.aionstar.commons.properties.PropertiesUtil;
+import com.aionstar.game.config.network.PlayerIPConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,28 +33,43 @@ public class ConfigLoader {
         if(StringUtils.isBlank(env)){
             env = ENVIRONMENT;
         }
+        //载入日志配置
+        loadLoggerConfigure(env);
+
+        logger.info("*********************************开始加载各项配置*********************************");
+
+        //载入各项配置
         File mainFile =  new File("./config/main/main.properties");
         File worldFile = new File("./config/main/world.properties");
         File networkFile = new File("./config/network/network.properties");
 
         List<Properties> properties = new ArrayList<>();
-        if(!mainFile.exists()){ logger.warn("main 配置文件缺失！将采用缺省配置.");}
-        else{ properties.add(PropertiesUtil.loadProperties(mainFile)); }
-        if(!worldFile.exists()){ logger.warn("main 配置文件缺失！将采用缺省配置.");}
-        else{ properties.add(PropertiesUtil.loadProperties(worldFile)); }
-        if(!networkFile.exists()){ logger.warn("network 配置文件缺失！将采用缺省配置.");}
-        else{ properties.add(PropertiesUtil.loadProperties(networkFile)); }
-
+        if(!mainFile.exists()){ logger.warn("main 配置文件缺失！将采用缺省配置.");} else{
+            properties.add(PropertiesUtil.loadProperties(mainFile));
+            logger.info("main 配置加载完成.");
+        }
+        if(!worldFile.exists()){ logger.warn("main 配置文件缺失！将采用缺省配置.");} else{
+            properties.add(PropertiesUtil.loadProperties(worldFile));
+            logger.info("world 配置加载完成.");
+        }
+        if(!networkFile.exists()){ logger.warn("network 配置文件缺失！将采用缺省配置.");} else{
+            properties.add(PropertiesUtil.loadProperties(networkFile));
+            logger.info("network 配置加载完成.");
+        }
         File environ = new File(CUSTOM_PATH.replace("env",env));
         //自定义的覆盖一下
         if(environ.exists()){
             properties =  PropertiesUtil.overrideProperties(properties,PropertiesUtil.loadProperties(environ));
+            logger.info("自定义 {} 配置加载完成.",env);
         }
         ConfigurableProcessor.process(ServerConfigure.class,properties);
         ConfigurableProcessor.process(WorldConfigure.class,properties);
         ConfigurableProcessor.process(NetworkConfigure.class,properties);
 
-        loadLoggerConfigure(env);
+        //载入网络配置
+        PlayerIPConfig.load();
+        logger.info("客户端合法IP登陆范围 配置加载完成.");
+        logger.info("*********************************各项配置加载完成*********************************");
     }
 
     private static void loadLoggerConfigure(String env){

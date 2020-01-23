@@ -1,6 +1,5 @@
 package com.aionstar.game.network.loginserver;
 
-import com.aionstar.commons.network.BaseChannelAttr;
 import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.game.network.loginserver.clientpackets.CM_GS_AUTH_RPS;
@@ -9,9 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,13 +18,14 @@ import java.util.Map;
  * @date 2020/1/18 18:10
  */
 
-@Component
 public class LSPacketFactory extends BasePacketFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(LSPacketFactory.class);
 
     /**用于存放封包类型的映射表*/
     private static final Map<LSChannelAttr.InnerSessionState,Map<Integer,ClientPacket>> PACKET_MAP = new HashMap<>();
+
+    private LSPacketFactory(){}
 
     @Override
     public ClientPacket handle(ByteBuf buffer, Channel channel) {
@@ -56,7 +54,7 @@ public class LSPacketFactory extends BasePacketFactory {
             unknownPacket(code);
             return null;
         }
-        //这里是克隆一个包对象
+        //注意，这里是克隆一个包对象
         ClientPacket result = packet.clonePacket();
         result.setData(buf);
         result.setChannel(channel);
@@ -66,8 +64,7 @@ public class LSPacketFactory extends BasePacketFactory {
     /**
      * 载入所有登录服务器发送的封包结构
      */
-    @PostConstruct
-    public void loadAllPacket(){
+    public static void loadAllPacket(){
         addPacketPrototype(new CM_GS_AUTH_RPS((byte) 0x00,null,null),LSChannelAttr.InnerSessionState.CONNECTED);
         addPacketPrototype(new CM_GS_CHARACTER((byte) 0x08,null,null),LSChannelAttr.InnerSessionState.AUTHED);
     }
@@ -77,13 +74,24 @@ public class LSPacketFactory extends BasePacketFactory {
      * @param packet        封包结构
      * @param states        有效的连接状态
      */
-    private void addPacketPrototype(ClientPacket packet,LSChannelAttr.InnerSessionState... states){
+    private static void addPacketPrototype(ClientPacket packet,LSChannelAttr.InnerSessionState... states){
         for (LSChannelAttr.InnerSessionState state : states) {
             Map<Integer, ClientPacket> pm = PACKET_MAP.computeIfAbsent(state, k -> new HashMap<>());
             pm.put(packet.getOpcode(), packet);
         }
     }
 
+    static {
+        //载入封包
+        loadAllPacket();
+    }
 
+    private static class SingletonHolder{
+        private static final LSPacketFactory instance = new LSPacketFactory();
+    }
+
+    public static LSPacketFactory getInstance(){
+        return SingletonHolder.instance;
+    }
 
 }

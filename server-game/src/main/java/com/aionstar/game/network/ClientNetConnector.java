@@ -1,7 +1,7 @@
 package com.aionstar.game.network;
 
-import com.aionstar.game.model.configure.ClientNetwork;
-import com.aionstar.game.network.handler.ClientChannelInitializer;
+import com.aionstar.game.config.NetworkConfigure;
+import com.aionstar.game.network.handler.CSChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -9,7 +9,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 
@@ -19,29 +18,22 @@ import java.net.InetSocketAddress;
  * @date 2019/10/24 1:02
  */
 
-@Component
 public class ClientNetConnector {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientNetConnector.class);
 
-    private final ClientChannelInitializer channelInitializer;
 
-    public ClientNetConnector(ClientChannelInitializer channelInitializer) {
-        this.channelInitializer = channelInitializer;
-    }
-
-    public void start() {
-        ClientNetwork clientNetwork = ClientNetwork.getInstance();
-        EventLoopGroup bossGroup = new NioEventLoopGroup(clientNetwork.getBossTread());
-        EventLoopGroup workerGroup = new NioEventLoopGroup(clientNetwork.getWorkerThread());
+    public static void open() {
+        EventLoopGroup bossGroup = new NioEventLoopGroup(NetworkConfigure.CLIENT_BOSS_THREAD);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(NetworkConfigure.CLIENT_WORKER_THREAD);
         try{
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .localAddress(new InetSocketAddress(clientNetwork.getPort()))
-                    .childHandler(channelInitializer);
+                    .localAddress(new InetSocketAddress(NetworkConfigure.CLIENT_PORT))
+                    .childHandler(new CSChannelInitializer());
             ChannelFuture f = bootstrap.bind().sync();
-            logger.info("游戏主服务器已在端口 {} 上开启游戏客户端连接监听！",clientNetwork.getPort());
+            logger.info("游戏主服务器已在端口 {} 上开启游戏客户端连接监听！",NetworkConfigure.CLIENT_PORT);
         } catch (Exception e){
             logger.error(e.getMessage(),e);
         }

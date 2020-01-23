@@ -1,7 +1,6 @@
 package com.aionstar.game.network.loginserver.clientpackets;
 
 import com.aionstar.commons.network.packet.ClientPacket;
-import com.aionstar.game.config.spring.SpringContext;
 import com.aionstar.game.dao.PlayerDao;
 import com.aionstar.game.network.loginserver.serverpackets.SM_GS_CHARACTER;
 import io.netty.buffer.ByteBuf;
@@ -24,9 +23,9 @@ public class CM_GS_CHARACTER extends ClientPacket {
 
     @Override
     protected void handler() {
-        int count = SpringContext.getBean(PlayerDao.class).getPlayerCount(accountId);
+//        int count = SpringContext.getBean(PlayerDao.class).getPlayerCount(accountId);
         //回传账号包含的用户数给登录服务器
-        channel.writeAndFlush(new SM_GS_CHARACTER(accountId,count));
+//        channel.writeAndFlush(new SM_GS_CHARACTER(accountId,count));
     }
 
     @Override

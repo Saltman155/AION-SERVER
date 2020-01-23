@@ -1,14 +1,12 @@
-package com.aionstar.game.model.configure.network;
+package com.aionstar.game.config.network;
 
 import com.aionstar.commons.network.model.IPRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.annotation.PostConstruct;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
@@ -23,21 +21,18 @@ import java.util.List;
  * @date 2020/1/18 20:19
  */
 
-@Component
 public class PlayerIPConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(PlayerIPConfig.class);
 
     private static final String CONFIG_FILE = "./config/network/player_ip_config.xml";
 
-    private final List<IPRange> ranges = new ArrayList<>();
+    private static final List<IPRange> ranges = new ArrayList<>();
 
-    private byte[] defaultAddress;
+    private static byte[] defaultAddress;
 
-    private static PlayerIPConfig instance;
 
-    @PostConstruct
-    private void load(){
+    public static void load(){
         try {
             SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
             parser.parse(new File(CONFIG_FILE), new DefaultHandler() {
@@ -58,8 +53,6 @@ public class PlayerIPConfig {
                     }
                 }
             });
-            instance = this;
-            logger.info("用户登录ip配置载入完成...");
         }
         catch (Exception e) {
             logger.error("无法载入 player_ip_config.xml！", e);
@@ -67,16 +60,12 @@ public class PlayerIPConfig {
         }
     }
 
-    public List<IPRange> getRanges() {
+    public static List<IPRange> getRanges() {
         return ranges;
     }
 
-    public byte[] getDefaultAddress() {
+    public static byte[] getDefaultAddress() {
         return defaultAddress;
-    }
-
-    public static PlayerIPConfig getInstance(){
-        return instance;
     }
 
 }

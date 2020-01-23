@@ -1,21 +1,18 @@
 package com.aionstar.game;
 
 
-import com.aionstar.game.config.spring.SpringContext;
+import com.aionstar.game.config.ConfigLoader;
 import com.aionstar.game.network.LoginNetConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+import java.io.IOException;
+
 public class GameServer {
 
     private static final Logger logger  = LoggerFactory.getLogger(GameServer.class);
 
-    public static void main( String[] args ) {
-        //springboot载入上下文
-        SpringContext.setContext(SpringApplication.run(GameServer.class, args));
+    public static void main( String[] args )throws Exception {
         //初始化游戏服务器环境
         initServerEnvironment();
         //初始化网络连接服务环境
@@ -30,7 +27,9 @@ public class GameServer {
      *  服务器线程池
      *  ...
      */
-    private static void initServerEnvironment(){
+    private static void initServerEnvironment() throws IOException {
+        //加载一堆配置
+        ConfigLoader.load();
     }
 
     /**
@@ -40,9 +39,9 @@ public class GameServer {
     private static void initServerNetwork(){
         try {
             //启动客户端连接服务
-            //SpringContext.getContext().getBean(ClientNetConnector.class).start();
+            //ClientNetConnector.open();
             //启动登录服务端连接服务
-            SpringContext.getBean(LoginNetConnector.class).start();
+            LoginNetConnector.open();
             //聊天服务端先不做...
         } catch (Exception e) {
             logger.error("网络服务无法正常启动！");

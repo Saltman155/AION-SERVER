@@ -2,10 +2,11 @@ package com.aionstar.game.network.loginserver.serverpackets;
 
 import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.commons.network.packet.ServerPacket;
+import com.aionstar.game.config.NetworkConfigure;
 import com.aionstar.game.model.configure.ClientNetwork;
 import com.aionstar.game.model.configure.LoginNetwork;
 import com.aionstar.game.model.configure.main.ServerConfigure;
-import com.aionstar.game.model.configure.network.PlayerIPConfig;
+import com.aionstar.game.config.network.PlayerIPConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.util.CharsetUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -30,10 +31,10 @@ public class SM_GS_AUTH extends ServerPacket {
     @Override
     protected void appendBody(ByteBuf buf) {
         //在登录服务器上登记的id
-        buf.writeByte(LoginNetwork.getInstance().getServerId());
-        buf.writeByte(PlayerIPConfig.getInstance().getDefaultAddress().length);
-        buf.writeBytes(PlayerIPConfig.getInstance().getDefaultAddress());
-        List<IPRange> ranges = PlayerIPConfig.getInstance().getRanges();
+        buf.writeByte(NetworkConfigure.LS_REGISTER_ID);
+        buf.writeByte(PlayerIPConfig.getDefaultAddress().length);
+        buf.writeBytes(PlayerIPConfig.getDefaultAddress());
+        List<IPRange> ranges = PlayerIPConfig.getRanges();
         int size = ranges.size();
         buf.writeIntLE(size);
         for (int i = 0; i < size; i++) {
@@ -48,10 +49,10 @@ public class SM_GS_AUTH extends ServerPacket {
             buf.writeBytes(ipRange.getAddress());
         }
         //主服务器提供游戏客户端连接的端口
-        buf.writeShortLE(ClientNetwork.getInstance().getPort());
+        buf.writeShortLE(NetworkConfigure.CLIENT_PORT);
         //主服务器最大在线人数
-        buf.writeIntLE(ServerConfigure.getInstance().getMaxOnlinePlayers());
-        String password = LoginNetwork.getInstance().getServerPassword();
+        buf.writeIntLE(NetworkConfigure.getMaxOnlinePlayers());
+        String password = NetworkConfigure.LS_PASSWORD;
         //登录密码
         if(StringUtils.isBlank(password)){
             buf.writeByte(0x00);
