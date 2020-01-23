@@ -2,8 +2,7 @@ package com.aionstar.login.network.mainserver.clientpackets;
 
 import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.commons.network.packet.ClientPacket;
-import com.aionstar.login.MainServerManager;
-import com.aionstar.login.SpringContext;
+import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.controller.AccountBannedController;
 import com.aionstar.login.controller.MainServerController;
 import com.aionstar.login.model.BannedMacEntry;
@@ -11,7 +10,7 @@ import com.aionstar.login.network.mainserver.MSAuthResponse;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import com.aionstar.login.network.mainserver.serverpackets.SM_BAN_MAC_LIST;
 import com.aionstar.login.network.mainserver.serverpackets.SM_GS_AUTH_RPS;
-import com.aionstar.login.utils.ChannelUtil;
+import com.aionstar.login.service.MainServerService;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.util.CharsetUtil;
@@ -24,6 +23,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 该数据包对应主服务端发送的数据包 ${@link com.aionstar.game.network.loginserver.serverpackets.SM_GS_AUTH}
+ * 读取主服务端发送的验证信息并加以一通解析
  * @author saltman155
  * @date 2020/1/18 18:40
  */
@@ -58,11 +59,10 @@ public class CM_GS_AUTH extends ClientPacket {
         if(rps.equals(MSAuthResponse.AUTHED)){
             logger.info("已与游戏主服务器 #{} 建立连接.",serverId);
             channel.attr(MSChannelAttr.M_SESSION_STATE).set(MSChannelAttr.InnerSessionState.AUTHED);
-            int size = SpringContext.getContext().getBean(MainServerManager.class).getGameServers().size();
+            int size = SpringContext.getContext().getBean(MainServerService.class).getGameServers().size();
             channel.writeAndFlush(new SM_GS_AUTH_RPS(rps,size));
-            //并在500毫秒后发送一个banned MAC 的名单给主服务端
-            Map<String, BannedMacEntry> bandMap = SpringContext.getContext().getBean(AccountBannedController.class)
-                    .getAllMacBand();
+            //并在500毫秒后发送一个 banned MAC 的名单给主服务端
+            Map<String, BannedMacEntry> bandMap = SpringContext.getBean(AccountBannedController.class).getAllMacBand();
             channel.eventLoop().schedule(() -> {
                 channel.writeAndFlush(new SM_BAN_MAC_LIST(bandMap));
             },500, TimeUnit.MILLISECONDS);

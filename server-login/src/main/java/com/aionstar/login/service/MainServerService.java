@@ -2,6 +2,7 @@ package com.aionstar.login.service;
 
 import com.aionstar.commons.utils.NetworkUtil;
 import com.aionstar.login.dao.MainServerMapper;
+import com.aionstar.login.exception.MSAlreadyRegisterException;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.model.configure.Network;
 import org.slf4j.Logger;
@@ -9,7 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.util.*;
+
 /**
+ * 主服务器业务处理类
  * @author saltman155
  * @date 2020/1/18 22:57
  */
@@ -21,10 +26,26 @@ public class MainServerService {
 
     private final MainServerMapper mainServerMapper;
 
+    private Map<Byte, MainServerInfo> mainServerInfoMap;
+
     @Autowired
     public MainServerService(MainServerMapper mainServerMapper) {
         this.mainServerMapper = mainServerMapper;
     }
+
+
+    @PostConstruct
+    private void loadMainServer(){
+        logger.info("开始载入游戏主服务器配置...");
+        List<MainServerInfo> serverList = mainServerMapper.getAllMainServer();
+        mainServerInfoMap = new HashMap<>();
+        for(MainServerInfo gameServer : serverList){
+            logger.info("载入名称为 {} ,IP为 {} 的主服务器配置...",gameServer.getName(),gameServer.getIp());
+            mainServerInfoMap.put(gameServer.getId(),gameServer);
+        }
+        logger.info("共载入了 {} 个游戏主服务器配置！",mainServerInfoMap.size());
+    }
+
 
     /**
      * 检查服务端连接的注册信息是否正确
@@ -50,4 +71,30 @@ public class MainServerService {
         }
 
     }
+
+    /**
+     * 注册主服务器（更新相关的类）
+     * @param info  待注册的主服务器
+     * @throws MSAlreadyRegisterException   如果待注册的主服务器已经注册，则抛出该异常
+     */
+    public synchronized void registerServer(MainServerInfo info) throws MSAlreadyRegisterException{
+        MainServerInfo old = mainServerInfoMap.get(info.getId());
+        //老配置没有相关的连接或连接是关闭的，说明没有注册，直接安排上
+        if(old == null || old.getLoginConnection() == null || !old.getLoginConnection().isActive()){
+            mainServerInfoMap.put(info.getId(),info);
+        }
+        //否则说明已经注册
+        else{
+            throw new MSAlreadyRegisterException(info.getId(),info.getName());
+        }
+    }
+
+    /**
+     * 获取所有的游戏服务器列表
+     * @return  游戏服务器列表
+     */
+    public Collection<MainServerInfo> getGameServers(){
+        return Collections.unmodifiableCollection(mainServerInfoMap.values());
+    }
+
 }

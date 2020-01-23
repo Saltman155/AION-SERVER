@@ -42,7 +42,7 @@ public class GameServer {
             //启动客户端连接服务
             //SpringContext.getContext().getBean(ClientNetConnector.class).start();
             //启动登录服务端连接服务
-            SpringContext.getContext().getBean(LoginNetConnector.class).start();
+            SpringContext.getBean(LoginNetConnector.class).start();
             //聊天服务端先不做...
         } catch (Exception e) {
             logger.error("网络服务无法正常启动！");

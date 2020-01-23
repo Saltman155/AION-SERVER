@@ -1,28 +1,30 @@
-package com.aionstar.login.network.mainserver.serverpackets;
+package com.aionstar.game.network.loginserver.serverpackets;
 
 import com.aionstar.commons.network.packet.ServerPacket;
 import io.netty.buffer.ByteBuf;
 
 /**
- * 这个封包表示登录服务器向游戏服务器询问某个账号的角色数量
  * @author saltman155
- * @date 2019/11/16 19:48
+ * @date 2020/1/22 23:00
  */
 
-public class SM_CHARACTER extends ServerPacket {
+public class SM_GS_CHARACTER extends ServerPacket {
 
     private static final byte OPCODE = 0x08;
 
-    private final int accountId;
+    private int accountId;
 
-    public SM_CHARACTER(int accountId) {
+    private int count;
+
+    public SM_GS_CHARACTER(int accountId,int count) {
         super(OPCODE);
         this.accountId = accountId;
+        this.count = count;
     }
 
     @Override
     protected void appendBody(ByteBuf buf) {
         buf.writeIntLE(accountId);
+        buf.writeByte(count);
     }
-
 }

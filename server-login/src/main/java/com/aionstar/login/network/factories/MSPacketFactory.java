@@ -2,6 +2,7 @@ package com.aionstar.login.network.factories;
 
 import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.login.network.mainserver.clientpackets.CM_GS_CHARACTER;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import com.aionstar.login.network.mainserver.clientpackets.CM_GS_AUTH;
 import com.aionstar.login.network.mainserver.clientpackets.CM_MAC;
@@ -10,7 +11,7 @@ import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * 游戏主服务端处理的封包
  * @author saltman155
  * @date 2020/1/1 17:57
  */
@@ -32,7 +33,11 @@ public class MSPacketFactory extends BasePacketFactory {
                 }
             }
             case AUTHED:{
-
+                switch (opcode){
+                    case 0x08: return new CM_GS_CHARACTER(channel,buffer);
+                    default:
+                        unknownPacket(opcode);
+                }
             }
             default:
                 unknownPacket(opcode);

@@ -5,6 +5,8 @@
     <!--基本对象映射类-->
     <resultMap id="BaseResultMap" type="com.aionstar.game.model.entity.Player">
         <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
+        <result column="account_id" jdbcType="INTEGER" javaType="Integer" property="accountId"/>
+        <result column="name" jdbcType="VARCHAR" javaType="String" property="name"/>
     </resultMap>
 
     <select id="getPlayerCount" resultType="java.lang.Integer">

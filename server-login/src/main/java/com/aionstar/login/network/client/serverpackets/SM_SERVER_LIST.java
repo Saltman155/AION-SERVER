@@ -1,15 +1,13 @@
 package com.aionstar.login.network.client.serverpackets;
 
-import com.aionstar.login.MainServerManager;
-import com.aionstar.login.SpringContext;
+import com.aionstar.commons.network.packet.ServerPacket;
+import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.model.entity.Account;
-import com.aionstar.login.network.client.ClientChannelAttr;
-import com.aionstar.login.utils.ChannelUtil;
-import com.aionstar.commons.network.packet.ServerPacket;
 import com.aionstar.login.network.client.clientpackets.CM_SERVER_LIST;
+import com.aionstar.login.service.MainServerService;
+import com.aionstar.login.utils.ChannelUtil;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.Channel;
 
 import java.util.Collection;
 import java.util.Map;
@@ -25,32 +23,30 @@ public class SM_SERVER_LIST extends ServerPacket {
 
     private static final byte OPCODE = 0x04;
 
-    private Channel userConnection;
+    private Account account;
 
-    private Map<Integer,Integer> characterCounts;
+    private Map<Byte,Integer> characterCounts;
 
-    public SM_SERVER_LIST(Channel userConnection, Map<Integer,Integer> characterCounts) {
+    public SM_SERVER_LIST(Account account, Map<Byte,Integer> characterCounts) {
         super(OPCODE);
-        this.userConnection = userConnection;
+        this.account = account;
         this.characterCounts = characterCounts;
     }
 
     @Override
     protected void appendBody(ByteBuf buffer) {
-        Account user = userConnection.attr(ClientChannelAttr.ACCOUNT).get();
-        Collection<MainServerInfo> servers =
-                SpringContext.getContext().getBean(MainServerManager.class).getGameServers();
+        Collection<MainServerInfo> servers = SpringContext.getBean(MainServerService.class).getGameServers();
         int maxId = 0;
         //写入游戏服务器数量
         buffer.writeByte(servers.size());
         //写入最后一次登录服务器id
-        buffer.writeByte(user.getLastServer());
+        buffer.writeByte(account.getLastServer());
         for(MainServerInfo server : servers){
             maxId = Math.max(server.getId(),maxId);
             //1个字节 写入服务器id
             buffer.writeByte(server.getId());
             //n个字节 ???
-            buffer.writeBytes(server.getIpAddressForPlayerIp(ChannelUtil.getIp(userConnection)));
+            buffer.writeBytes(server.getIpAddressForPlayerIp(ChannelUtil.getIp(null)));
             //8个字节 写入服务器port
             buffer.writeIntLE(server.getClientPort());
             //1个字节 age limit
