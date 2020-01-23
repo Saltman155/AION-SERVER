@@ -122,7 +122,7 @@ public class ConfigurableProcessor {
         // 如果key值是空的，或者value值没有取到，则值由defaultValue来获取
         if(value == null || "".equals(value.trim())){
             value = defaultValue;
-            logger.debug("类 {} 的待配置成员变量 {} 被设置了默认值",
+            logger.warn("类 {} 的待配置成员变量 {} 被设置了默认值",
                     field.getDeclaringClass().getName(),field.getName());
         }
         PropertyTransformer<?> transformer = PropertyTransformerFactory.newTransformer(
