@@ -1,7 +1,6 @@
 package com.aionstar.login.controller;
 
 import com.aionstar.commons.network.model.IPRange;
-import com.aionstar.login.MainServerManager;
 import com.aionstar.login.exception.MSAlreadyRegisterException;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.network.mainserver.MSAuthResponse;
@@ -11,13 +10,8 @@ import com.aionstar.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 主服务器连接控制器
@@ -25,23 +19,9 @@ import java.util.Map;
  * @date 2020/1/18 21:30
  */
 
-@Controller
 public class MainServerController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainServerController.class);
-
-    private final MainServerService mainServerService;
-
-
-
-    private final MainServerManager mainServerManager;
-
-    @Autowired
-    public MainServerController(MainServerService mainServerService,
-                                MainServerManager mainServerManager) {
-        this.mainServerService = mainServerService;
-        this.mainServerManager = mainServerManager;
-    }
 
 
     /**
@@ -55,12 +35,12 @@ public class MainServerController {
      * @param maxPlayers            主服务器最大在线人数
      * @return                      是否注册成功
      */
-    public MSAuthResponse registerMainServer(
+    public static MSAuthResponse registerMainServer(
             Channel channel, byte serverId, String password, byte[] defaultAddress,
             List<IPRange> ranges,int port,int maxPlayers){
         MainServerInfo info;
         try {
-            info = mainServerService.mainServerRegisterCheck(serverId,password, ChannelUtil.getIp(channel));
+            info = MainServerService.mainServerRegisterCheck(serverId,password, ChannelUtil.getIp(channel));
             if(info == null){ return MSAuthResponse.NOT_AUTHED; }
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
@@ -73,7 +53,7 @@ public class MainServerController {
         info.setLoginConnection(channel);
         //验证通过则进行注册
         try {
-            mainServerService.registerServer(info);
+            MainServerService.registerServer(info);
             //更新成功后，将主服务端信息绑定到连接上
             channel.attr(MSChannelAttr.SERVER_INFO).set(info);
             return MSAuthResponse.AUTHED;

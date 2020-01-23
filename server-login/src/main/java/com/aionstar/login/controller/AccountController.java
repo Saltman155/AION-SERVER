@@ -12,9 +12,7 @@ import com.aionstar.login.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,12 +32,6 @@ public class AccountController {
     /**存储用户账号在每个游戏服务器上的角色数量*/
     private static final Map<Integer,Map<Byte,Integer>> gameServerCharacterCounts = new ConcurrentHashMap<>();
 
-    private AccountBannedController accountBannedController;
-    @Resource
-    private AccountService accountService;
-    @Resource
-    private MainServerService mainServerService;
-
     /**
      * 用户登录判断
      * @param account       用户账号
@@ -47,13 +39,13 @@ public class AccountController {
      * @param channel       登录长连接
      * @return              检查结果
      */
-    public synchronized LoginAuthResponse userLogin(String account, String password, Channel channel){
+    public static synchronized LoginAuthResponse userLogin(String account, String password, Channel channel){
         try {
             //检查ip是不是凉了
-            if(accountBannedController.ipIsBanned(ChannelUtil.getIp(channel))){
+            if(AccountBannedController.ipIsBanned(ChannelUtil.getIp(channel))){
                 return LoginAuthResponse.BAN_IP;
             }
-            Account user = accountService.loginCheck(account, password);
+            Account user = AccountService.loginCheck(account, password);
             if(user == null){
                 return LoginAuthResponse.INVALID_PASSWORD;
             }
@@ -71,11 +63,11 @@ public class AccountController {
      * 向所有的游戏服务器请求指定账号在游戏服务器上的角色数量
      * @param account        账号信息
      */
-    public synchronized void loadGameServerCharacters(Account account){
+    public static synchronized void loadGameServerCharacters(Account account){
         //重新统计角色数量
         Map<Byte,Integer> countMap = new HashMap<>();
         gameServerCharacterCounts.put(account.getId(),countMap);
-        for(MainServerInfo gameServer : mainServerService.getGameServers()){
+        for(MainServerInfo gameServer : MainServerService.getGameServers()){
             Channel gsc = gameServer.getLoginConnection();
             if(gsc != null && gsc.isActive()) {
                 // 发一个包查询该账号在主服务器上的角色数量，
@@ -98,7 +90,7 @@ public class AccountController {
      * 发送游戏服务端列表给指定账号
      * @param account 账号id
      */
-    public void sendServerList(Account account){
+    public static void sendServerList(Account account){
         int accountId = account.getId();
         Channel channel = accountConnMap.get(accountId);
         Map<Byte,Integer> characterCounts = gameServerCharacterCounts.get(accountId);
@@ -112,12 +104,12 @@ public class AccountController {
      * @param accountId     判断的账号
      * @return              是否已经处理完成
      */
-    public synchronized boolean allGameServerHandled(int accountId){
+    public static synchronized boolean allGameServerHandled(int accountId){
         Map<Byte,Integer> countMap =  gameServerCharacterCounts.get(accountId);
         if(countMap != null){
             // 当countMap中的键值对数量与游戏服务器数量相等时，
             // 说明所有的游戏服务器查询结果都已经设置完毕
-            return countMap.size() == mainServerService.getGameServers().size();
+            return countMap.size() == MainServerService.getGameServers().size();
         }
         return false;
     }
@@ -127,7 +119,7 @@ public class AccountController {
      * @param user          连接关联的账号
      * @param channel       连接对象
      */
-    private void loginRegister(final Account user,Channel channel){
+    private static void loginRegister(final Account user,Channel channel){
         //随机生成一个sessionKey
         ClientChannelAttr.SessionKey key = new ClientChannelAttr.SessionKey(user.getId());
         //改变连接的登录状态

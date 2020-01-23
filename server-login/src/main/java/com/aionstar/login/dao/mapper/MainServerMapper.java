@@ -1,9 +1,7 @@
-package com.aionstar.login.dao;
+package com.aionstar.login.dao.mapper;
 
 import com.aionstar.login.model.MainServerInfo;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,7 +10,6 @@ import java.util.List;
  * @date 2019/11/16 16:28
  */
 
-@Repository
 public interface MainServerMapper {
 
     /**

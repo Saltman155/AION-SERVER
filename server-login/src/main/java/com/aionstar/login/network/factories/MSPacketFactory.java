@@ -8,7 +8,6 @@ import com.aionstar.login.network.mainserver.clientpackets.CM_GS_AUTH;
 import com.aionstar.login.network.mainserver.clientpackets.CM_MAC;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
-import org.springframework.stereotype.Component;
 
 /**
  * 游戏主服务端处理的封包
@@ -16,8 +15,10 @@ import org.springframework.stereotype.Component;
  * @date 2020/1/1 17:57
  */
 
-@Component
 public class MSPacketFactory extends BasePacketFactory {
+
+    private MSPacketFactory(){}
+
 
     @Override
     public ClientPacket handle(ByteBuf buffer, Channel channel) {
@@ -43,6 +44,14 @@ public class MSPacketFactory extends BasePacketFactory {
                 unknownPacket(opcode);
         }
         return null;
+    }
+
+    private static class SingletonHolder{
+        private static final MSPacketFactory instance = new MSPacketFactory();
+    }
+
+    public static MSPacketFactory getInstance(){
+        return MSPacketFactory.SingletonHolder.instance;
     }
 
 }

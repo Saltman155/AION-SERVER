@@ -1,6 +1,6 @@
 package com.aionstar.login.network.handler.client;
 
-import com.aionstar.login.model.configure.Network;
+import com.aionstar.login.config.NetworkConfigure;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.crypt.EncryptedRSAKeyPair;
 import com.aionstar.login.network.crypt.LKeyGenerator;
@@ -12,7 +12,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.crypto.SecretKey;
@@ -25,7 +24,6 @@ import java.util.concurrent.*;
  * @date 2019/10/10 1:29
  */
 
-@Component
 @ChannelHandler.Sharable
 public class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPacket> {
 
@@ -35,19 +33,15 @@ public class ClientChannelHandler extends SimpleChannelInboundHandler<ClientPack
     private static final ExecutorService processor =
             new ThreadPoolExecutor(1, 8, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
 
-    @Resource
-    private LKeyGenerator keyGenerator;
-    @Resource
-    private Network network;
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info(String.format("收到来自IP %s 的连接请求！",getIp(ctx)));
-        EncryptedRSAKeyPair keyPair = keyGenerator.getEncryptedRSAKeyPair();
-        SecretKey blowfishKey = keyGenerator.generateBlowfishKey();
+        EncryptedRSAKeyPair keyPair = LKeyGenerator.getEncryptedRSAKeyPair();
+        SecretKey blowfishKey = LKeyGenerator.generateBlowfishKey();
         String sessionId = ctx.channel().id().asLongText();
         //设置临时空间
-        ctx.channel().attr(ClientChannelAttr.BUFFER).set(Unpooled.buffer(network.client.getBufferSize()));
+        ctx.channel().attr(ClientChannelAttr.BUFFER).set(Unpooled.buffer(NetworkConfigure.CLIENT_BUFFER_SIZE));
         //发送初始数据包
         ctx.writeAndFlush(new SM_INIT(blowfishKey,keyPair,sessionId.hashCode()));
     }

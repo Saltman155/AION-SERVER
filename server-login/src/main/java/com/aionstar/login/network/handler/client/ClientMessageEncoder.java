@@ -1,11 +1,11 @@
 package com.aionstar.login.network.handler.client;
 
+import com.aionstar.commons.network.packet.ServerPacket;
 import com.aionstar.login.network.client.ClientChannelAttr;
+import com.aionstar.login.network.client.serverpackets.SM_INIT;
 import com.aionstar.login.network.crypt.LBlowfishCipher;
 import com.aionstar.login.network.crypt.LKeyGenerator;
 import com.aionstar.login.network.crypt.XORCheckUtil;
-import com.aionstar.commons.network.packet.ServerPacket;
-import com.aionstar.login.network.client.serverpackets.SM_INIT;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -13,9 +13,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -25,8 +23,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * @date 2019/10/10 1:13
  */
 
-
-@Component
 @ChannelHandler.Sharable
 public class ClientMessageEncoder extends MessageToByteEncoder<ServerPacket> {
 

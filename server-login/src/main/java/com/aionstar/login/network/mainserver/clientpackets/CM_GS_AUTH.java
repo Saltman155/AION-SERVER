@@ -2,7 +2,6 @@ package com.aionstar.login.network.mainserver.clientpackets;
 
 import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.commons.network.packet.ClientPacket;
-import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.controller.AccountBannedController;
 import com.aionstar.login.controller.MainServerController;
 import com.aionstar.login.model.BannedMacEntry;
@@ -53,16 +52,16 @@ public class CM_GS_AUTH extends ClientPacket {
 
     @Override
     protected void handler() {
-        MSAuthResponse rps = SpringContext.getContext().getBean(MainServerController.class)
+        MSAuthResponse rps = MainServerController
                 .registerMainServer(channel,serverId,password,defaultAddress,ranges,port,maxPlayers);
         //验证通过的话，就进行一些操作
         if(rps.equals(MSAuthResponse.AUTHED)){
             logger.info("已与游戏主服务器 #{} 建立连接.",serverId);
             channel.attr(MSChannelAttr.M_SESSION_STATE).set(MSChannelAttr.InnerSessionState.AUTHED);
-            int size = SpringContext.getContext().getBean(MainServerService.class).getGameServers().size();
+            int size = MainServerService.getGameServers().size();
             channel.writeAndFlush(new SM_GS_AUTH_RPS(rps,size));
             //并在500毫秒后发送一个 banned MAC 的名单给主服务端
-            Map<String, BannedMacEntry> bandMap = SpringContext.getBean(AccountBannedController.class).getAllMacBand();
+            Map<String, BannedMacEntry> bandMap = AccountBannedController.getAllMacBand();
             channel.eventLoop().schedule(() -> {
                 channel.writeAndFlush(new SM_BAN_MAC_LIST(bandMap));
             },500, TimeUnit.MILLISECONDS);

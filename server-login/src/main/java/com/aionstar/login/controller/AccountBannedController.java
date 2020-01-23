@@ -1,6 +1,7 @@
 package com.aionstar.login.controller;
 
 import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.login.service.AccountBannedService;
 
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class AccountBannedController {
      * @return          返回所有被禁止的mac地址
      */
     public static Map<String, BannedMacEntry> getAllMacBand(){
-        return accountBannedService.getAllMacBand();
+        return AccountBannedService.getAllMacBand();
     }
 
 }

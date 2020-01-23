@@ -10,17 +10,17 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 
 /**
  * 客户端发送的封包解析工厂，从字节数据中，解析出数据包对象
  */
 
-@Component
 public class ClientPacketFactory extends BasePacketFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientPacketFactory.class);
+
+    private ClientPacketFactory(){}
 
     @Override
     public ClientPacket handle(ByteBuf buffer, Channel channel){
@@ -54,6 +54,14 @@ public class ClientPacketFactory extends BasePacketFactory {
             }
         }
         return null;
+    }
+
+    private static class SingletonHolder{
+        private static final ClientPacketFactory instance = new ClientPacketFactory();
+    }
+
+    public static ClientPacketFactory getInstance(){
+        return SingletonHolder.instance;
     }
 
 

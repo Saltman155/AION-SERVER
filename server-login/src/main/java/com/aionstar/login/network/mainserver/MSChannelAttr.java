@@ -17,4 +17,5 @@ public class MSChannelAttr extends BaseChannelAttr {
 
     /**当前会话对应的主服务器信息*/
     public static final AttributeKey<MainServerInfo> SERVER_INFO = AttributeKey.newInstance("serverInfo");
+
 }

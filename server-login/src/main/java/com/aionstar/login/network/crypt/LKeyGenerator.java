@@ -3,9 +3,7 @@ package com.aionstar.login.network.crypt;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.InvalidAlgorithmParameterException;
@@ -17,7 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * 全局密钥生成器
  */
-@Component
 public class LKeyGenerator {
 
     private static final Logger logger = LoggerFactory.getLogger(LKeyGenerator.class);
@@ -31,13 +28,12 @@ public class LKeyGenerator {
     };
 
     /**加密通讯数据包的Blowfish密钥生成器*/
-    private KeyGenerator blowfishKeyGenerator;
+    private static KeyGenerator blowfishKeyGenerator;
     /**用于加密账号密码的RSA密钥对*/
-    private EncryptedRSAKeyPair[] encryptedRSAKeyPairs;
+    private static EncryptedRSAKeyPair[] encryptedRSAKeyPairs;
 
 
-    @PostConstruct
-    public void init() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
+    public static void init() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         logger.info("密钥生成器初始化...");
         blowfishKeyGenerator = KeyGenerator.getInstance("blowfish");
         encryptedRSAKeyPairs = new EncryptedRSAKeyPair[10];
@@ -57,7 +53,7 @@ public class LKeyGenerator {
      * 获取blowfish密钥
      * @return  blowfish密钥
      */
-    public SecretKey generateBlowfishKey(){
+    public static SecretKey generateBlowfishKey(){
         return blowfishKeyGenerator.generateKey();
     }
 
@@ -65,7 +61,7 @@ public class LKeyGenerator {
      * 随机获取一个RSA加密所需的密钥对
      * @return  密钥对
      */
-    public EncryptedRSAKeyPair getEncryptedRSAKeyPair(){
+    public static EncryptedRSAKeyPair getEncryptedRSAKeyPair(){
         return encryptedRSAKeyPairs[ThreadLocalRandom.current().nextInt(10)];
     }
 

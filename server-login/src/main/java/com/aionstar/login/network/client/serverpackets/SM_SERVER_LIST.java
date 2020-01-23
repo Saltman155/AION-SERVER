@@ -1,7 +1,6 @@
 package com.aionstar.login.network.client.serverpackets;
 
 import com.aionstar.commons.network.packet.ServerPacket;
-import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.clientpackets.CM_SERVER_LIST;
@@ -35,7 +34,7 @@ public class SM_SERVER_LIST extends ServerPacket {
 
     @Override
     protected void appendBody(ByteBuf buffer) {
-        Collection<MainServerInfo> servers = SpringContext.getBean(MainServerService.class).getGameServers();
+        Collection<MainServerInfo> servers = MainServerService.getGameServers();
         int maxId = 0;
         //写入游戏服务器数量
         buffer.writeByte(servers.size());

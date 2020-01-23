@@ -1,9 +1,8 @@
 package com.aionstar.login.controller;
 
-import com.aionstar.login.dao.AccountMapper;
+import com.aionstar.login.dao.mapper.AccountMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 
@@ -13,7 +12,6 @@ import javax.annotation.Resource;
  * @date 2019/10/23 2:42
  */
 
-@Controller
 public class DebugController {
 
     private static final Logger logger = LoggerFactory.getLogger(DebugController.class);
@@ -21,6 +19,6 @@ public class DebugController {
     @Resource
     private AccountMapper accountMapper;
 
-    public void showAllUser(){
+    public static void showAllUser(){
     }
 }

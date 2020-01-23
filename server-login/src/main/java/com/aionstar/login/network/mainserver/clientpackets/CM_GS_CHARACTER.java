@@ -1,8 +1,6 @@
 package com.aionstar.login.network.mainserver.clientpackets;
 
 import com.aionstar.commons.network.packet.ClientPacket;
-import com.aionstar.login.config.spring.SpringContext;
-import com.aionstar.login.controller.AccountController;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import io.netty.buffer.ByteBuf;
@@ -29,7 +27,7 @@ public class CM_GS_CHARACTER extends ClientPacket {
     @Override
     protected void handler() {
         MainServerInfo info = channel.attr(MSChannelAttr.SERVER_INFO).get();
-        SpringContext.getBean(AccountController.class).
+        //TODO 一通操作
     }
 
     @Override

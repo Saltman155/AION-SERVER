@@ -9,8 +9,6 @@ import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.login.utils.ChannelUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

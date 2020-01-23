@@ -1,6 +1,6 @@
 package com.aionstar.login.network;
 
-import com.aionstar.login.model.configure.Network;
+import com.aionstar.login.config.NetworkConfigure;
 import com.aionstar.login.network.handler.MSChannelInitializer;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import io.netty.bootstrap.ServerBootstrap;
@@ -10,9 +10,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
 
 
@@ -22,30 +20,22 @@ import java.net.InetSocketAddress;
  * @date 2019/10/23 2:52
  */
 
-@Component
 public class MSNetConnector {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientNetConnector.class);
 
-    private final Network network;
 
-    private final MSChannelInitializer channelInitializer;
-
-    public MSNetConnector(Network network, MSChannelInitializer channelInitializer) {
-        this.network = network;
-        this.channelInitializer = channelInitializer;
-    }
-
-    @PostConstruct
-    public void start() throws Exception {
-        EventLoopGroup eventLoopGroup = new NioEventLoopGroup(network.mainServer.getThread());
+    public static void start() throws Exception {
+        EventLoopGroup boss = new NioEventLoopGroup(NetworkConfigure.MS_WORKER_THREAD);
+        EventLoopGroup worker = new NioEventLoopGroup(NetworkConfigure.MS_WORKER_THREAD);
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(eventLoopGroup)
+        bootstrap.group(boss,worker)
                 .channel(NioServerSocketChannel.class)
-                .localAddress(new InetSocketAddress(network.mainServer.getPort()))
-                .childHandler(channelInitializer)
+                .localAddress(new InetSocketAddress(NetworkConfigure.MS_PORT))
+                .childHandler(new MSChannelInitializer())
                 .childAttr(MSChannelAttr.M_SESSION_STATE,MSChannelAttr.InnerSessionState.CONNECTED);
         ChannelFuture f = bootstrap.bind().sync();
-        logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",network.mainServer.getPort());
+        logger.info("登录服务器已在端口 {} 上开启游戏主服务器连接监听！",NetworkConfigure.MS_PORT);
     }
+
 }

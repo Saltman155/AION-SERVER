@@ -1,8 +1,6 @@
-package com.aionstar.login.dao;
+package com.aionstar.login.dao.mapper;
 
 import com.aionstar.login.model.BannedMacEntry;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,7 +9,6 @@ import java.util.List;
  * @date 2020/1/18 22:06
  */
 
-@Repository
 public interface BannedMacMapper {
 
     List<BannedMacEntry> selectAll();

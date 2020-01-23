@@ -1,6 +1,5 @@
 package com.aionstar.login.network.client.clientpackets;
 
-import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.controller.AccountController;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.client.LoginAuthResponse;
@@ -58,8 +57,7 @@ public class CM_LOGIN extends ClientPacket {
         String password = new String(accountData, 96, 32).trim();
         logger.info("用户尝试登录！账号: {} | 密码: {} | ip: {}",
                 user,password, ChannelUtil.getIp(channel));
-        LoginAuthResponse response = SpringContext.getContext()
-                .getBean(AccountController.class).userLogin(user,password,channel);
+        LoginAuthResponse response = AccountController.userLogin(user,password,channel);
         switch (response){
             case AUTHED:
                 //取出登录成功后业务层放置的sessionKey

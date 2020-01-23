@@ -1,6 +1,5 @@
 package com.aionstar.login.network.client.clientpackets;
 
-import com.aionstar.login.config.spring.SpringContext;
 import com.aionstar.login.controller.AccountController;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.ClientChannelAttr;
@@ -40,7 +39,7 @@ public class CM_SERVER_LIST extends ClientPacket {
         //登录检查通过，则获取相关的服务器，并传输给客户端
         if(key.checkLogin(accountId,loginSession)){
             Account account = channel.attr(ClientChannelAttr.ACCOUNT).get();
-            SpringContext.getBean(AccountController.class).loadGameServerCharacters(account);
+            AccountController.loadGameServerCharacters(account);
         }else{
             logger.warn("这个ip的用户session对不上了：{}", ChannelUtil.getIp(channel));
             ChannelUtil.close(channel,new SM_LOGIN_FAIL(LoginAuthResponse.SYSTEM_ERROR));

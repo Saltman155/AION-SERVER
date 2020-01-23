@@ -1,7 +1,6 @@
-package com.aionstar.login.dao;
+package com.aionstar.login.dao.mapper;
 
 import com.aionstar.login.model.entity.Account;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -9,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
  * @date: 2019/3/16 00:08
  */
 
-@Mapper
 public interface AccountMapper {
 
     /**
