@@ -1,7 +1,7 @@
 package com.aionstar.login.network.mainserver.serverpackets;
 
 import com.aionstar.commons.network.packet.ServerPacket;
-import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.commons.network.model.BannedMacEntry;
 import io.netty.buffer.ByteBuf;
 import io.netty.util.CharsetUtil;
 

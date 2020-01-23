@@ -53,9 +53,9 @@ public class LoginServer {
 
     private static void showLOGO(){
         Logger logger = LoggerFactory.getLogger("simpleLogger");
-        logger.info("******************************************");
-        logger.info("*     aion-star  login-sever v1.00       *");
-        logger.info("******************************************\n");
+        logger.info("                     ******************************************");
+        logger.info("                     *     aion-star  login-sever v1.00       *");
+        logger.info("                     ******************************************\n");
     }
 
 

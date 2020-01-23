@@ -1,4 +1,4 @@
-package com.aionstar.login.model;
+package com.aionstar.commons.network.model;
 
 import java.time.LocalDateTime;
 

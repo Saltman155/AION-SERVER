@@ -7,6 +7,7 @@ import ch.qos.logback.core.util.StatusPrinter;
 import com.aionstar.commons.properties.ConfigurableProcessor;
 import com.aionstar.commons.properties.PropertiesUtil;
 import com.aionstar.game.config.network.PlayerIPConfig;
+import com.aionstar.game.utils.LoggerUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,32 +36,32 @@ public class ConfigLoader {
         }
         //载入日志配置
         loadLoggerConfigure(env);
-
-        logger.info("*********************************开始加载各项配置*********************************");
+        showLOGO();
+        LoggerUtil.simpleShow("*********************************开始加载各项配置*********************************");
 
         //载入各项配置
-        File mainFile =  new File("./config/main/main.properties");
+        File mainFile =  new File("./config/main/server.properties");
         File worldFile = new File("./config/main/world.properties");
         File networkFile = new File("./config/network/network.properties");
 
         List<Properties> properties = new ArrayList<>();
-        if(!mainFile.exists()){ logger.warn("main 配置文件缺失！将采用缺省配置.");} else{
+        if(!mainFile.exists()){ logger.warn("server 配置文件缺失！将采用缺省配置.");} else{
             properties.add(PropertiesUtil.loadProperties(mainFile));
-            logger.info("main 配置加载完成.");
+            logger.info("[server] 配置加载完成.");
         }
         if(!worldFile.exists()){ logger.warn("main 配置文件缺失！将采用缺省配置.");} else{
             properties.add(PropertiesUtil.loadProperties(worldFile));
-            logger.info("world 配置加载完成.");
+            logger.info("[world] 配置加载完成.");
         }
         if(!networkFile.exists()){ logger.warn("network 配置文件缺失！将采用缺省配置.");} else{
             properties.add(PropertiesUtil.loadProperties(networkFile));
-            logger.info("network 配置加载完成.");
+            logger.info("[network] 配置加载完成.");
         }
         File environ = new File(CUSTOM_PATH.replace("env",env));
         //自定义的覆盖一下
         if(environ.exists()){
             properties =  PropertiesUtil.overrideProperties(properties,PropertiesUtil.loadProperties(environ));
-            logger.info("自定义 {} 配置加载完成.",env);
+            logger.info("[自定义 {}] 配置加载完成.",env);
         }
         ConfigurableProcessor.process(ServerConfigure.class,properties);
         ConfigurableProcessor.process(WorldConfigure.class,properties);
@@ -68,8 +69,8 @@ public class ConfigLoader {
 
         //载入网络配置
         PlayerIPConfig.load();
-        logger.info("客户端合法IP登陆范围 配置加载完成.");
-        logger.info("*********************************各项配置加载完成*********************************");
+        logger.info("[客户端合法IP登陆范围] 配置加载完成.");
+        LoggerUtil.simpleShow("*********************************各项配置加载完成*********************************\n");
     }
 
     private static void loadLoggerConfigure(String env){
@@ -89,5 +90,12 @@ public class ConfigLoader {
                 logger.error(e.getMessage(),e);
             }
         }
+    }
+
+    private static void showLOGO(){
+
+        LoggerUtil.simpleShow("                     ******************************************");
+        LoggerUtil.simpleShow("                     *     aion-star  game-sever v1.00        *");
+        LoggerUtil.simpleShow("                     ******************************************\n");
     }
 }

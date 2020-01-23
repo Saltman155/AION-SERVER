@@ -2,7 +2,7 @@ package com.aionstar.login.service;
 
 import com.aionstar.login.config.datasource.DaoManager;
 import com.aionstar.login.dao.BannedMacDao;
-import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.commons.network.model.BannedMacEntry;
 
 import java.util.HashMap;
 import java.util.List;

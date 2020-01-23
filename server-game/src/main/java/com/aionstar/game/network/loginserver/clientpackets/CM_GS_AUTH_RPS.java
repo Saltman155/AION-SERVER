@@ -37,13 +37,14 @@ public class CM_GS_AUTH_RPS extends ClientPacket {
         if(response == 0x00){
             logger.error("与登录服务器的连接验证成功！");
             channel.attr(LSChannelAttr.LS_SESSION_STATE).set(BaseChannelAttr.InnerSessionState.AUTHED);
-
         }
         //验证失败 账号&密码错误
         if(response == 0x01){
             logger.error("与登录服务器的连接验证失败！错误的验证信息...");
-            //直接退出系统
-            System.exit(-1);
+            try {
+                channel.close().sync();
+                System.exit(-1);
+            } catch (Exception ignore) { }
         }
         //验证失败 已经注册的服务器
         if(response == 0x02){

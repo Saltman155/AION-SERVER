@@ -4,7 +4,7 @@ import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.login.controller.AccountBannedController;
 import com.aionstar.login.controller.MainServerController;
-import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.commons.network.model.BannedMacEntry;
 import com.aionstar.login.network.mainserver.MSAuthResponse;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import com.aionstar.login.network.mainserver.serverpackets.SM_BAN_MAC_LIST;

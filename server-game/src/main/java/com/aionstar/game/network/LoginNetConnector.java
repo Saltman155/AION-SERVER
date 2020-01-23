@@ -48,6 +48,8 @@ public class LoginNetConnector {
                 .attr(LSChannelAttr.LS_SESSION_STATE,LSChannelAttr.InnerSessionState.CONNECTED)
                 .handler(new LSChannelInitializer());
         service.scheduleAtFixedRate(LoginNetConnector::connect,0,3000, TimeUnit.MILLISECONDS);
+        logger.info("登录服务端的连接服务已启动，远程地址: {} 远程端口: {} ",
+                NetworkConfigure.LS_ADDRESS,NetworkConfigure.LS_PORT);
     }
 
     private static void connect(){

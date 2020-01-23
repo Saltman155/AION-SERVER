@@ -1,6 +1,6 @@
 package com.aionstar.login.dao.mapper;
 
-import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.commons.network.model.BannedMacEntry;
 
 import java.util.List;
 

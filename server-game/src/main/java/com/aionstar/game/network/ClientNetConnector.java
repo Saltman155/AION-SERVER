@@ -33,7 +33,7 @@ public class ClientNetConnector {
                     .localAddress(new InetSocketAddress(NetworkConfigure.CLIENT_PORT))
                     .childHandler(new CSChannelInitializer());
             ChannelFuture f = bootstrap.bind().sync();
-            logger.info("游戏主服务器已在端口 {} 上开启游戏客户端连接监听！",NetworkConfigure.CLIENT_PORT);
+            logger.info("游戏主服务端的连接服务已启动，暴露端口 {} .",NetworkConfigure.CLIENT_PORT);
         } catch (Exception e){
             logger.error(e.getMessage(),e);
         }

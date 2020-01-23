@@ -3,9 +3,7 @@ package com.aionstar.game.network.loginserver.serverpackets;
 import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.commons.network.packet.ServerPacket;
 import com.aionstar.game.config.NetworkConfigure;
-import com.aionstar.game.model.configure.ClientNetwork;
-import com.aionstar.game.model.configure.LoginNetwork;
-import com.aionstar.game.model.configure.main.ServerConfigure;
+import com.aionstar.game.config.ServerConfigure;
 import com.aionstar.game.config.network.PlayerIPConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.util.CharsetUtil;
@@ -51,7 +49,7 @@ public class SM_GS_AUTH extends ServerPacket {
         //主服务器提供游戏客户端连接的端口
         buf.writeShortLE(NetworkConfigure.CLIENT_PORT);
         //主服务器最大在线人数
-        buf.writeIntLE(NetworkConfigure.getMaxOnlinePlayers());
+        buf.writeIntLE(ServerConfigure.MAX_ONLINE_PLAYERS);
         String password = NetworkConfigure.LS_PASSWORD;
         //登录密码
         if(StringUtils.isBlank(password)){

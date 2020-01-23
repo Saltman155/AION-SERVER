@@ -1,8 +1,7 @@
 package com.aionstar.login.dao;
 
 import com.aionstar.login.dao.mapper.BannedMacMapper;
-import com.aionstar.login.dao.mapper.MainServerMapper;
-import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.commons.network.model.BannedMacEntry;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;

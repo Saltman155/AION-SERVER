@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @author: saltman155
  * @date: 2019/3/28 19:54
  */
-public abstract class ClientPacket implements Runnable {
+public abstract class ClientPacket implements Runnable,Cloneable {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientPacket.class);
 

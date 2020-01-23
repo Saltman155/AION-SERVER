@@ -1,6 +1,6 @@
 package com.aionstar.login.controller;
 
-import com.aionstar.login.model.BannedMacEntry;
+import com.aionstar.commons.network.model.BannedMacEntry;
 import com.aionstar.login.service.AccountBannedService;
 
 import java.util.Map;

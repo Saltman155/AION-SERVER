@@ -12,6 +12,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.*;
+
 /**
  * 游戏主服务端连接处理器
  * @author saltman155
@@ -22,6 +24,12 @@ import org.slf4j.LoggerFactory;
 public class MSMessageHandler extends SimpleChannelInboundHandler<ClientPacket> {
 
     private static final Logger logger = LoggerFactory.getLogger(MSMessageHandler.class);
+
+    /**服务端消息业务处理线程池*/
+    private static final ExecutorService processor =
+            new ThreadPoolExecutor(3, 8, 0,
+                    TimeUnit.SECONDS, new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
+
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
@@ -39,7 +47,7 @@ public class MSMessageHandler extends SimpleChannelInboundHandler<ClientPacket> 
     protected void channelRead0(ChannelHandlerContext ctx, ClientPacket packet) throws Exception {
         Channel channel = ctx.channel();
         if(packet.readable()){
-            channel.eventLoop().execute(packet);
+            processor.execute(packet);
         }
     }
 

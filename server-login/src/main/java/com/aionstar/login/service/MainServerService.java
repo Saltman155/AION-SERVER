@@ -45,11 +45,10 @@ public class MainServerService {
     public static MainServerInfo mainServerRegisterCheck(byte serverId,String password,String ip){
         MainServerInfo info = DaoManager.getDao(MainServerDao.class).getMainServerById(serverId);
         if(info == null){
-            logger.warn("来自ip {} 请求了不存在的serverId的游戏服务端 {} 并尝试用密码 {} 连接，验证失败!",
-                    ip,serverId,password);
+            logger.warn("来自ip {} 请求了不存在的serverId的游戏服务端 {} 并尝试用密码 {} 连接，验证失败!", ip,serverId,password);
             return null;
         }
-        if(info.getPassword().equals(password) ||
+        if(info.getPassword().equals(password) &&
            NetworkUtil.checkIPMatching(info.getIp(),ip)){
             return info;
         }else{
