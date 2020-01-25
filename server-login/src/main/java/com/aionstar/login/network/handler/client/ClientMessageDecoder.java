@@ -43,6 +43,7 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
         if(cipher == null || !decrypt(cipher,data)){
             logger.error("id为 {} 的channel发送的数据包校验失败！",channel.id().asLongText().hashCode());
             ctx.channel().close();
+            return;
         }
         //然后生成具体的Client包对象
         ClientPacket packet = packetHandler.handle(data,channel);

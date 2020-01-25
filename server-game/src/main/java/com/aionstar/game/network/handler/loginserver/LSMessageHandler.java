@@ -33,7 +33,7 @@ public class LSMessageHandler extends SimpleChannelInboundHandler<ClientPacket> 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        //分配一个连接空间给该通道
+        //分配一个读写空间给该通道
         channel.attr(LSChannelAttr.BUFFER).set(Unpooled.buffer(NetworkConfigure.LS_BUFFER_SIZE));
         //发送登录服务器验证数据包
         ctx.writeAndFlush(new SM_GS_AUTH());

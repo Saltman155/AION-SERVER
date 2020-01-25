@@ -1,6 +1,7 @@
 package com.aionstar.game.network;
 
 import com.aionstar.game.config.NetworkConfigure;
+import com.aionstar.game.network.client.ClientChannelAttr;
 import com.aionstar.game.network.handler.CSChannelInitializer;
 import com.aionstar.game.network.handler.ClientChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
@@ -32,6 +33,7 @@ public class ClientNetConnector {
             bootstrap.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(NetworkConfigure.CLIENT_PORT))
+                    .childAttr(ClientChannelAttr.SESSION_STATE, ClientChannelAttr.SessionState.CONNECTED)
                     .childHandler(new ClientChannelInitializer());
             ChannelFuture f = bootstrap.bind().sync();
             logger.info("游戏主服务端的连接服务已启动，暴露端口 {} .",NetworkConfigure.CLIENT_PORT);
