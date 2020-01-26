@@ -9,7 +9,7 @@ public class CM_MAC_ADDRESS extends AionClientPacket {
 
     private String macAddress;
 
-    protected CM_MAC_ADDRESS(byte opcode) {
+    public CM_MAC_ADDRESS(byte opcode) {
         super(opcode);
     }
 

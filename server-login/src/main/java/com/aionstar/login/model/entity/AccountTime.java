@@ -1,6 +1,6 @@
 package com.aionstar.login.model.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * @author: saltman155
@@ -9,12 +9,12 @@ import java.sql.Timestamp;
 
 public class AccountTime {
 
-    /**最后登录时间*/
-    private Timestamp lastLoginTime;
-    /**账户剩余可用时间*/
-    private Timestamp expirationTime;
+    /**最后活跃时间*/
+    private LocalDateTime lastActiveTime;
     /**账户惩罚剩余时间*/
-    private Timestamp penaltyEnd;
+    private LocalDateTime penaltyEnd;
+    /**账户剩余可用时间*/
+    private Long expirationTime;
     /**累计会话（本次）时间*/
     private Long sessionDuration;
     /**累计在线时间*/
@@ -25,29 +25,17 @@ public class AccountTime {
     public AccountTime() {
     }
 
-    public Timestamp getLastLoginTime() {
-        return lastLoginTime;
-    }
+    public LocalDateTime getLastActiveTime() { return lastActiveTime; }
 
-    public void setLastLoginTime(Timestamp lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
+    public void setLastActiveTime(LocalDateTime lastActiveTime) { this.lastActiveTime = lastActiveTime; }
 
-    public Timestamp getExpirationTime() {
-        return expirationTime;
-    }
+    public Long getExpirationTime() { return expirationTime; }
 
-    public void setExpirationTime(Timestamp expirationTime) {
-        this.expirationTime = expirationTime;
-    }
+    public void setExpirationTime(Long expirationTime) { this.expirationTime = expirationTime; }
 
-    public Timestamp getPenaltyEnd() {
-        return penaltyEnd;
-    }
+    public LocalDateTime getPenaltyEnd() { return penaltyEnd; }
 
-    public void setPenaltyEnd(Timestamp penaltyEnd) {
-        this.penaltyEnd = penaltyEnd;
-    }
+    public void setPenaltyEnd(LocalDateTime penaltyEnd) { this.penaltyEnd = penaltyEnd; }
 
     public Long getSessionDuration() {
         return sessionDuration;
@@ -73,15 +61,4 @@ public class AccountTime {
         this.accumulatedRestTime = accumulatedRestTime;
     }
 
-    @Override
-    public String toString() {
-        return "AccountTime{" +
-                "lastLoginTime=" + lastLoginTime +
-                ", expirationTime=" + expirationTime +
-                ", penaltyEnd=" + penaltyEnd +
-                ", sessionDuration=" + sessionDuration +
-                ", accumulatedOnlineTime=" + accumulatedOnlineTime +
-                ", accumulatedRestTime=" + accumulatedRestTime +
-                '}';
-    }
 }

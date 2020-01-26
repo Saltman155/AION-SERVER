@@ -40,7 +40,7 @@ public class LSManager {
      * @param playSession1      play凭证
      * @param playSession2      play凭证
      */
-    public void clientCheckOfLoginServerAuthKey(int accountId,Channel channel,int loginSession,int playSession1,int playSession2){
+    public void clientRequestOfLoginServerAuthKey(int accountId,Channel channel,int loginSession,int playSession1,int playSession2){
         if(loginServerChannel == null || !loginServerChannel.isActive()){
             logger.warn("登录服务器都翻车了，还连个锤子连？！");
             //和客户端断开连接
@@ -55,6 +55,28 @@ public class LSManager {
         }
         //否则就记录这个用户，然后发包到登录服务器去问一下
         loginServerChannel.writeAndFlush(new SM_ACCOUNT_AUTH(accountId,loginSession,playSession1,playSession2));
+
+    }
+
+    /**
+     * 登录服务器返回的封包，判断登录凭证是不是正常的
+     * @param accountId             用户账号id
+     * @param result                结果
+     * @param accountName           用户账号
+     * @param accumulatedOnlineTime 累计在线时间
+     * @param accumulatedRestTime   累计休息时间
+     * @param accessLevel           账号权限等级
+     * @param membership            账号会员等级
+     * @param toll                  账号虚拟货币
+     */
+    public void clientResponseOfLoginServerAuthKey(int accountId,boolean result,String accountName, long accumulatedOnlineTime,
+                                                   long accumulatedRestTime, byte accessLevel, byte membership,long toll){
+        Channel client;
+        synchronized (loginRequests){
+            client = loginRequests.remove(accountId);
+        }
+        if(client == null){ return; }
+
 
     }
 

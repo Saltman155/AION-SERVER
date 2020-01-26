@@ -1,10 +1,7 @@
 package com.aionstar.game.network.client;
 
 import com.aionstar.commons.network.BasePacketFactory;
-import com.aionstar.game.network.client.clientpackets.CM_DISCONNECT;
-import com.aionstar.game.network.client.clientpackets.CM_L2AUTH_LOGIN_CHECK;
-import com.aionstar.game.network.client.clientpackets.CM_TIME_CHECK;
-import com.aionstar.game.network.client.clientpackets.CM_VERSION_CHECK;
+import com.aionstar.game.network.client.clientpackets.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
@@ -77,6 +74,7 @@ public class ClientPacketFactory extends BasePacketFactory {
         addPacketPrototype((packet = new CM_TIME_CHECK((byte) 0xFD)),packet.getValidState());
         addPacketPrototype((packet = new CM_DISCONNECT((byte) 0xED)),packet.getValidState());
         addPacketPrototype((packet = new CM_L2AUTH_LOGIN_CHECK((byte)0x08)),packet.getValidState());
+        addPacketPrototype((packet = new CM_MAC_ADDRESS((byte)0x30)),packet.getValidState());
     }
 
     static {

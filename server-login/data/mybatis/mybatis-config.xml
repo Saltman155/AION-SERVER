@@ -25,6 +25,7 @@
     </environments>
     <mappers>
         <mapper url="file:data/mybatis/mappers/AccountMapper.xml"/>
+        <mapper url="file:data/mybatis/mappers/AccountTimeMapper.xml"/>
         <mapper url="file:data/mybatis/mappers/BannedMacMapper.xml"/>
         <mapper url="file:data/mybatis/mappers/MainServerMapper.xml"/>
     </mappers>

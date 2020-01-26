@@ -48,7 +48,7 @@ public class SM_ACCOUNT_AUTH_RPS extends ServerPacket {
             byte[] name = account.getName().getBytes(CharsetUtil.UTF_8);
             byte len = (byte) name.length;
             buf.writeByte(len);
-            buf.writeBytes(name);
+            buf.writeBytes(name);                                                   //账户名称
             buf.writeLongLE(account.getAccountTime().getAccumulatedOnlineTime());   //累计在线时间
             buf.writeLongLE(account.getAccountTime().getAccumulatedRestTime());     //累计休息时间
             buf.writeByte(account.getAccessLevel());                                //访问权限
@@ -56,4 +56,5 @@ public class SM_ACCOUNT_AUTH_RPS extends ServerPacket {
             buf.writeLongLE(account.getToll());                                     //虚拟货币数量
         }
     }
+
 }

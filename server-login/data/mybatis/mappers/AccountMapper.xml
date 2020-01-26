@@ -11,6 +11,8 @@
         <result column="access_level" jdbcType="TINYINT" javaType="Byte" property="accessLevel"/>
         <result column="membership" jdbcType="TINYINT" javaType="Byte" property="membership"/>
         <result column="toll" jdbcType="BIGINT" javaType="Long" property="toll"/>
+        <association property="accountTime" column="id"
+                     select="com.aionstar.login.dao.mapper.AccountTimeMapper.getAccountTime"/>
     </resultMap>
 
     <sql id="base_column_sql">

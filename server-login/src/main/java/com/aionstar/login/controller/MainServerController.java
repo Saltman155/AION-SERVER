@@ -51,7 +51,7 @@ public class MainServerController {
         info.setDefaultAddress(defaultAddress);
         info.setIpRanges(ranges);
         info.setLoginConnection(channel);
-        //验证通过则进行注册
+        //验证通过则进行注册（更新信息）
         try {
             MainServerService.updateServerInfo(info);
             //更新成功后，将主服务端信息绑定到连接上

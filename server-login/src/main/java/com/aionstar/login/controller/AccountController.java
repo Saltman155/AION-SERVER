@@ -33,7 +33,7 @@ public class AccountController {
 
     /**
      * 当前在登陆服务器上登陆的账号的连接
-     * 注意，该账号在游戏服务端上连接，并通过验证后，就会从这个映射表中移除
+     * 注意，该账号在游戏主服务端上连接，并通过验证后，就会从这个映射表中移除
      * 具体的逻辑在 ${@link AccountController#checkAuth(ClientChannelAttr.SessionKey, Channel) 中}
      * */
     private static final Map<Integer,Channel> accountConnMap = new ConcurrentHashMap<>();
@@ -191,6 +191,7 @@ public class AccountController {
         channel.attr(ClientChannelAttr.C_SESSION_STATE).set(ClientChannelAttr.SessionState.AUTHED_LOGIN);
         channel.attr(ClientChannelAttr.SESSION_KEY).set(key);
         channel.attr(ClientChannelAttr.ACCOUNT).set(user);
+        //放入待登录主服务端表里
         accountConnMap.put(user.getId(),channel);
     }
 
