@@ -1,12 +1,10 @@
 package com.aionstar.login.model;
 
-import com.aionstar.commons.network.BaseChannelAttr;
 import com.aionstar.commons.network.model.IPRange;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import io.netty.channel.Channel;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,6 +63,14 @@ public class MainServerInfo {
      */
     public int getCurrentPlayers() {
         return onlineUser.size();
+    }
+
+    /**
+     * 添加用户账号到主游戏服务器（用户登录了）
+     * @param account   账号
+     */
+    public void addAccountToGameServer(Account account){
+        this.onlineUser.put(account.getId(),account);
     }
 
     /**

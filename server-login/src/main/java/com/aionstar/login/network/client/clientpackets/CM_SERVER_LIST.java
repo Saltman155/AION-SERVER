@@ -5,7 +5,7 @@ import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.client.LoginAuthResponse;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
-import com.aionstar.login.utils.ChannelUtil;
+import com.aionstar.commons.utils.ChannelUtil;
 import com.aionstar.commons.network.packet.ClientPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;

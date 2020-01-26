@@ -64,11 +64,20 @@ public class MainServerService {
      * @param info  待注册的主服务器
      * @throws MSAlreadyRegisterException   如果待注册的主服务器已经注册，则抛出该异常
      */
-    public static synchronized void registerServer(MainServerInfo info) throws MSAlreadyRegisterException{
+    public static synchronized void updateServerInfo(MainServerInfo info) throws MSAlreadyRegisterException{
         MainServerInfo old = mainServerInfoMap.get(info.getId());
         //老配置没有相关的连接或连接是关闭的，说明没有注册，直接安排上
-        if(old == null || old.getLoginConnection() == null || !old.getLoginConnection().isActive()){
+        if(old == null){
             mainServerInfoMap.put(info.getId(),info);
+        } else if(old.getLoginConnection() == null || !old.getLoginConnection().isActive()){
+            old.setName(info.getName());
+            old.setIp(info.getIp());
+            old.setClientPort(info.getClientPort());
+            old.setPassword(info.getPassword());
+            old.setDefaultAddress(info.getDefaultAddress());
+            old.setIpRanges(info.getIpRanges());
+            old.setMaxPlayers(info.getMaxPlayers());
+            old.setLoginConnection(info.getLoginConnection());
         }
         //否则说明已经注册
         else{

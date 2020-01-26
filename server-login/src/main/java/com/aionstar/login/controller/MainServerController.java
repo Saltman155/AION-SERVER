@@ -6,7 +6,7 @@ import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.network.mainserver.MSAuthResponse;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import com.aionstar.login.service.MainServerService;
-import com.aionstar.login.utils.ChannelUtil;
+import com.aionstar.commons.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class MainServerController {
         info.setLoginConnection(channel);
         //验证通过则进行注册
         try {
-            MainServerService.registerServer(info);
+            MainServerService.updateServerInfo(info);
             //更新成功后，将主服务端信息绑定到连接上
             channel.attr(MSChannelAttr.SERVER_INFO).set(info);
             return MSAuthResponse.AUTHED;

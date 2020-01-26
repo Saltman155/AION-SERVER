@@ -30,4 +30,17 @@ public class AccountDao extends BaseDao implements AccountMapper {
             close();
         }
     }
+
+    @Override
+    public void updateLastServer(Integer id, Byte lastServer) {
+        try {
+            AccountMapper mapper = getMapperInstance(AccountMapper.class,false);
+            mapper.updateLastServer(id, lastServer);
+            commit();
+        }catch (Exception e){
+            rollback();
+        } finally {
+            close();
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.aionstar.login.network.factories;
 
 import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.login.network.mainserver.clientpackets.CM_ACCOUNT_AUTH;
 import com.aionstar.login.network.mainserver.clientpackets.CM_GS_CHARACTER;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
 import com.aionstar.login.network.mainserver.clientpackets.CM_GS_AUTH;
@@ -35,6 +36,7 @@ public class MSPacketFactory extends BasePacketFactory {
             }
             case AUTHED:{
                 switch (opcode){
+                    case 0x01: return new CM_ACCOUNT_AUTH(channel,buffer);
                     case 0x08: return new CM_GS_CHARACTER(channel,buffer);
                     default:
                         unknownPacket(opcode);

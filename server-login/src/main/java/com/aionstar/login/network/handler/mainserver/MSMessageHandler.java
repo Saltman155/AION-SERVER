@@ -3,7 +3,7 @@ package com.aionstar.login.network.handler.mainserver;
 import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.login.config.NetworkConfigure;
 import com.aionstar.login.network.mainserver.MSChannelAttr;
-import com.aionstar.login.utils.ChannelUtil;
+import com.aionstar.commons.utils.ChannelUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;

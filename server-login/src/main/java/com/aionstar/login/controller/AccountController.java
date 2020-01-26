@@ -1,14 +1,18 @@
 package com.aionstar.login.controller;
 
+import com.aionstar.login.config.datasource.DaoManager;
+import com.aionstar.login.dao.AccountDao;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.ClientChannelAttr;
 import com.aionstar.login.network.client.LoginAuthResponse;
+import com.aionstar.login.network.mainserver.MSChannelAttr;
+import com.aionstar.login.network.mainserver.serverpackets.SM_ACCOUNT_AUTH_RPS;
 import com.aionstar.login.service.AccountService;
 import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.network.client.serverpackets.SM_SERVER_LIST;
 import com.aionstar.login.network.mainserver.serverpackets.SM_CHARACTER;
 import com.aionstar.login.service.MainServerService;
-import com.aionstar.login.utils.ChannelUtil;
+import com.aionstar.commons.utils.ChannelUtil;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +31,13 @@ public class AccountController {
 
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
-    /**当前在登陆服务器上登陆的账号的连接*/
+    /**
+     * 当前在登陆服务器上登陆的账号的连接
+     * 注意，该账号在游戏服务端上连接，并通过验证后，就会从这个映射表中移除
+     * 具体的逻辑在 ${@link AccountController#checkAuth(ClientChannelAttr.SessionKey, Channel) 中}
+     * */
     private static final Map<Integer,Channel> accountConnMap = new ConcurrentHashMap<>();
+
     /**存储用户账号在每个游戏服务器上的角色数量*/
     private static final Map<Integer,Map<Byte,Integer>> gameServerCharacterCounts = new ConcurrentHashMap<>();
 
@@ -56,6 +65,36 @@ public class AccountController {
             logger.error(e.getMessage(),e);
             return LoginAuthResponse.SYSTEM_ERROR;
         }
+    }
+
+    /**
+     * 验证主服务端发来的登录session是不是对的
+     * @param sessionKey        登录的session数据
+     * @param serverChannel     与主服务端的连接
+     */
+    public static synchronized void checkAuth(ClientChannelAttr.SessionKey sessionKey,Channel serverChannel){
+        Channel channel = accountConnMap.get(sessionKey.accountId);
+        if(channel != null ){
+            ClientChannelAttr.SessionKey session = channel.attr(ClientChannelAttr.SESSION_KEY).get();
+            //验证通过
+            if(session != null && session.checkSessionKey(sessionKey)){
+                //移除该用户的连接对象
+                accountConnMap.remove(sessionKey.accountId);
+                MainServerInfo serverInfo = serverChannel.attr(MSChannelAttr.SERVER_INFO).get();
+                Account account = channel.attr(ClientChannelAttr.ACCOUNT).get();
+                // 添加账号到游戏服务端
+                serverInfo.addAccountToGameServer(account);
+                // 设置最后登录
+                account.setLastServer(serverInfo.getId());
+                DaoManager.getDao(AccountDao.class).updateLastServer(account.getId(),serverInfo.getId());
+                // 发送成功的响应
+                serverChannel.writeAndFlush(new SM_ACCOUNT_AUTH_RPS(account,true));
+                return;
+            }
+        }
+        logger.warn("登录验证 playSession 失败！");
+        //验证失败发个失败的包回去
+        serverChannel.writeAndFlush(new SM_ACCOUNT_AUTH_RPS(sessionKey.accountId));
     }
 
 
@@ -153,8 +192,6 @@ public class AccountController {
         channel.attr(ClientChannelAttr.SESSION_KEY).set(key);
         channel.attr(ClientChannelAttr.ACCOUNT).set(user);
         accountConnMap.put(user.getId(),channel);
-        //设置当连接断开时，自动从accountConnMap中移除这个连接
-        channel.closeFuture().addListener(future -> accountConnMap.remove(user.getId()));
     }
 
 }

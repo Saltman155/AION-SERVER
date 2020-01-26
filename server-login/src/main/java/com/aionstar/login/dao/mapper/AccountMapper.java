@@ -24,5 +24,12 @@ public interface AccountMapper {
      */
     Account selectByAccount(@Param("account")String account);
 
+    /**
+     * 更新一个用户的最后登录服务器
+     * @param id            账户id
+     * @param lastServer    最后登录服务器
+     */
+    void updateLastServer(@Param("id")Integer id, @Param("lastServer")Byte lastServer);
+
 
 }

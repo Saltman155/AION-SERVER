@@ -20,10 +20,10 @@ import java.util.List;
 
 public class SM_GS_AUTH extends ServerPacket {
 
-    private static final byte opcode = 0x00;
+    private static final byte OPCODE = 0x00;
 
     public SM_GS_AUTH() {
-        super(opcode);
+        super(OPCODE);
     }
 
     @Override

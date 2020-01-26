@@ -6,7 +6,7 @@ import com.aionstar.login.network.client.serverpackets.SM_AUTH_GG;
 import com.aionstar.login.network.client.serverpackets.SM_INIT;
 import com.aionstar.login.network.client.serverpackets.SM_LOGIN_FAIL;
 import com.aionstar.commons.network.packet.ClientPacket;
-import com.aionstar.login.utils.ChannelUtil;
+import com.aionstar.commons.utils.ChannelUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;

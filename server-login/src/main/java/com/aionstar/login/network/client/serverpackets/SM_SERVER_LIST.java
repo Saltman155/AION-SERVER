@@ -6,7 +6,6 @@ import com.aionstar.login.model.MainServerInfo;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.client.clientpackets.CM_SERVER_LIST;
 import com.aionstar.login.service.MainServerService;
-import com.aionstar.login.utils.ChannelUtil;
 import io.netty.buffer.ByteBuf;
 
 import java.util.Collection;

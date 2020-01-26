@@ -1,4 +1,4 @@
-package com.aionstar.login.utils;
+package com.aionstar.commons.utils;
 
 import io.netty.channel.Channel;
 import io.netty.channel.socket.SocketChannel;
@@ -21,7 +21,9 @@ public class ChannelUtil {
 
     public static void close(Channel channel,Object packet){
         try {
-            channel.writeAndFlush(packet).sync();
+            if(packet != null) {
+                channel.writeAndFlush(packet).sync();
+            }
             channel.close();
         } catch (InterruptedException e) {
             logger.error(e.getMessage(),e);

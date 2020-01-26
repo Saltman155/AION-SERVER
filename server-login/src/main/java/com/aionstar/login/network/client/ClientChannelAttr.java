@@ -41,11 +41,11 @@ public class ClientChannelAttr extends BaseChannelAttr {
     public static class SessionKey{
 
         public final int accountId;
-
+        /**登录服务端会话key*/
         public final int loginSession;
-
+        /**主服务端登录鉴定key1*/
         public final int playSession1;
-
+        /**主服务端登录鉴定key2*/
         public final int playSession2;
 
         public SessionKey(int accountId) {

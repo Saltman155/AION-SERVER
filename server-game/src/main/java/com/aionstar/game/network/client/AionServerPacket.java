@@ -46,7 +46,7 @@ public abstract class AionServerPacket extends ServerPacket {
         // 写入包长
         buf.setShortLE(0,buf.writerIndex());
         // 将数据域一通加密
-        crypt.encrypt(buf);
+        crypt.encrypt(buf.slice(2,buf.writerIndex()));
     }
 
     /**

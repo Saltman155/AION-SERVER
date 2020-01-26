@@ -47,7 +47,7 @@ public class ClientCrypt {
             throw new KeyAlreadySetException();
         }
         //生成种子
-        int key = ThreadLocalRandom.current().nextInt();
+         int key = ThreadLocalRandom.current().nextInt();
         //生成客户端key,固定长度8个字节
         clientPacketKey = new byte[] {
                 (byte) (key & 0xff),            (byte) ((key >> 8) & 0xff),
@@ -118,10 +118,10 @@ public class ClientCrypt {
             isEnabled = true;
             return;
         }
-        buf.readerIndex(2);
         final byte[] data = buf.array();
         final int size = buf.readableBytes();
-        int index = buf.readerIndex();
+        //slice是有偏移量的
+        int index = buf.readerIndex() + buf.arrayOffset();
         //加密第一个字节
         data[index] ^= (serverPacketKey[0] & 0xff);
         //获取加密后续数据需要的prev
