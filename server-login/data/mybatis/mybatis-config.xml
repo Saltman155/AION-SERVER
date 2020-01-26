@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="com.aionstar.commons.datasource.CustomDataSource">
+                <property name="datasource.url" value="jdbc:mysql://116.62.166.68:3306/aion_login_server?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=utf-8"/>
+                <property name="datasource.driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="datasource.username" value="root"/>
+                <property name="datasource.password" value="123456"/>
+            </dataSource>
+        </environment>
+        <environment id="product">
+            <transactionManager type="JDBC"/>
+            <dataSource type="com.aionstar.commons.datasource.CustomDataSource">
+                <property name="datasource.url" value=""/>
+                <property name="datasource.driver" value=""/>
+                <property name="datasource.username" value=""/>
+                <property name="datasource.password" value=""/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper url="file:data/mybatis/mappers/AccountMapper.xml"/>
+        <mapper url="file:data/mybatis/mappers/AccountTimeMapper.xml"/>
+        <mapper url="file:data/mybatis/mappers/BannedMacMapper.xml"/>
+        <mapper url="file:data/mybatis/mappers/MainServerMapper.xml"/>
+    </mappers>
+</configuration>

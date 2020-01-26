@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.aionstar.login.dao.mapper.AccountTimeMapper">
+    <!--基本对象映射类-->
+    <resultMap id="BaseResultMap" type="com.aionstar.login.model.entity.AccountTime">
+        <result column="last_active" jdbcType="TIMESTAMP" property="lastActiveTime"/>
+        <result column="expiration_time" jdbcType="INTEGER" property="expirationTime"/>
+        <result column="session_duration" jdbcType="INTEGER" property="sessionDuration"/>
+        <result column="accumulated_online" jdbcType="INTEGER" property="accumulatedOnlineTime"/>
+        <result column="accumulated_rest" jdbcType="INTEGER" property="accumulatedRestTime"/>
+        <result column="penalty_end" jdbcType="TIMESTAMP" property="penaltyEnd"/>
+    </resultMap>
+
+    <sql id="base_column_sql">
+        `last_active`,`expiration_time`,`session_duration`,`accumulated_online`,
+        `accumulated_rest`,`penalty_end`
+    </sql>
+
+    <select id="getAccountTime" resultMap="BaseResultMap">
+        SELECT <include refid="base_column_sql"/> FROM account_time WHERE account_id = #{accountId}
+    </select>
+
+
+</mapper>

@@ -78,3 +78,9 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+# 日志文件
+*.log
+
+# 我的配置文件
+./config/application-dev.yml
