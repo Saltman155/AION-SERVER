@@ -19,14 +19,11 @@ public class PlayerDao extends BaseDao implements PlayerMapper {
 
     @Override
     public Integer getPlayerCount(Integer accountId) {
-        PlayerMapper mapper = getMapperInstance(PlayerMapper.class);
         try {
+            PlayerMapper mapper = getMapperInstance(PlayerMapper.class);
             return mapper.getPlayerCount(accountId);
-        } catch (Exception e) {
-            rollback();
-            throw new RuntimeException(e);
         } finally {
-            commit();
+            close();
         }
     }
 }

@@ -18,14 +18,23 @@ public abstract class BaseDao {
     }
 
     protected  <T> T getMapperInstance(Class<T> clazz){
-         SqlSession session = sessionFactory.openSession();
-         sessionThreadLocal.set(session);
-         return session.getMapper(clazz);
+        return getMapperInstance(clazz,true);
+    }
+
+    protected <T> T getMapperInstance(Class<T> clazz,boolean autoCommit){
+        SqlSession session = sessionFactory.openSession(autoCommit);
+        sessionThreadLocal.set(session);
+        return session.getMapper(clazz);
     }
 
     protected void commit(){
         SqlSession session = sessionThreadLocal.get();
         session.commit();
+    }
+
+    protected void close(){
+        SqlSession session = sessionThreadLocal.get();
+        session.close();
         sessionThreadLocal.remove();
     }
 

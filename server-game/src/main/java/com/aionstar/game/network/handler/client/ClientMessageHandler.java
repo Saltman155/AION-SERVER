@@ -13,6 +13,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.*;
+
 /**
  * 客户端消息处理器
  * @author saltman155
@@ -23,6 +25,12 @@ import org.slf4j.LoggerFactory;
 public class ClientMessageHandler extends SimpleChannelInboundHandler<AionClientPacket> {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientMessageHandler.class);
+
+    /**服务端消息业务处理线程池*/
+    private static final ExecutorService processor =
+            new ThreadPoolExecutor(3, 8, 0,
+                    TimeUnit.SECONDS, new LinkedBlockingDeque<>(), (ThreadFactory) Thread::new);
+
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -36,7 +44,10 @@ public class ClientMessageHandler extends SimpleChannelInboundHandler<AionClient
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, AionClientPacket msg) throws Exception {
-
+        //异步处理数据包
+        if(msg.readable()){
+            processor.execute(msg);
+        }
     }
 
 }

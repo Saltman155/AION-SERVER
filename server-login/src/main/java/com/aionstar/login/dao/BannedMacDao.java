@@ -15,14 +15,11 @@ public class BannedMacDao extends BaseDao implements BannedMacMapper {
 
     @Override
     public List<BannedMacEntry> selectAll() {
-        BannedMacMapper mapper = getMapperInstance(BannedMacMapper.class);
         try {
+            BannedMacMapper mapper = getMapperInstance(BannedMacMapper.class);
             return mapper.selectAll();
-        } catch (Exception e) {
-            rollback();
-            return null;
         } finally {
-            commit();
+            close();
         }
     }
 }

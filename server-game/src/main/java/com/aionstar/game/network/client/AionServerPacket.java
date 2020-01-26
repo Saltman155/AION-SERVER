@@ -37,7 +37,8 @@ public abstract class AionServerPacket extends ServerPacket {
      */
     public void writeAndEncryptData(ByteBuf buf,ClientCrypt crypt) {
         buf.clear();
-        buf.readerIndex(2);
+        //跳过头两个字节
+        buf.writerIndex(2);
         // 写入操作数
         writeOP(buf,getOpcode());
         // 写入具体数据
@@ -45,7 +46,7 @@ public abstract class AionServerPacket extends ServerPacket {
         // 写入包长
         buf.setShortLE(0,buf.writerIndex());
         // 将数据域一通加密
-        crypt.encrypt(buf.slice(2,buf.writerIndex()));
+        crypt.encrypt(buf);
     }
 
     /**

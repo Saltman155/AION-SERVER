@@ -48,6 +48,9 @@ public class CustomDataSource implements DataSourceFactory {
         config.setUsername(userName);
         config.setPassword(password);
         config.setAutoCommit(true);
+        config.setMinimumIdle(1);
+        config.setMaximumPoolSize(5);
+        config.setMaxLifetime(1800000);
         this.dataSource = new HikariDataSource(config);
     }
 }

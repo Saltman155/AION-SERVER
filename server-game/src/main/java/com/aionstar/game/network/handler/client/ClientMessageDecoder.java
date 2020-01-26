@@ -45,6 +45,7 @@ public class ClientMessageDecoder extends ByteToMessageDecoder {
         }
         AionClientPacket packet = packetHandler.handle(data,channel);
         if(packet != null){
+            logger.info("收到客户端发来的数据包，code为 {}",packet.getOpcode());
             out.add(packet);
         }else {
             logger.warn("收到无效的客户端数据包！");

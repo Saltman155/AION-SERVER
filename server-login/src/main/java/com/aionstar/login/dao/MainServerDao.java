@@ -15,27 +15,22 @@ public class MainServerDao extends BaseDao implements MainServerMapper {
 
     @Override
     public List<MainServerInfo> getAllMainServer() {
-        MainServerMapper mapper = getMapperInstance(MainServerMapper.class);
         try {
+            MainServerMapper mapper = getMapperInstance(MainServerMapper.class);
             return mapper.getAllMainServer();
-        } catch (Exception e) {
-            rollback();
-            return null;
         } finally {
-            commit();
+            close();
         }
     }
 
     @Override
     public MainServerInfo getMainServerById(byte id) {
-        MainServerMapper mapper = getMapperInstance(MainServerMapper.class);
         try {
+            MainServerMapper mapper = getMapperInstance(MainServerMapper.class);
             return mapper.getMainServerById(id);
-        } catch (Exception e) {
-            rollback();
-            return null;
         } finally {
-            commit();
+            close();
         }
     }
+
 }

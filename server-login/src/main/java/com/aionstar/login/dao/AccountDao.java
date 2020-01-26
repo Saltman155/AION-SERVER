@@ -13,27 +13,21 @@ public class AccountDao extends BaseDao implements AccountMapper {
 
     @Override
     public Account selectById(Integer id) {
-        AccountMapper mapper = getMapperInstance(AccountMapper.class);
         try {
+            AccountMapper mapper = getMapperInstance(AccountMapper.class);
             return mapper.selectById(id);
-        } catch (Exception e) {
-            rollback();
-            return null;
         } finally {
-            commit();
+            close();
         }
     }
 
     @Override
     public Account selectByAccount(String account) {
-        AccountMapper mapper = getMapperInstance(AccountMapper.class);
         try {
+            AccountMapper mapper = getMapperInstance(AccountMapper.class);
             return mapper.selectByAccount(account);
-        } catch (Exception e) {
-            rollback();
-            return null;
         } finally {
-            commit();
+            close();
         }
     }
 }

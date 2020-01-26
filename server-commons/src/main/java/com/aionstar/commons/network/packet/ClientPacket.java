@@ -40,7 +40,7 @@ public abstract class ClientPacket implements Runnable,Cloneable {
     }
 
     public int getOpcode() {
-        return opcode;
+        return opcode & 0xFF;
     }
 
     public boolean readable(){
