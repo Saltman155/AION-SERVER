@@ -1,7 +1,12 @@
 package com.aionstar.game.network.loginserver;
 
 import com.aionstar.commons.utils.ChannelUtil;
+import com.aionstar.game.model.account.Account;
+import com.aionstar.game.model.account.AccountTime;
+import com.aionstar.game.network.client.ClientChannelAttr;
+import com.aionstar.game.network.client.serverpackets.SM_L2AUTH_LOGIN_CHECK;
 import com.aionstar.game.network.loginserver.serverpackets.SM_ACCOUNT_AUTH;
+import com.aionstar.game.service.AccountService;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 登录服务器连接管理中心
@@ -29,33 +32,29 @@ public class LSManager {
     private final Map<Integer,Channel> loginRequests = new HashMap<>();
 
     /**该映射表保存着该连接服务器上已经连接的用户及连接对象*/
-    private final Map<Integer, Channel> loggedChannelMap = new ConcurrentHashMap<>();
+    private final Map<Integer, Channel> authedChannelMap = new HashMap<>();
 
     /**与登录服务端的连接*/
     private Channel loginServerChannel;
-    /**登录服务端连接修改同步锁*/
-    Lock lock = new ReentrantLock();
 
     public void loginServerRegister(Channel channel){
-        lock.lock();
-        try{
-            if(loginServerChannel != null && loginServerChannel.isActive()){
-                throw new RuntimeException("注册失败！登录服务器仍在连接中！");
-            }
-            loginServerChannel = channel;
-        }finally {
-            lock.unlock();
+        if(loginServerChannel != null && loginServerChannel.isActive()){
+            throw new RuntimeException("注册失败！登录服务器仍在连接中！");
         }
+        logger.info("登录服务器通道注册成功.");
+        loginServerChannel = channel;
     }
 
     public void loginServerUnregister(){
-        lock.lock();
-        try{
-            loginServerChannel = null;
-            logger.info("登录服务器连接通道解除注册.");
-        }finally {
-            lock.unlock();
+        loginServerChannel.close();
+        synchronized (loginRequests){
+            //关闭所有的待验证的客户端连接
+            for(Channel clientChannel : loginRequests.values()){
+                ChannelUtil.close(clientChannel,null);
+            }
+            loginRequests.clear();
         }
+        logger.info("登录服务器通道解除注册.");
     }
 
     /**
@@ -67,13 +66,14 @@ public class LSManager {
      * @param playSession2      play凭证
      */
     public void clientRequestOfLoginServerAuthKey(int accountId,Channel channel,int loginSession,int playSession1,int playSession2){
-        if(loginServerChannel == null || !loginServerChannel.isActive()){
-            logger.warn("登录服务器都翻车了，还连个锤子连？！");
+        if(loginServerChannel == null || !loginServerChannel.isActive() ||
+           loginServerChannel.attr(LSChannelAttr.LS_SESSION_STATE).get() != LSChannelAttr.InnerSessionState.AUTHED){
+            logger.warn("登录服务器都没连上，还验证个锤子？！");
             //和客户端断开连接
             ChannelUtil.close(channel,null);
             return;
         }
-        //同步一下，做个判断
+        //同步一下
         synchronized (loginRequests){
             //如果已经存在，说明上一个询问还没处理完，直接返回
             if(loginRequests.containsKey(accountId)){ return; }
@@ -81,7 +81,6 @@ public class LSManager {
         }
         //否则就记录这个用户，然后发包到登录服务器去问一下
         loginServerChannel.writeAndFlush(new SM_ACCOUNT_AUTH(accountId,loginSession,playSession1,playSession2));
-
     }
 
     /**
@@ -89,20 +88,34 @@ public class LSManager {
      * @param accountId             用户账号id
      * @param result                结果
      * @param accountName           用户账号
-     * @param accumulatedOnlineTime 累计在线时间
-     * @param accumulatedRestTime   累计休息时间
+     * @param accountTime           账号各类时间
      * @param accessLevel           账号权限等级
      * @param membership            账号会员等级
      * @param toll                  账号虚拟货币
      */
-    public void clientResponseOfLoginServerAuthKey(int accountId,boolean result,String accountName, long accumulatedOnlineTime,
-                                                   long accumulatedRestTime, byte accessLevel, byte membership,long toll){
-        Channel client;
+    public void clientResponseOfLoginServerAuthKey(int accountId, boolean result, String accountName, AccountTime accountTime,
+                                                   byte accessLevel, byte membership, long toll){
+        Channel clientChannel;
         synchronized (loginRequests){
-            client = loginRequests.remove(accountId);
+            clientChannel = loginRequests.remove(accountId);
         }
-        if(client == null){ return; }
+        if(clientChannel == null){ return; }
 
+        Account account = AccountService.getAccount(accountId,accountName,accountTime,accessLevel,membership,toll);
+        //验证成功
+        if(result){
+            logger.info("账号 {} : {} playSession验证通过.",accountId,accountName );
+            //设置成验证通过
+            clientChannel.attr(ClientChannelAttr.SESSION_STATE).set(ClientChannelAttr.SessionState.AUTHED);
+            authedChannelMap.put(accountId, clientChannel);
+            clientChannel.attr(ClientChannelAttr.ACCOUNT).set(account);
+            clientChannel.writeAndFlush(new SM_L2AUTH_LOGIN_CHECK(true,accountName));
+        }
+        //验证失败
+        else{
+            logger.warn("账号 {} : {} playSession验证失败，可能遭到攻击.",accountId,accountName);
+            ChannelUtil.close(clientChannel,new SM_L2AUTH_LOGIN_CHECK(false,accountName));
+        }
 
     }
 

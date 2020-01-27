@@ -26,11 +26,11 @@ public class ClientPacketFactory extends BasePacketFactory {
     @Override
     public AionClientPacket handle(ByteBuf buffer, Channel channel) {
         ClientChannelAttr.SessionState state = channel.attr(ClientChannelAttr.SESSION_STATE).get();
-        int id = buffer.readByte() & 0xFF;
+        int code = buffer.readByte() & 0xFF;
         //再固定读两个字节（固定的一个值和id的取反）
         buffer.readShortLE();
         //获取数据
-        return getPacket(state,id,buffer,channel);
+        return getPacket(state,code,buffer,channel);
     }
 
 

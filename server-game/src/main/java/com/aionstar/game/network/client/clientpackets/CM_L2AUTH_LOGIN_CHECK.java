@@ -35,7 +35,7 @@ public class CM_L2AUTH_LOGIN_CHECK extends AionClientPacket {
     @Override
     protected void handler() {
         //一通验证
-        LSManager.getInstance().clientCheckOfLoginServerAuthKey(accountId,channel,loginSession,playerSession1,playerSession2);
+        LSManager.getInstance().clientRequestOfLoginServerAuthKey(accountId,channel,loginSession,playerSession1,playerSession2);
     }
 
     @Override

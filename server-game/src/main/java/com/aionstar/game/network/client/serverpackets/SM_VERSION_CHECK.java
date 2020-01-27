@@ -5,6 +5,8 @@ import com.aionstar.game.config.ServerConfigure;
 import com.aionstar.game.config.network.PlayerIPConfig;
 import com.aionstar.game.network.client.AionServerPacket;
 import io.netty.buffer.ByteBuf;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -13,6 +15,8 @@ import io.netty.buffer.ByteBuf;
  * 是否是当前的状态
  */
 public class SM_VERSION_CHECK extends AionServerPacket {
+
+    private static final Logger logger = LoggerFactory.getLogger(SM_VERSION_CHECK.class);
 
     private static final byte OPCODE = (byte) 0xFC;
 
@@ -25,6 +29,7 @@ public class SM_VERSION_CHECK extends AionServerPacket {
 
     @Override
     protected void appendBody(ByteBuf buf) {
+        logger.info("写入版本信息...");
         buf.writeByte(0x00);                                // 版本符合
         buf.writeByte(NetworkConfigure.LS_REGISTER_ID);     // 服务端编号
         buf.writeIntLE(0x000188AD);                         // unk (start year month day ?)

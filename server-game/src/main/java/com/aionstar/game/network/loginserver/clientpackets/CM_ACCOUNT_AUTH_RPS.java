@@ -1,6 +1,7 @@
 package com.aionstar.game.network.loginserver.clientpackets;
 
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.game.model.account.AccountTime;
 import com.aionstar.game.network.loginserver.LSManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -27,15 +28,17 @@ public class CM_ACCOUNT_AUTH_RPS extends ClientPacket {
 
     private long toll;
 
-    protected CM_ACCOUNT_AUTH_RPS(byte opcode, Channel channel, ByteBuf data) {
+    public CM_ACCOUNT_AUTH_RPS(byte opcode, Channel channel, ByteBuf data) {
         super(opcode, channel, data);
     }
 
     @Override
     protected void handler() {
+        //响应客户端封包
         LSManager.getInstance().clientResponseOfLoginServerAuthKey(
-                accountId,result,accountName,accumulatedOnlineTime,
-                accumulatedRestTime,accessLevel,membership,toll);
+                accountId,result,accountName,
+                new AccountTime(accumulatedOnlineTime, accumulatedRestTime),
+                accessLevel,membership,toll);
     }
 
     @Override

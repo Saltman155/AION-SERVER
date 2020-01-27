@@ -7,7 +7,7 @@
         <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
         <result column="account" jdbcType="VARCHAR" javaType="String" property="name"/>
         <result column="password" jdbcType="VARCHAR" javaType="String" property="password"/>
-        <result column="last_server" jdbcType="TINYINT" javaType="Byte" property="last_server"/>
+        <result column="last_server" jdbcType="TINYINT" javaType="Byte" property="lastServer"/>
         <result column="access_level" jdbcType="TINYINT" javaType="Byte" property="accessLevel"/>
         <result column="membership" jdbcType="TINYINT" javaType="Byte" property="membership"/>
         <result column="toll" jdbcType="BIGINT" javaType="Long" property="toll"/>

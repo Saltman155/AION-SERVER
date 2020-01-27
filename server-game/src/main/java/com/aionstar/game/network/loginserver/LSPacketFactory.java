@@ -2,6 +2,7 @@ package com.aionstar.game.network.loginserver;
 
 import com.aionstar.commons.network.BasePacketFactory;
 import com.aionstar.commons.network.packet.ClientPacket;
+import com.aionstar.game.network.loginserver.clientpackets.CM_ACCOUNT_AUTH_RPS;
 import com.aionstar.game.network.loginserver.clientpackets.CM_BAN_MAC_LIST;
 import com.aionstar.game.network.loginserver.clientpackets.CM_GS_AUTH_RPS;
 import com.aionstar.game.network.loginserver.clientpackets.CM_GS_CHARACTER;
@@ -67,6 +68,7 @@ public class LSPacketFactory extends BasePacketFactory {
      */
     public static void loadAllPacket(){
         addPacketPrototype(new CM_GS_AUTH_RPS((byte) 0x00,null,null),LSChannelAttr.InnerSessionState.CONNECTED);
+        addPacketPrototype(new CM_ACCOUNT_AUTH_RPS((byte) 0x01,null,null),LSChannelAttr.InnerSessionState.AUTHED);
         addPacketPrototype(new CM_GS_CHARACTER((byte) 0x08,null,null),LSChannelAttr.InnerSessionState.AUTHED);
         addPacketPrototype(new CM_BAN_MAC_LIST((byte) 0x09,null,null),LSChannelAttr.InnerSessionState.AUTHED);
     }

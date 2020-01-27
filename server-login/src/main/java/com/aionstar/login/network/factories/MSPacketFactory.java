@@ -9,6 +9,8 @@ import com.aionstar.login.network.mainserver.clientpackets.CM_GS_AUTH;
 import com.aionstar.login.network.mainserver.clientpackets.CM_MAC;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 游戏主服务端处理的封包
@@ -18,13 +20,15 @@ import io.netty.channel.Channel;
 
 public class MSPacketFactory extends BasePacketFactory {
 
-    private MSPacketFactory(){}
+    private static final Logger logger = LoggerFactory.getLogger(MSPacketFactory.class);
 
+    private MSPacketFactory(){}
 
     @Override
     public ClientPacket handle(ByteBuf buffer, Channel channel) {
         MSChannelAttr.InnerSessionState state = channel.attr(MSChannelAttr.M_SESSION_STATE).get();
         int opcode = buffer.readByte() & 0xff;
+        logger.info("收到主服务端消息！opcode: {}",opcode);
         switch (state) {
             case CONNECTED:{
                 switch (opcode){

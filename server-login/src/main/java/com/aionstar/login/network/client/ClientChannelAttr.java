@@ -5,6 +5,8 @@ import com.aionstar.login.network.crypt.LBlowfishCipher;
 import com.aionstar.login.model.entity.Account;
 import com.aionstar.login.network.crypt.EncryptedRSAKeyPair;
 import io.netty.util.AttributeKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -39,6 +41,8 @@ public class ClientChannelAttr extends BaseChannelAttr {
 
     /**客户端维护登录状态需要的session信息*/
     public static class SessionKey{
+
+        private static final Logger logger = LoggerFactory.getLogger(SessionKey.class);
 
         public final int accountId;
         /**登录服务端会话key*/
