@@ -3,13 +3,14 @@ package com.aionstar.game.network.loginserver;
 import com.aionstar.commons.utils.ChannelUtil;
 import com.aionstar.game.network.loginserver.serverpackets.SM_ACCOUNT_AUTH;
 import io.netty.channel.Channel;
-import io.netty.channel.internal.ChannelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 登录服务器连接管理中心
@@ -24,13 +25,38 @@ public class LSManager {
 
     private LSManager(){}
 
-    /**该映射表保存着该连接服务器上已经连接的用户及连接对象*/
-    private final Map<Integer, Channel> loggedChannelMap = new ConcurrentHashMap<>();
-
     /**该映射表保存着该主服务器上等待验证登录服务器口令的账号*/
     private final Map<Integer,Channel> loginRequests = new HashMap<>();
 
+    /**该映射表保存着该连接服务器上已经连接的用户及连接对象*/
+    private final Map<Integer, Channel> loggedChannelMap = new ConcurrentHashMap<>();
+
+    /**与登录服务端的连接*/
     private Channel loginServerChannel;
+    /**登录服务端连接修改同步锁*/
+    Lock lock = new ReentrantLock();
+
+    public void loginServerRegister(Channel channel){
+        lock.lock();
+        try{
+            if(loginServerChannel != null && loginServerChannel.isActive()){
+                throw new RuntimeException("注册失败！登录服务器仍在连接中！");
+            }
+            loginServerChannel = channel;
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public void loginServerUnregister(){
+        lock.lock();
+        try{
+            loginServerChannel = null;
+            logger.info("登录服务器连接通道解除注册.");
+        }finally {
+            lock.unlock();
+        }
+    }
 
     /**
      * 向登录服务器验证某个用户的各个凭证是否是有效的

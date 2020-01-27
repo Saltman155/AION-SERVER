@@ -3,6 +3,7 @@ package com.aionstar.game.network.handler.loginserver;
 import com.aionstar.commons.network.packet.ClientPacket;
 import com.aionstar.game.config.NetworkConfigure;
 import com.aionstar.game.network.loginserver.LSChannelAttr;
+import com.aionstar.game.network.loginserver.LSManager;
 import com.aionstar.game.network.loginserver.serverpackets.SM_GS_AUTH;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -35,6 +36,8 @@ public class LSMessageHandler extends SimpleChannelInboundHandler<ClientPacket> 
         Channel channel = ctx.channel();
         //分配一个读写空间给该通道
         channel.attr(LSChannelAttr.BUFFER).set(Unpooled.buffer(NetworkConfigure.LS_BUFFER_SIZE));
+        //登记到LSManager中
+        LSManager.getInstance().loginServerRegister(channel);
         //发送登录服务器验证数据包
         ctx.writeAndFlush(new SM_GS_AUTH());
     }
@@ -45,5 +48,12 @@ public class LSMessageHandler extends SimpleChannelInboundHandler<ClientPacket> 
         if(msg.readable()){
             processor.execute(msg);
         }
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.warn("登录服务器断开！");
+        //LSManager解除注册
+        LSManager.getInstance().loginServerUnregister();
     }
 }

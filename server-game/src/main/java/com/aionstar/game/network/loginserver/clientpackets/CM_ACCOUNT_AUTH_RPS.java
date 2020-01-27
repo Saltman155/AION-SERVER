@@ -33,7 +33,9 @@ public class CM_ACCOUNT_AUTH_RPS extends ClientPacket {
 
     @Override
     protected void handler() {
-        LSManager.getInstance().clientResponseOfLoginServerAuthKey();
+        LSManager.getInstance().clientResponseOfLoginServerAuthKey(
+                accountId,result,accountName,accumulatedOnlineTime,
+                accumulatedRestTime,accessLevel,membership,toll);
     }
 
     @Override
