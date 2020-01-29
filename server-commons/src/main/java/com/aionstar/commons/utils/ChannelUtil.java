@@ -52,11 +52,15 @@ public class ChannelUtil {
         buf.writeShortLE('\u0000');
     }
 
+    /**
+     * @param buf
+     * @return
+     */
     public static String bufReadS(ByteBuf buf){
         StringBuilder sb = new StringBuilder();
         try{
             char c;
-            while((c = (char) buf.readShort()) != '\u0000'){
+            while((c = (char) buf.readShortLE()) != '\u0000'){
                 sb.append(c);
             }
         }catch (Exception e){

@@ -20,7 +20,9 @@ public class SM_L2AUTH_LOGIN_CHECK extends AionServerPacket {
 
     @Override
     protected void appendBody(ByteBuf buf) {
-        buf.writeIntLE(ok ? 0x00000001 : 0x00000000);
+        //这里我佛了，ok是0，不ok是1，也是个坑
+        buf.writeIntLE(ok ? 0x00000000 : 0x00000001);
         ChannelUtil.bufWriteS(buf,accountName);
     }
+
 }

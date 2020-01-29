@@ -53,7 +53,7 @@ public class SM_VERSION_CHECK extends AionServerPacket {
         buf.writeByte(0x01);
         buf.writeByte(0x00);
         buf.writeByte(0x00);
-        buf.writeBytes(PlayerIPConfig.getDefaultAddress());         //聊天服务器ip
+        buf.writeBytes(new byte[]{127,0,0,1});         //聊天服务器ip
         buf.writeShortLE(10241);                                    //聊天服务器端口
     }
 

@@ -6,7 +6,9 @@ import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 
 public class ClientCryptTest {
 
@@ -32,9 +34,11 @@ public class ClientCryptTest {
 
         crypt1.encrypt(buffer1);
         crypt1.encrypt(buffer1);
+        crypt1.encrypt(buffer1);
 
         buffer2.position(0).limit(15);
 
+        crypt2.encrypt(buffer2);
         crypt2.encrypt(buffer2);
         crypt2.encrypt(buffer2);
 
@@ -44,6 +48,8 @@ public class ClientCryptTest {
 
     @Test
     public void decrypt() {
+        System.out.println((int)new Timestamp( (new java.util.Date()).getTime() ).getTime());
+        System.out.println((int)System.currentTimeMillis());
     }
 
     @Test

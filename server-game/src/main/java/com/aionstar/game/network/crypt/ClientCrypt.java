@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Arrays;
 
 /**
  * 该类用于处理游戏服务端与客户端的的通讯时的加解密操作
@@ -47,7 +47,9 @@ public class ClientCrypt {
             throw new KeyAlreadySetException();
         }
         //生成种子
-         int key = ThreadLocalRandom.current().nextInt();
+        // int key = ThreadLocalRandom.current().nextInt();
+        int key = 123456;
+
         //生成客户端key,固定长度8个字节
         clientPacketKey = new byte[] {
                 (byte) (key & 0xff),            (byte) ((key >> 8) & 0xff),
@@ -91,9 +93,9 @@ public class ClientCrypt {
                 (((long) clientPacketKey[2] & 0xff) << 16) | (((long) clientPacketKey[3] & 0xff) << 24) |
                 (((long) clientPacketKey[4] & 0xff) << 32) | (((long) clientPacketKey[5] & 0xff) << 40) |
                 (((long) clientPacketKey[6] & 0xff) << 48) | (((long) clientPacketKey[7] & 0xff) << 56);
-        oldKey += size;
 
         //更新clientPacketKey
+        oldKey += size;
         clientPacketKey[0] = (byte) (oldKey & 0xff);
         clientPacketKey[1] = (byte) (oldKey >> 8 & 0xff);
         clientPacketKey[2] = (byte) (oldKey >> 16 & 0xff);
@@ -119,9 +121,11 @@ public class ClientCrypt {
             return;
         }
         final byte[] data = buf.array();
-        final int size = buf.readableBytes();
-        //slice是有偏移量的
+        //slice方法只是返回了一个底层数组的视图，实际是通过一个偏移量来控制视图对应数组中具体哪一段
+        //这边这个傻吊问题我查了两天，最后还是hack进原版的jar里才发现的。就是因为没有减掉buf.arrayOffset
+        final int size = buf.readableBytes() - buf.arrayOffset();
         int index = buf.readerIndex() + buf.arrayOffset();
+
         //加密第一个字节
         data[index] ^= (serverPacketKey[0] & 0xff);
         //获取加密后续数据需要的prev

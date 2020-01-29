@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 
 /**
- * 这个是硬件地址数据包
+ * 这个是客户端发来的硬件地址数据包
+ * 不是网卡的地址，应该是客户端经过了一些计算转换得到的。
  */
 
 public class CM_MAC_ADDRESS extends AionClientPacket {
@@ -47,9 +48,10 @@ public class CM_MAC_ADDRESS extends AionClientPacket {
 
     @Override
     protected void readData() {
-        // 跳过8个字节
-        // TODO 这里非常迷...我不知道这个具体长度是多少，我试了半天，感觉应该是需要跳过8个字节
-        data.readBytes(8);
+        // 跳过7个字节
+        // 注：我把这7个字节debug看了一下，好像是 '127' '.' '0' '.' '0' '.' '1'
+        // 可能是用户的ip还是什么东西，不过感觉不太重要，有后面的硬件地址就行了
+        data.readBytes(7);
         macAddress = ChannelUtil.bufReadS(data);
     }
 

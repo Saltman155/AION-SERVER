@@ -69,12 +69,13 @@ public class ClientPacketFactory extends BasePacketFactory {
      */
     private static void loadAllPacket() {
         AionClientPacket packet;
-        /** connect etc .*/
+        //各种客户端封包结构
         addPacketPrototype((packet = new CM_VERSION_CHECK((byte)0xF3)),packet.getValidState());
         addPacketPrototype((packet = new CM_TIME_CHECK((byte) 0xFD)),packet.getValidState());
         addPacketPrototype((packet = new CM_DISCONNECT((byte) 0xED)),packet.getValidState());
         addPacketPrototype((packet = new CM_L2AUTH_LOGIN_CHECK((byte)0x08)),packet.getValidState());
         addPacketPrototype((packet = new CM_MAC_ADDRESS((byte)0x30)),packet.getValidState());
+        addPacketPrototype((packet = new CM_CHARACTER_LIST((byte)0x09)),packet.getValidState());
     }
 
     static {

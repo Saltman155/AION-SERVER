@@ -17,6 +17,7 @@
 package com.aionstar.game;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Crypt will encrypt server packet and decrypt client packet.
@@ -66,7 +67,7 @@ public class Crypt
 
 		/** rnd key - this will be used to encrypt/decrypt packet */
 //		int key = Rnd.nextInt();
-		int key = 12345678;
+		int key = 123456;
 
 		clientPacketKey = new byte[] { (byte) (key & 0xff), (byte) ((key >> 8) & 0xff), (byte) ((key >> 16) & 0xff),
 			(byte) ((key >> 24) & 0xff), (byte) 0xa1, (byte) 0x6c, (byte) 0x54, (byte) 0x87 };
@@ -183,7 +184,7 @@ public class Crypt
 
 		/** change key */
 		oldKey += size;
-
+		System.out.println("old:" + size);
 		/** set key new value */
 		serverPacketKey[0] = (byte) (oldKey >> 0 & 0xff);
 		serverPacketKey[1] = (byte) (oldKey >> 8 & 0xff);
@@ -193,6 +194,7 @@ public class Crypt
 		serverPacketKey[5] = (byte) (oldKey >> 40 & 0xff);
 		serverPacketKey[6] = (byte) (oldKey >> 48 & 0xff);
 		serverPacketKey[7] = (byte) (oldKey >> 56 & 0xff);
+		System.out.println("update Key:" + Arrays.toString(serverPacketKey));
 	}
 
 	/**

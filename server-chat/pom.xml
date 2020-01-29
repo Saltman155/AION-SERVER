@@ -18,6 +18,18 @@
   </properties>
 
   <dependencies>
+    <!--netty网络开发包-->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.42.Final</version>
+    </dependency>
+    <!--server公共包-->
+    <dependency>
+      <groupId>com.superywd.aion</groupId>
+      <artifactId>server-commons</artifactId>
+      <version>1.0.0</version>
+    </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -28,6 +40,12 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.aionstar</groupId>
+      <artifactId>login-server</artifactId>
+      <version>0.0.1</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
