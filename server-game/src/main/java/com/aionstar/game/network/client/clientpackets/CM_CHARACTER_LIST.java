@@ -1,7 +1,9 @@
 package com.aionstar.game.network.client.clientpackets;
 
+import com.aionstar.game.model.account.Account;
 import com.aionstar.game.network.client.AionClientPacket;
 import com.aionstar.game.network.client.ClientChannelAttr;
+import com.aionstar.game.network.client.serverpackets.SM_CHARACTER_LIST;
 
 import java.util.HashSet;
 
@@ -27,12 +29,13 @@ public class CM_CHARACTER_LIST extends AionClientPacket {
 
     @Override
     protected void handler() {
-
+        Account account = channel.attr(ClientChannelAttr.ACCOUNT).get();
+        channel.writeAndFlush(new SM_CHARACTER_LIST(account,playSession2));
     }
 
     @Override
     protected void readData() {
-        //获取验证session 但并不去鸟它是不是对的
+        //获取验证session 但并不去验证它是不是对的
         playSession2 = data.readIntLE();
     }
 
