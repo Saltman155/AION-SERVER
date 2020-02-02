@@ -1,5 +1,8 @@
 package com.aionstar.game.model.account;
 
+import com.aionstar.game.model.gameobjects.player.PlayerAppearance;
+import com.aionstar.game.model.gameobjects.player.PlayerCommonData;
+
 import java.time.LocalDateTime;
 
 /**

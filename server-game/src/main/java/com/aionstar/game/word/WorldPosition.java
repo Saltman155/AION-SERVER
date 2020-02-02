@@ -15,14 +15,14 @@ public class WorldPosition {
     /**地图编号*/
     private int mapId;
     /**所属地图块*/
-//    private MapRegion mapRegion;
+    private MapRegion mapRegion;
     /**x轴坐标*/
     private double x;
     /**y轴坐标*/
     private double y;
     /**z轴坐标*/
     private double z;
-    /**头部朝向 0~120 其中120==0*/
+    /**朝向角度*/
     private byte heading;
     /**该对象是否生成*/
     private boolean isSpawned = false;
